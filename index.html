@@ -33,33 +33,33 @@
 
     <div id="qualitativeMode" class="mode-container flex-col">
       <div class="tabs">
-        <button class="tab-btn active" data-target="qualManualTab">Ingreso Secuencial</button>
-        <button class="tab-btn" data-target="qualArrayTab">Ingreso por Arreglo</button>
+        <button class="tab-btn active" data-target="qualFreqTab">Frecuencias Manuales</button>
+        <button class="tab-btn" data-target="qualRawTab">Datos Crudos</button>
       </div>
 
-      <div id="qualManualTab" class="tab-content active method-card flex-col">
+      <div id="qualFreqTab" class="tab-content active method-card flex-col">
+        <p class="help-text">Definí las categorías y luego ingresá sus repeticiones.</p>
         <div class="input-group">
-          <input type="text" id="qualSingleInput" placeholder="Escriba aquí (un solo valor)"
-            aria-label="Ingresar variable cualitativa individual">
-          <button id="addQualSingleBtn">&#8629;</button>
+          <input type="text" id="qualClassInput" placeholder="Nombre de la categoría">
+          <button id="addQualClassBtn">&#8629;</button>
         </div>
+        <div id="qualFreqList" class="flex-col"></div>
+        <button id="generateQualFreqBtn" class="primary-btn" style="display: none;">Generar Tabla</button>
       </div>
 
-      <div id="qualArrayTab" class="tab-content method-card flex-col" style="display: none;">
+      <div id="qualRawTab" class="tab-content method-card flex-col" style="display: none;">
+        <p class="help-text">Ingresá uno o varios valores separados por espacio.</p>
         <div class="input-group">
-          <input type="text" id="qualArrayInput" placeholder="Escriba aquí (separados por espacio)"
-            aria-label="Ingreso de variables cualitativas por arreglo">
-          <button id="addQualArrayBtn">&#8629;</button>
+          <input type="text" id="qualRawInput" placeholder="Ej: Rojo Azul Verde Rojo">
+          <button id="processQualRawBtn">&#8629;</button>
         </div>
       </div>
 
       <div class="data-section flex-col" id="qualDataSection" style="display: none;">
         <p><strong>Orden de Ingreso (n=<span id="qualCount">0</span>):</strong></p>
         <div id="qualRawBox" class="data-box result-box">-</div>
-
         <p><strong>Arreglo Ordenado:</strong></p>
         <div id="qualResultBox" class="data-box result-box">-</div>
-
         <div class="action-buttons">
           <button id="clearQualBtn" class="danger-btn">Limpiar Datos</button>
           <button id="generateQualTableBtn" class="primary-btn">Generar Tabla</button>
@@ -69,30 +69,54 @@
 
     <div id="quantitativeMode" class="mode-container flex-col" style="display: none;">
       <div class="tabs">
-        <button class="tab-btn active" data-target="quantManualTab">Ingreso Secuencial</button>
-        <button class="tab-btn" data-target="quantArrayTab">Ingreso por Arreglo</button>
+        <button class="tab-btn active" data-target="quantFreqTab">Frecuencias Manuales</button>
+        <button class="tab-btn" data-target="quantRawTab">Datos Crudos</button>
       </div>
 
-      <div id="quantManualTab" class="tab-content active method-card flex-col">
-        <div class="input-group">
-          <input type="number" id="quantSingleInput" step="any" placeholder="Escriba aquí (un solo valor)"
-            aria-label="Ingresar valor numérico individual">
-          <button id="addQuantSingleBtn">&#8629;</button>
+      <div id="quantFreqTab" class="tab-content active method-card flex-col">
+        
+        <div id="discFreqSetup" class="flex-col">
+          <p class="help-text">Definí los valores de la variable y luego ingresá sus repeticiones.</p>
+          <div class="input-group">
+            <input type="number" id="discClassInput" placeholder="Valor numérico (Ej: 1, 2, 3)">
+            <button id="addDiscClassBtn">&#8629;</button>
+          </div>
         </div>
+
+        <div id="contFreqSetup" class="table-config-section flex-col" style="display: none;">
+          <p class="help-text">Configurá los intervalos para habilitar el ingreso de frecuencias.</p>
+          <div class="config-flex">
+            <div>
+              <label for="contFreqK">N Clases:</label>
+              <input type="number" id="contFreqK" min="1">
+            </div>
+            <div>
+              <label for="contFreqMin">Mínimo:</label>
+              <input type="number" id="contFreqMin" step="any">
+            </div>
+            <div>
+              <label for="contFreqMax">Máximo:</label>
+              <input type="number" id="contFreqMax" step="any">
+            </div>
+          </div>
+          <button id="setupContFreqBtn" class="primary-btn">Generar Intervalos</button>
+        </div>
+
+        <div id="quantFreqList" class="flex-col"></div>
+        <button id="generateQuantFreqBtn" class="primary-btn" style="display: none;">Generar Tabla</button>
       </div>
 
-      <div id="quantArrayTab" class="tab-content method-card flex-col" style="display: none;">
+      <div id="quantRawTab" class="tab-content method-card flex-col" style="display: none;">
+        <p class="help-text">Ingresá uno o varios números separados por espacio.</p>
         <div class="input-group">
-          <input type="text" id="quantArrayInput" placeholder="Escriba aquí (separados por espacio)"
-            aria-label="Ingreso de valores cuantitativos por arreglo">
-          <button id="addQuantArrayBtn">&#8629;</button>
+          <input type="text" id="quantRawInput" placeholder="Ej: 10 15.5 20 10">
+          <button id="processQuantRawBtn">&#8629;</button>
         </div>
       </div>
 
       <div class="data-section flex-col" id="quantDataSection" style="display: none;">
         <p><strong>Orden de Ingreso (n=<span id="quantCount">0</span>):</strong></p>
         <div id="quantRawBox" class="data-box result-box">-</div>
-
         <p><strong>Arreglo Ordenado:</strong></p>
         <div id="quantResultBox" class="data-box result-box">-</div>
 
@@ -103,7 +127,6 @@
 
         <div id="continuousActions" class="flex-col" style="display: none;">
           <button id="clearQuantBtnCont" class="danger-btn centered-btn">Limpiar Datos</button>
-
           <div class="table-config-section flex-col" id="continuousConfig">
             <hr>
             <h3>Configuración de Clases</h3>
@@ -122,7 +145,6 @@
               </div>
             </div>
           </div>
-
           <button id="generateQuantTableBtnCont" class="primary-btn centered-btn">Generar Tabla Estadística</button>
         </div>
       </div>
