@@ -15,6 +15,7 @@ export const DOM = {
   addQualArrayBtn: document.getElementById("addQualArrayBtn"),
   qualDataSection: document.getElementById("qualDataSection"),
   qualCount: document.getElementById("qualCount"),
+  qualRawBox: document.getElementById("qualRawBox"),
   qualResultBox: document.getElementById("qualResultBox"),
   clearQualBtn: document.getElementById("clearQualBtn"),
   generateQualTableBtn: document.getElementById("generateQualTableBtn"),
@@ -25,6 +26,7 @@ export const DOM = {
   quantArrayInput: document.getElementById("quantArrayInput"),
   addQuantArrayBtn: document.getElementById("addQuantArrayBtn"),
   quantDataSection: document.getElementById("quantDataSection"),
+  quantRawBox: document.getElementById("quantRawBox"),
   quantCount: document.getElementById("quantCount"),
   quantResultBox: document.getElementById("quantResultBox"),
 
@@ -83,7 +85,17 @@ export function switchModeDisplay(type, hasQuantData, hasQualData) {
 
 export function updateQualDisplay(dataArray) {
   DOM.qualCount.textContent = dataArray.length;
-  DOM.qualResultBox.textContent = dataArray.join(" - ");
+
+  DOM.qualRawBox.innerHTML = dataArray
+    .map(
+      (val, idx) =>
+        `<span class="data-tag" data-index="${idx}" title="Tocar para borrar">${val}</span>`
+    )
+    .join(" - ");
+
+  const sortedArray = [...dataArray].sort((a, b) => a.localeCompare(b));
+  DOM.qualResultBox.textContent = sortedArray.join(" - ");
+
   DOM.qualDataSection.style.display = "flex";
 }
 
@@ -94,7 +106,17 @@ export function clearQualDisplay() {
 
 export function updateQuantDisplay(dataArray, type) {
   DOM.quantCount.textContent = dataArray.length;
-  DOM.quantResultBox.textContent = dataArray.join(" - ");
+
+  DOM.quantRawBox.innerHTML = dataArray
+    .map(
+      (val, idx) =>
+        `<span class="data-tag" data-index="${idx}" title="Tocar para borrar">${val}</span>`,
+    )
+    .join(" - ");
+
+  const sortedArray = [...dataArray].sort((a, b) => a - b);
+  DOM.quantResultBox.textContent = sortedArray.join(" - ");
+
   DOM.quantDataSection.style.display = "flex";
 
   if (type === "continua") {
@@ -161,39 +183,29 @@ export function renderQuantitativeTable(rowsData, type) {
 }
 
 export function renderQualitativeTable(rowsData, totalN) {
-  DOM.tableHeadRow.innerHTML = `<th>VARIABLE</th><th>FA</th><th>FR</th><th>FR%</th>`;
-  DOM.tableBody.innerHTML = "";
+    DOM.tableHeadRow.innerHTML = `<th>VARIABLE</th><th>FA</th><th>FR</th><th>FR%</th>`;
+    DOM.tableBody.innerHTML = '';
 
-  rowsData.forEach((row) => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${row.label}</td>
-      <td>${row.fa}</td>
-      <td>${row.fr.toFixed(2)}</td>
-      <td>${row.frPercent.toFixed(2)}%</td>
+    rowsData.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${row.label}</td>
+            <td>${row.fa}</td>
+            <td>${row.fr.toFixed(2)}</td>
+            <td>${row.frPercent.toFixed(2)}%</td>
+        `;
+        DOM.tableBody.appendChild(tr);
+    });
+
+    const totalTr = document.createElement('tr');
+    totalTr.style.fontWeight = 'bold';
+    totalTr.innerHTML = `
+        <td>Total</td>
+        <td>${totalN}</td>
+        <td>1.00</td>
+        <td></td>
     `;
-    DOM.tableBody.appendChild(tr);
-  });
+    DOM.tableBody.appendChild(totalTr);
 
-  const totalTr = document.createElement("tr");
-  totalTr.style.fontWeight = "bold";
-  totalTr.innerHTML = `
-    <td>Total</td>
-    <td>${totalN}</td>
-    <td>1.00</td>
-    <td></td>
-  `;
-  DOM.tableBody.appendChild(totalTr);
-
-  DOM.tableContainer.style.display = "flex";
-}
-
-export function updateQuantPlaceholders(type) {
-  if (type === "discreta") {
-    DOM.quantSingleInput.placeholder = "Escriba aquí (un solo valor)";
-    DOM.quantArrayInput.placeholder = "Escriba aquí (separados por espacio)";
-  } else if (type === "continua") {
-    DOM.quantSingleInput.placeholder = "Escriba aquí (un solo valor)";
-    DOM.quantArrayInput.placeholder = "Escriba aquí (separados por espacio)";
-  }
+    DOM.tableContainer.style.display = 'flex'; 
 }

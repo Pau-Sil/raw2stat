@@ -3,12 +3,13 @@ export function processQualitativeInput(newWordsArray, currentDataArray) {
     let cleanWord = word.trim().toUpperCase();
     if (cleanWord !== "") currentDataArray.push(cleanWord);
   });
-  currentDataArray.sort((a, b) => a.localeCompare(b));
   return currentDataArray;
 }
 
 export function calculateQualitative(dataArray) {
-  const uniqueValues = [...new Set(dataArray)];
+  const uniqueValues = [...new Set(dataArray)].sort((a, b) =>
+    a.localeCompare(b),
+  );
   const n = dataArray.length;
   let rows = [];
 
@@ -34,8 +35,6 @@ export function processQuantitativeInput(
     let parsed = varType === "discreta" ? parseInt(num, 10) : parseFloat(num);
     if (!isNaN(parsed)) currentDataArray.push(parsed);
   });
-
-  currentDataArray.sort((a, b) => a - b);
   return currentDataArray;
 }
 

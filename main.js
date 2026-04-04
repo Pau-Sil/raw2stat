@@ -17,7 +17,6 @@ import {
   renderQuantitativeTable,
   toggleTheme,
   initTheme,
-  updateQuantPlaceholders,
 } from "./ui.js";
 
 // ESTADO GLOBAL
@@ -42,9 +41,6 @@ DOM.radios.forEach((radio) => {
       quantData.length > 0,
       qualData.length > 0,
     );
-    if (currentVarType === "discreta" || currentVarType === "continua") {
-      updateQuantPlaceholders(currentVarType);
-    }
   });
 });
 
@@ -149,6 +145,33 @@ document.querySelectorAll(".tab-btn").forEach((btn) => {
     targetContent.classList.add("active");
     targetContent.style.display = "flex";
   });
+});
+
+// EVENTOS: BORRADO INDIVIDUAL (Click en etiqueta)
+DOM.qualRawBox.addEventListener("click", (e) => {
+  if (e.target.classList.contains("data-tag")) {
+    const index = e.target.getAttribute("data-index");
+    qualData.splice(index, 1);
+    
+    if (qualData.length === 0) {
+      clearQualDisplay();
+    } else {
+      updateQualDisplay(qualData);
+    }
+  }
+});
+
+DOM.quantRawBox.addEventListener("click", (e) => {
+  if (e.target.classList.contains("data-tag")) {
+    const index = e.target.getAttribute("data-index");
+    quantData.splice(index, 1);
+    
+    if (quantData.length === 0) {
+      clearQuantDisplay();
+    } else {
+      updateQuantDisplay(quantData, currentVarType);
+    }
+  }
 });
 
 // SHORTCUTS DE TECLADO (Enter)

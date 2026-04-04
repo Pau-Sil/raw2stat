@@ -54,7 +54,10 @@
       </div>
 
       <div class="data-section flex-col" id="qualDataSection" style="display: none;">
-        <p><strong>Arreglo Ordenado (n=<span id="qualCount">0</span>):</strong></p>
+        <p><strong>Orden de Ingreso (n=<span id="qualCount">0</span>):</strong></p>
+        <div id="qualRawBox" class="data-box result-box">-</div>
+
+        <p><strong>Arreglo Ordenado:</strong></p>
         <div id="qualResultBox" class="data-box result-box">-</div>
 
         <div class="action-buttons">
@@ -72,7 +75,7 @@
 
       <div id="quantManualTab" class="tab-content active method-card flex-col">
         <div class="input-group">
-          <input type="number" id="quantSingleInput" step="any" placeholder="Escriba aquí"
+          <input type="number" id="quantSingleInput" step="any" placeholder="Escriba aquí (un solo valor)"
             aria-label="Ingresar valor numérico individual">
           <button id="addQuantSingleBtn">&#8629;</button>
         </div>
@@ -87,7 +90,10 @@
       </div>
 
       <div class="data-section flex-col" id="quantDataSection" style="display: none;">
-        <p><strong>Arreglo Ordenado (n=<span id="quantCount">0</span>):</strong></p>
+        <p><strong>Orden de Ingreso (n=<span id="quantCount">0</span>):</strong></p>
+        <div id="quantRawBox" class="data-box result-box">-</div>
+
+        <p><strong>Arreglo Ordenado:</strong></p>
         <div id="quantResultBox" class="data-box result-box">-</div>
 
         <div id="discreteActions" class="action-buttons" style="display: none;">
@@ -117,8 +123,7 @@
             </div>
           </div>
 
-          <button id="generateQuantTableBtnCont" class="primary-btn centered-btn">Generar Tabla
-            Estadística</button>
+          <button id="generateQuantTableBtnCont" class="primary-btn centered-btn">Generar Tabla Estadística</button>
         </div>
       </div>
     </div>
