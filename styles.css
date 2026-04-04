@@ -12,7 +12,7 @@
     --card-bg: #eff1f5;
     --box-bg: #e6e9ef;
     --table-header-text: #eff1f5;
-    --table-even: #ccd0da;
+    --table-even: #dce0e8;
 }
 
 .dark-mode {
@@ -135,10 +135,16 @@ hr {
 
 .segmented-control {
     display: flex;
-    width: 80%;
+    width: 100%;
     border: 2px solid var(--primary-color);
     border-radius: 50px;
     overflow: hidden;
+}
+
+@media (min-width: 600px) {
+    .segmented-control {
+        width: 80%;
+    }
 }
 
 .segmented-control input[type="radio"] {
@@ -146,16 +152,21 @@ hr {
 }
 
 .segmented-control label {
-    flex: 1;
+    flex: 1 1 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
-    padding: 10px 5px;
+    padding: 10px 2px;
     cursor: pointer;
     background-color: var(--bg-container);
     color: var(--primary-color);
     font-weight: bold;
     border-right: 1px solid var(--primary-color);
     transition: background-color 0.2s, color 0.2s;
-    font-size: clamp(0.7rem, 3.5vw, 1rem); 
+    
+    font-size: clamp(0.65rem, 3vw, 1rem); 
+    white-space: nowrap; 
 }
 
 .segmented-control label:last-of-type {
