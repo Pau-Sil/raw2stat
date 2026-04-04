@@ -112,7 +112,11 @@ export function updateQuantDisplay(dataArray, type) {
   DOM.quantResultBox.innerHTML = buildTags(sorted, false);
   setVisible(DOM.quantDataSection, true);
 
-  if (type === "continua") {
+  const isContinua = type === "continua";
+  setVisible(DOM.discreteActions, !isContinua);
+  setVisible(DOM.continuousActions, isContinua);
+
+  if (isContinua) {
     DOM.classCount.value = Math.max(1, Math.round(Math.sqrt(dataArray.length)));
     DOM.minValue.value = "";
     DOM.maxValue.value = "";
