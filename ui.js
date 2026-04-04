@@ -86,10 +86,12 @@ export function renderQualCategoriesList(categoriesArray) {
 }
 
 export function renderQualitativeTable(countsMap, totalN) {
-    DOM.tableHeadRow.innerHTML = `<th>Variable</th><th>f<sub>a</sub></th><th>f<sub>r</sub></th><th>f<sub>r</sub>%</th>`;
+    DOM.tableHeadRow.innerHTML = `<th>VARIABLE</th><th>FA</th><th>FR</th><th>FR%</th>`;
     DOM.tableBody.innerHTML = '';
 
-    Object.keys(countsMap).forEach(key => {
+    const sortedKeys = Object.keys(countsMap).sort((a, b) => a.localeCompare(b));
+
+    sortedKeys.forEach(key => {
         const fa = countsMap[key];
         const fr = fa / totalN;
         
@@ -102,6 +104,17 @@ export function renderQualitativeTable(countsMap, totalN) {
         `;
         DOM.tableBody.appendChild(tr);
     });
+
+    const totalTr = document.createElement('tr');
+    totalTr.style.fontWeight = 'bold';
+    totalTr.innerHTML = `
+        <td>Total</td>
+        <td>${totalN}</td>
+        <td>1.00</td>
+        <td></td>
+    `;
+    DOM.tableBody.appendChild(totalTr);
+
     DOM.tableContainer.style.display = 'block';
 }
 
@@ -128,13 +141,20 @@ export function clearQuantDisplay() {
 
 export function renderQuantitativeTable(rowsData, type) {
     DOM.tableHeadRow.innerHTML = `
-        <th>${type === 'discreta' ? 'Variable' : 'Clase'}</th>
-        <th>f<sub>a</sub></th><th>f<sub>r</sub></th><th>f<sub>aa</sub></th>
-        <th>f<sub>ra</sub></th><th>f<sub>r</sub>%</th><th>f<sub>ra</sub>%</th>
+        <th>VARIABLE</th>
+        <th>FA</th>
+        <th>FR</th>
+        <th>FAA</th>
+        <th>FRA</th>
+        <th>FR%</th>
+        <th>FRA%</th>
     `;
     DOM.tableBody.innerHTML = '';
     
+    let totalN = 0;
+
     rowsData.forEach(row => {
+        totalN += row.fa;
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td>${row.label}</td>
@@ -148,5 +168,18 @@ export function renderQuantitativeTable(rowsData, type) {
         DOM.tableBody.appendChild(tr);
     });
     
+    const totalTr = document.createElement('tr');
+    totalTr.style.fontWeight = 'bold';
+    totalTr.innerHTML = `
+        <td>Total</td>
+        <td>${totalN}</td>
+        <td>1.00</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    `;
+    DOM.tableBody.appendChild(totalTr);
+
     DOM.tableContainer.style.display = 'block';
 }
