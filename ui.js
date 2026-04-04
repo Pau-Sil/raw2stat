@@ -21,6 +21,8 @@ export const DOM = {
   qualResultBox: document.getElementById("qualResultBox"),
   clearQualBtn: document.getElementById("clearQualBtn"),
   generateQualTableBtn: document.getElementById("generateQualTableBtn"),
+  qualFreqActions: document.getElementById("qualFreqActions"),
+  clearQualFreqBtn: document.getElementById("clearQualFreqBtn"),
 
   // CUANTITATIVA
   quantFreqList: document.getElementById("quantFreqList"),
@@ -33,6 +35,8 @@ export const DOM = {
   contFreqMax: document.getElementById("contFreqMax"),
   setupContFreqBtn: document.getElementById("setupContFreqBtn"),
   generateQuantFreqBtn: document.getElementById("generateQuantFreqBtn"),
+  quantFreqActions: document.getElementById("quantFreqActions"),
+  clearQuantFreqBtn: document.getElementById("clearQuantFreqBtn"),
   quantRawInput: document.getElementById("quantRawInput"),
   processQuantRawBtn: document.getElementById("processQuantRawBtn"),
   quantDataSection: document.getElementById("quantDataSection"),

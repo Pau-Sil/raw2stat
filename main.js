@@ -73,7 +73,7 @@ DOM.processQuantRawBtn.addEventListener("click", () => {
 DOM.addQualClassBtn.addEventListener("click", () => {
   const className = DOM.qualClassInput.value.trim().toUpperCase();
   if (className === "") return;
-  renderFreqInputRow(className, DOM.qualFreqList, DOM.generateQualFreqBtn);
+  renderFreqInputRow(className, DOM.qualFreqList, DOM.qualFreqActions);
   DOM.qualClassInput.value = "";
   DOM.qualClassInput.focus();
 });
@@ -98,19 +98,28 @@ DOM.setupContFreqBtn.addEventListener("click", () => {
     const lInf = min + i * amplitude;
     const lSup = min + (i + 1) * amplitude;
     const label = `${i === 0 ? "[" : "("}${lInf.toFixed(1)} - ${lSup.toFixed(1)}]`;
-    renderFreqInputRow(label, DOM.quantFreqList, DOM.generateQuantFreqBtn);
+    renderFreqInputRow(label, DOM.quantFreqList, DOM.quantFreqActions);
   }
 });
 
-function renderFreqInputRow(label, container, submitBtn) {
+function renderFreqInputRow(label, container, actionsContainer) {
   const div = document.createElement("div");
   div.className = "cat-item";
   div.innerHTML = `
-        <span>${label}</span>
-        <input type="number" class="manual-fa-input" data-label="${label}" placeholder="fa" min="0">
-    `;
+    <span>${label}</span>
+    <input type="number" class="manual-fa-input" data-label="${label}" placeholder="fa" min="0">
+    <button class="danger-btn delete-row-btn" style="width: 35px; padding: 5px; flex: none;">X</button>
+  `;
+
+  div.querySelector(".delete-row-btn").addEventListener("click", () => {
+    div.remove();
+    if (container.children.length === 0) {
+      actionsContainer.style.display = "none";
+    }
+  });
+
   container.appendChild(div);
-  submitBtn.style.display = "block";
+  actionsContainer.style.display = "flex";
 }
 
 // EVENTOS: BOTONES DE "GENERAR TABLA" Y "LIMPIAR"
@@ -156,6 +165,70 @@ const handleGenerateQuant = () => {
 };
 DOM.generateQuantTableBtnDisc.addEventListener("click", handleGenerateQuant);
 DOM.generateQuantTableBtnCont.addEventListener("click", handleGenerateQuant);
+
+// EVENTOS: TABLAS DESDE FRECUENCIAS MANUALES
+
+// Limpiar todo de golpe
+DOM.clearQualFreqBtn.addEventListener("click", () => {
+  DOM.qualFreqList.innerHTML = "";
+  DOM.qualFreqActions.style.display = "none";
+});
+
+DOM.clearQuantFreqBtn.addEventListener("click", () => {
+  DOM.quantFreqList.innerHTML = "";
+  DOM.quantFreqActions.style.display = "none";
+});
+
+// Generar Cualitativa Manual
+DOM.generateQualFreqBtn.addEventListener("click", () => {
+  const inputs = DOM.qualFreqList.querySelectorAll(".manual-fa-input");
+  let rowsData = [];
+  let totalN = 0;
+
+  inputs.forEach((input) => {
+    const fa = parseInt(input.value) || 0;
+    totalN += fa;
+    rowsData.push({ label: input.getAttribute("data-label"), fa: fa });
+  });
+
+  if (totalN === 0) return alert("Ingrese al menos una frecuencia mayor a 0.");
+
+  rowsData.forEach((row) => {
+    row.fr = row.fa / totalN;
+    row.frPercent = row.fr * 100;
+  });
+
+  renderQualitativeTable(rowsData, totalN);
+});
+
+// Generar Cuantitativa Manual
+DOM.generateQuantFreqBtn.addEventListener("click", () => {
+  const inputs = DOM.quantFreqList.querySelectorAll(".manual-fa-input");
+  let rowsData = [];
+  let totalN = 0;
+
+  inputs.forEach((input) => {
+    const fa = parseInt(input.value) || 0;
+    totalN += fa;
+    rowsData.push({ label: input.getAttribute("data-label"), fa: fa });
+  });
+
+  if (totalN === 0) return alert("Ingrese al menos una frecuencia mayor a 0.");
+
+  let faa = 0;
+  let fra = 0;
+  rowsData.forEach((row) => {
+    row.fr = row.fa / totalN;
+    faa += row.fa;
+    fra += row.fr;
+    row.faa = faa;
+    row.fra = fra;
+    row.frPercent = row.fr * 100;
+    row.fraPercent = row.fra * 100;
+  });
+
+  renderQuantitativeTable(rowsData);
+});
 
 // GESTIÓN DE PESTAÑAS (TABS)
 document.querySelectorAll(".tab-btn").forEach((btn) => {
