@@ -310,6 +310,21 @@ button.danger-btn {
 }
 
 .config-flex > div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.config-flex > div:first-child {
+    flex: 1 1 100%;
+}
+
+.config-flex > div:not(:first-child) {
+    flex: 1 1 calc(50% - 15px);
+    min-width: 0;
+}
+
+.config-flex > div {
     flex: 1 1 120px;
     gap: 8px;
 }
