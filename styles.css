@@ -6,8 +6,7 @@
     --text-muted: #8c8fa1;
     --border-color: #ccd0da;
     --border-light: #bcc0cc;
-    --primary-color: #1e66f5;
-    --primary-hover: #209fb5;
+    --primary-color: #dd7878;
     --btn-bg: #ccd0da;
     --btn-text: #4c4f69;
     --card-bg: #eff1f5;
@@ -24,8 +23,7 @@
     --text-muted: #a6adc8;
     --border-color: #45475a;
     --border-light: #313244;
-    --primary-color: #89b4fa;
-    --primary-hover: #b4befe;
+    --primary-color: #b4befe;
     --btn-bg: #313244;
     --btn-text: #cdd6f4;
     --card-bg: #181825;
@@ -34,14 +32,29 @@
     --table-even: #181825;
 }
 
+@font-face {
+    font-family: 'JetBrains Mono';
+    src: url('./fonts/JBM-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'JetBrains Mono';
+    src: url('./fonts/JBM-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: inherit;
 }
 
 body {
-    font-family: system-ui, -apple-system, sans-serif;
+    font-family: 'JetBrains Mono', monospace; 
     background-color: var(--bg-body);
     color: var(--text-main);
     padding: 20px;
@@ -111,7 +124,7 @@ hr {
     color: var(--btn-text);
     font-size: 0.9rem;
     border: 1px solid var(--border-color);
-    width: 100px;
+    width: 110px;
     text-align: center;
 }
 
@@ -241,7 +254,13 @@ button.tab-btn:hover {
 }
 
 .input-group button {
-    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    width: 50px;
+    padding: 0;
+    line-height: 0;
 }
 
 .input-group input[type="text"],
@@ -277,10 +296,6 @@ button.primary-btn {
     color: white;
     margin-top: 1rem;
     font-weight: bold;
-}
-
-button.primary-btn:hover {
-    background-color: var(--primary-hover);
 }
 
 button.danger-btn {

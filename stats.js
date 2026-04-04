@@ -65,20 +65,23 @@ export function calculateContinuous(dataArray, k, minVal, maxVal) {
     let faa = 0;
     let fra = 0;
 
+    const formatNum = (num) => parseFloat(num.toFixed(1));
+
     for (let i = 0; i < k; i++) {
         const limInf = minVal + (i * amplitude);
         const limSup = minVal + ((i + 1) * amplitude);
-        const isLastClass = (i === k - 1);
-        const bracketEnd = isLastClass ? ']' : ')';
         
-        const classLabel = `[ ${limInf.toFixed(2)} - ${limSup.toFixed(2)} ${bracketEnd}`;
+        const isFirstClass = (i === 0);
+        const bracketStart = isFirstClass ? '[' : '(';
+        
+        const classLabel = `${bracketStart}${formatNum(limInf)} - ${formatNum(limSup)}]`;
         
         let fa = 0;
         dataArray.forEach(num => {
-            if (isLastClass) {
+            if (isFirstClass) {
                 if (num >= limInf && num <= limSup) fa++;
             } else {
-                if (num >= limInf && num < limSup) fa++;
+                if (num > limInf && num <= limSup) fa++;
             }
         });
 
@@ -87,8 +90,13 @@ export function calculateContinuous(dataArray, k, minVal, maxVal) {
         fra += fr;
 
         rows.push({
-            label: classLabel, fa: fa, fr: fr, faa: faa, fra: fra,
-            frPercent: fr * 100, fraPercent: fra * 100
+            label: classLabel,
+            fa: fa,
+            fr: fr,
+            faa: faa,
+            fra: fra,
+            frPercent: fr * 100,
+            fraPercent: fra * 100
         });
     }
     
