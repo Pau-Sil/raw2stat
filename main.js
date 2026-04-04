@@ -269,6 +269,13 @@ DOM.quantRawBox.addEventListener("click", (e) => {
   }
 });
 
+// EVENTOS: BORRAR TABLA GENERADA
+DOM.clearTableBtn.addEventListener("click", () => {
+    DOM.tableContainer.style.display = "none";
+    DOM.tableHeadRow.innerHTML = "";
+    DOM.tableBody.innerHTML = "";
+});
+
 // SHORTCUTS DE TECLADO (Enter)
 DOM.qualRawInput.addEventListener("keypress", (e) => {
   if (e.key === "Enter") DOM.processQualRawBtn.click();

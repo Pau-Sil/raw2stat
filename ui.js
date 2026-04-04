@@ -59,6 +59,7 @@ export const DOM = {
   generateQuantTableBtnCont: document.getElementById(
     "generateQuantTableBtnCont",
   ),
+  clearTableBtn: document.getElementById("clearTableBtn"),
 };
 
 export function toggleTheme() {
@@ -104,13 +105,14 @@ export function switchModeDisplay(type, hasQuantData, hasQualData) {
 export function updateQualDisplay(dataArray) {
   DOM.qualCount.textContent = dataArray.length;
   DOM.qualRawBox.innerHTML = dataArray
-    .map(
-      (val, idx) =>
-        `<span class="data-tag" data-index="${idx}" title="Tocar para borrar">${val}</span>`,
-    )
-    .join(" - ");
+    .map((val, idx) => `<span class="data-tag" data-index="${idx}" title="Tocar para borrar">${val}</span>`)
+    .join(" ");
+
   const sortedArray = [...dataArray].sort((a, b) => a.localeCompare(b));
-  DOM.qualResultBox.textContent = sortedArray.join(" - ");
+  DOM.qualResultBox.innerHTML = sortedArray
+    .map((val) => `<span class="sorted-tag">${val}</span>`)
+    .join(" ");
+
   DOM.qualDataSection.style.display = "flex";
 }
 
@@ -122,13 +124,14 @@ export function clearQualDisplay() {
 export function updateQuantDisplay(dataArray, type) {
   DOM.quantCount.textContent = dataArray.length;
   DOM.quantRawBox.innerHTML = dataArray
-    .map(
-      (val, idx) =>
-        `<span class="data-tag" data-index="${idx}" title="Tocar para borrar">${val}</span>`,
-    )
-    .join(" - ");
+    .map((val, idx) => `<span class="data-tag" data-index="${idx}" title="Tocar para borrar">${val}</span>`)
+    .join(" ");
+
   const sortedArray = [...dataArray].sort((a, b) => a - b);
-  DOM.quantResultBox.textContent = sortedArray.join(" - ");
+  DOM.quantResultBox.innerHTML = sortedArray
+    .map((val) => `<span class="sorted-tag">${val}</span>`)
+    .join(" ");
+
   DOM.quantDataSection.style.display = "flex";
 
   if (type === "continua") {
