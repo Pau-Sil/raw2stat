@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Estadística</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="container">
+        <h1>Análisis Estadístico</h1>
+        
+        <div class="type-selection">
+            <h3>Tipo de Variable:</h3>
+            <div class="radio-group">
+                <label><input type="radio" name="varType" value="cualitativa" checked> Cualitativa</label>
+                <label><input type="radio" name="varType" value="discreta"> Discreta</label>
+                <label><input type="radio" name="varType" value="continua"> Continua</label>
+            </div>
+        </div>
+
+        <hr>
+
+        <div id="qualitativeMode">
+            <div class="method-card">
+                <h4>Método A: Ingreso por Arreglo</h4>
+                <p class="help-text">Ej: rojo - verde - azul - rojo</p>
+                <div class="input-group">
+                    <input type="text" id="qualArrayInput" placeholder="Ingresá las variables separadas por guión (-)">
+                    <button id="processQualArrayBtn">Cargar y Generar</button>
+                </div>
+            </div>
+
+            <div class="divider"><span>O</span></div>
+
+            <div class="method-card">
+                <h4>Método B: Ingreso Manual de Frecuencias</h4>
+                <div class="input-group">
+                    <input type="text" id="qualManualInput" placeholder="Definir nueva variable (Ej: ROJO)">
+                    <button id="addQualCatBtn">Agregar</button>
+                </div>
+                
+                <div id="qualFrequenciesSection" style="display: none; margin-top: 15px;">
+                    <p class="help-text">Ingresá las repeticiones (fa) para cada variable:</p>
+                    <div id="qualCatList" class="cat-grid"></div>
+                    <button id="generateQualManualBtn" class="primary-btn">Generar Tabla Manual</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="quantitativeMode" style="display: none;">
+            <div class="method-card">
+                <h4>Método A: Ingreso 1 a 1</h4>
+                <div class="input-group">
+                    <input type="number" id="quantSingleInput" step="any" placeholder="Ingresá un valor numérico">
+                    <button id="addQuantSingleBtn">Agregar al Arreglo</button>
+                </div>
+            </div>
+
+            <div class="divider"><span>O</span></div>
+
+            <div class="method-card">
+                <h4>Método B: Ingreso por Arreglo</h4>
+                <div class="input-group">
+                    <input type="text" id="quantArrayInput" placeholder="Ej: 2 - 4 - 5 - 2 (separado por guión)">
+                    <button id="addQuantArrayBtn">Sumar Arreglo</button>
+                </div>
+            </div>
+
+            <div class="data-section" id="quantDataSection" style="display: none;">
+                <p><strong>Arreglo Ordenado (n=<span id="quantCount">0</span>):</strong></p>
+                <div id="quantResultBox" class="data-box result-box">-</div>
+                <button id="clearQuantBtn" class="danger-btn">Limpiar Datos</button>
+                
+                <div class="table-config-section" id="continuousConfig" style="display: none;">
+                    <hr>
+                    <h3>Configuración de Clases (Solo Continua)</h3>
+                    <div class="config-grid">
+                        <div>
+                            <label>N° de Clases (K):</label>
+                            <input type="number" id="classCount" min="1">
+                        </div>
+                        <div>
+                            <label>Valor Mínimo:</label>
+                            <input type="number" id="minValue" step="any">
+                        </div>
+                        <div>
+                            <label>Valor Máximo:</label>
+                            <input type="number" id="maxValue" step="any">
+                        </div>
+                    </div>
+                </div>
+
+                <button id="generateQuantTableBtn" class="primary-btn">Generar Tabla Estadística</button>
+            </div>
+        </div>
+
+        <div class="table-container" id="tableContainer" style="display: none;">
+            <table id="freqTable">
+                <thead>
+                    <tr id="tableHeadRow">
+                        </tr>
+                </thead>
+                <tbody id="tableBody">
+                    </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
