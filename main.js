@@ -112,6 +112,27 @@ DOM.generateQuantTableBtn.addEventListener('click', () => {
     renderQuantitativeTable(rowsData, currentVarType);
 });
 
+// GESTIÓN DE PESTAÑAS (TABS)
+document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        const parent = e.target.parentElement;
+        parent.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        
+        e.target.classList.add('active');
+        
+        const modeContainer = parent.parentElement;
+        modeContainer.querySelectorAll('.tab-content').forEach(c => {
+            c.classList.remove('active');
+            c.style.display = 'none';
+        });
+        
+        const targetId = e.target.getAttribute('data-target');
+        const targetContent = document.getElementById(targetId);
+        targetContent.classList.add('active');
+        targetContent.style.display = 'block';
+    });
+});
+
 // SHORTCUTS DE TECLADO (Enter)
 DOM.quantSingleInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') DOM.addQuantSingleBtn.click();

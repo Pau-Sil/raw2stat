@@ -1,35 +1,37 @@
 :root {
-    --bg-body: #f4f4f9;
-    --bg-container: #ffffff;
-    --text-main: #333333;
-    --text-muted: #666666;
-    --border-color: #cccccc;
-    --border-light: #eeeeee;
-    --primary-color: #0056b3;
-    --primary-hover: #004494;
-    --btn-bg: #e0e0e0;
-    --btn-text: #333333;
-    --card-bg: #fdfdfd;
-    --box-bg: #eef5ff;
-    --table-header-text: #ffffff;
-    --table-even: #f2f2f2;
+    /* Catppuccin Latte (Claro) */
+    --bg-body: #eff1f5;
+    --bg-container: #e6e9ef;
+    --text-main: #4c4f69;
+    --text-muted: #8c8fa1;
+    --border-color: #ccd0da;
+    --border-light: #bcc0cc;
+    --primary-color: #1e66f5;
+    --primary-hover: #209fb5;
+    --btn-bg: #ccd0da;
+    --btn-text: #4c4f69;
+    --card-bg: #eff1f5;
+    --box-bg: #e6e9ef;
+    --table-header-text: #eff1f5;
+    --table-even: #ccd0da;
 }
 
 .dark-mode {
-    --bg-body: #121212;
-    --bg-container: #1e1e1e;
-    --text-main: #e0e0e0;
-    --text-muted: #aaaaaa;
-    --border-color: #444444;
-    --border-light: #333333;
-    --primary-color: #3f8ce8;
-    --primary-hover: #5ba3ff;
-    --btn-bg: #333333;
-    --btn-text: #e0e0e0;
-    --card-bg: #252525;
-    --box-bg: #2a3b4c;
-    --table-header-text: #ffffff;
-    --table-even: #2a2a2a;
+    /* Catppuccin Mocha (Oscuro) */
+    --bg-body: #11111b;
+    --bg-container: #1e1e2e;
+    --text-main: #cdd6f4;
+    --text-muted: #a6adc8;
+    --border-color: #45475a;
+    --border-light: #313244;
+    --primary-color: #89b4fa;
+    --primary-hover: #b4befe;
+    --btn-bg: #313244;
+    --btn-text: #cdd6f4;
+    --card-bg: #181825;
+    --box-bg: #11111b;
+    --table-header-text: #1e1e2e;
+    --table-even: #181825;
 }
 
 * {
@@ -66,7 +68,7 @@ body {
 
 h1 {
     font-size: 1.5rem;
-    text-align: center;
+    text-align: left;
     margin: 0;
     flex: 1;
 }
@@ -109,20 +111,81 @@ hr {
     color: var(--btn-text);
     font-size: 0.9rem;
     border: 1px solid var(--border-color);
+    width: 100px;
+    text-align: center;
 }
 
-.radio-group {
-    display: flex;
-    gap: 20px;
-    margin-bottom: 1rem;
+.type-selection {
+    text-align: center;
+}
 
-    label {
-        font-weight: normal;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
+.segmented-control {
+    display: inline-flex;
+    border: 2px solid var(--primary-color);
+    border-radius: 50px;
+    overflow: hidden;
+    margin: 0 auto 1rem auto;
+}
+
+.segmented-control input[type="radio"] {
+    display: none;
+}
+
+.segmented-control label {
+    margin: 0;
+    padding: 10px 25px;
+    cursor: pointer;
+    background-color: var(--bg-container);
+    color: var(--primary-color);
+    font-weight: bold;
+    border-right: 1px solid var(--primary-color);
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.segmented-control label:last-of-type {
+    border-right: none;
+}
+
+.segmented-control input[type="radio"]:checked + label {
+    background-color: var(--primary-color);
+    color: #ffffff;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+button.tab-btn {
+    flex: 1;
+    background-color: transparent;
+    color: var(--text-muted);
+    border: none;
+    border-bottom: 3px solid transparent;
+    border-radius: 0;
+    padding: 10px 20px;
+    font-weight: bold;
+}
+
+button.tab-btn.active {
+    color: var(--primary-color);
+    border-bottom: 3px solid var(--primary-color);
+}
+
+button.tab-btn:hover {
+    background-color: var(--border-light);
+    filter: none;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
 }
 
 .method-card {
@@ -132,31 +195,7 @@ hr {
     border-radius: 6px;
 }
 
-.divider {
-    text-align: center;
-    margin: 15px 0;
-    position: relative;
 
-    &::before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 0;
-        right: 0;
-        border-top: 1px solid var(--border-color);
-        z-index: 1;
-    }
-
-    span {
-        background: var(--bg-container);
-        padding: 0 10px;
-        position: relative;
-        z-index: 2;
-        color: var(--text-muted);
-        font-size: 0.9rem;
-        font-weight: bold;
-    }
-}
 
 .input-group {
     display: flex;
