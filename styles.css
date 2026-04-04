@@ -280,6 +280,16 @@ button {
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 15px;
     margin-top: 10px;
+
+    input {
+        width: 75%;
+        padding: 10px;
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        font-size: 1rem;
+        background-color: var(--bg-body);
+        color: var(--text-main);
+    }
 }
 
 .data-box {
