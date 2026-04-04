@@ -1,33 +1,44 @@
 export const DOM = {
+    // Generales
     themeToggleBtn: document.getElementById('themeToggleBtn'),
     radios: document.getElementsByName('varType'),
     qualitativeMode: document.getElementById('qualitativeMode'),
     quantitativeMode: document.getElementById('quantitativeMode'),
-    continuousConfig: document.getElementById('continuousConfig'),
     tableContainer: document.getElementById('tableContainer'),
     tableBody: document.getElementById('tableBody'),
     tableHeadRow: document.getElementById('tableHeadRow'),
     
+    // Cualitativa
+    qualSingleInput: document.getElementById('qualSingleInput'),
+    addQualSingleBtn: document.getElementById('addQualSingleBtn'),
     qualArrayInput: document.getElementById('qualArrayInput'),
-    processQualArrayBtn: document.getElementById('processQualArrayBtn'),
-    qualManualInput: document.getElementById('qualManualInput'),
-    addQualCatBtn: document.getElementById('addQualCatBtn'),
-    qualFrequenciesSection: document.getElementById('qualFrequenciesSection'),
-    qualCatList: document.getElementById('qualCatList'),
-    generateQualManualBtn: document.getElementById('generateQualManualBtn'),
+    addQualArrayBtn: document.getElementById('addQualArrayBtn'),
+    qualDataSection: document.getElementById('qualDataSection'),
+    qualCount: document.getElementById('qualCount'),
+    qualResultBox: document.getElementById('qualResultBox'),
+    clearQualBtn: document.getElementById('clearQualBtn'),
+    generateQualTableBtn: document.getElementById('generateQualTableBtn'),
     
+    // Cuantitativa
     quantSingleInput: document.getElementById('quantSingleInput'),
     addQuantSingleBtn: document.getElementById('addQuantSingleBtn'),
     quantArrayInput: document.getElementById('quantArrayInput'),
     addQuantArrayBtn: document.getElementById('addQuantArrayBtn'),
-    clearQuantBtn: document.getElementById('clearQuantBtn'),
     quantDataSection: document.getElementById('quantDataSection'),
     quantCount: document.getElementById('quantCount'),
     quantResultBox: document.getElementById('quantResultBox'),
+    
+    // Botones y Config Cuantitativa
+    discreteActions: document.getElementById('discreteActions'),
+    continuousActions: document.getElementById('continuousActions'),
+    continuousConfig: document.getElementById('continuousConfig'),
     classCount: document.getElementById('classCount'),
     minValue: document.getElementById('minValue'),
     maxValue: document.getElementById('maxValue'),
-    generateQuantTableBtn: document.getElementById('generateQuantTableBtn')
+    clearQuantBtnDisc: document.getElementById('clearQuantBtnDisc'),
+    clearQuantBtnCont: document.getElementById('clearQuantBtnCont'),
+    generateQuantTableBtnDisc: document.getElementById('generateQuantTableBtnDisc'),
+    generateQuantTableBtnCont: document.getElementById('generateQuantTableBtnCont')
 };
 
 export function toggleTheme() {
@@ -44,78 +55,38 @@ export function initTheme(isDark) {
     }
 }
 
-export function switchModeDisplay(type, hasQuantData) {
+export function switchModeDisplay(type, hasQuantData, hasQualData) {
     DOM.tableContainer.style.display = 'none';
     
     if (type === 'cualitativa') {
         DOM.qualitativeMode.style.display = 'flex';
         DOM.quantitativeMode.style.display = 'none';
+        DOM.qualDataSection.style.display = hasQualData ? 'flex' : 'none';
     } else {
         DOM.qualitativeMode.style.display = 'none';
         DOM.quantitativeMode.style.display = 'flex';
+        DOM.quantDataSection.style.display = hasQuantData ? 'flex' : 'none';
         
-        if (type === 'continua' && hasQuantData) {
-            DOM.continuousConfig.style.display = 'flex';
+        // Muestra botones separados o juntos
+        if (type === 'continua') {
+            DOM.continuousActions.style.display = 'flex';
+            DOM.discreteActions.style.display = 'none';
         } else {
-            DOM.continuousConfig.style.display = 'none';
+            DOM.continuousActions.style.display = 'none';
+            DOM.discreteActions.style.display = 'flex';
         }
     }
 }
 
-export function renderQualCategoriesList(categoriesArray) {
-    if (categoriesArray.length > 0) DOM.qualFrequenciesSection.style.display = 'flex';
-    DOM.qualCatList.innerHTML = '';
-
-    categoriesArray.forEach((cat, index) => {
-        const div = document.createElement('div');
-        div.className = 'cat-item';
-        div.innerHTML = `<span>${cat.name}</span>`;
-        
-        const input = document.createElement('input');
-        input.type = 'number';
-        input.min = '0';
-        input.value = cat.fa;
-        
-        input.addEventListener('input', (e) => {
-            categoriesArray[index].fa = parseInt(e.target.value) || 0;
-        });
-
-        div.appendChild(input);
-        DOM.qualCatList.appendChild(div);
-    });
+export function updateQualDisplay(dataArray) {
+    DOM.qualCount.textContent = dataArray.length;
+    DOM.qualResultBox.textContent = dataArray.join(' - ');
+    DOM.qualDataSection.style.display = 'flex';
 }
 
-export function renderQualitativeTable(countsMap, totalN) {
-    DOM.tableHeadRow.innerHTML = `<th>VARIABLE</th><th>FA</th><th>FR</th><th>FR%</th>`;
-    DOM.tableBody.innerHTML = '';
-
-    const sortedKeys = Object.keys(countsMap).sort((a, b) => a.localeCompare(b));
-
-    sortedKeys.forEach(key => {
-        const fa = countsMap[key];
-        const fr = fa / totalN;
-        
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>${key}</td>
-            <td>${fa}</td>
-            <td>${fr.toFixed(2)}</td>
-            <td>${(fr * 100).toFixed(2)}%</td>
-        `;
-        DOM.tableBody.appendChild(tr);
-    });
-
-    const totalTr = document.createElement('tr');
-    totalTr.style.fontWeight = 'bold';
-    totalTr.innerHTML = `
-        <td>Total</td>
-        <td>${totalN}</td>
-        <td>1.00</td>
-        <td></td>
-    `;
-    DOM.tableBody.appendChild(totalTr);
-
-    DOM.tableContainer.style.display = 'flex';
+export function clearQualDisplay() {
+    DOM.qualDataSection.style.display = 'none';
+    DOM.tableContainer.style.display = 'none';
 }
 
 export function updateQuantDisplay(dataArray, type) {
@@ -124,15 +95,15 @@ export function updateQuantDisplay(dataArray, type) {
     DOM.quantDataSection.style.display = 'flex';
 
     if (type === 'continua') {
-        DOM.continuousConfig.style.display = 'flex';
+        DOM.continuousActions.style.display = 'flex';
+        DOM.discreteActions.style.display = 'none';
         const n = dataArray.length;
-        
         DOM.classCount.value = Math.max(1, Math.round(Math.sqrt(n)));
-        
         DOM.minValue.value = '';
         DOM.maxValue.value = '';
     } else {
-        DOM.continuousConfig.style.display = 'none';
+        DOM.continuousActions.style.display = 'none';
+        DOM.discreteActions.style.display = 'flex';
     }
 }
 
@@ -184,4 +155,42 @@ export function renderQuantitativeTable(rowsData, type) {
     DOM.tableBody.appendChild(totalTr);
 
     DOM.tableContainer.style.display = 'flex';
+}
+
+export function renderQualitativeTable(rowsData, totalN) {
+    DOM.tableHeadRow.innerHTML = `<th>VARIABLE</th><th>FA</th><th>FR</th><th>FR%</th>`;
+    DOM.tableBody.innerHTML = '';
+
+    rowsData.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${row.label}</td>
+            <td>${row.fa}</td>
+            <td>${row.fr.toFixed(2)}</td>
+            <td>${row.frPercent.toFixed(2)}%</td>
+        `;
+        DOM.tableBody.appendChild(tr);
+    });
+
+    const totalTr = document.createElement('tr');
+    totalTr.style.fontWeight = 'bold';
+    totalTr.innerHTML = `
+        <td>Total</td>
+        <td>${totalN}</td>
+        <td>1.00</td>
+        <td></td>
+    `;
+    DOM.tableBody.appendChild(totalTr);
+
+    DOM.tableContainer.style.display = 'flex'; 
+}
+
+export function updateQuantPlaceholders(type) {
+    if (type === 'discreta') {
+        DOM.quantSingleInput.placeholder = "Escriba aquí (un solo valor)";
+        DOM.quantArrayInput.placeholder = "Escriba aquí (separados por espacio)";
+    } else if (type === 'continua') {
+        DOM.quantSingleInput.placeholder = "Escriba aquí (un solo valor)";
+        DOM.quantArrayInput.placeholder = "Escriba aquí (separados por espacio)";
+    }
 }

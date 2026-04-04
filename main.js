@@ -1,17 +1,17 @@
 import { 
-    parseQualitativeArray, calculateQualitativeManual, 
+    processQualitativeInput, calculateQualitative, 
     processQuantitativeInput, calculateDiscrete, calculateContinuous 
 } from './stats.js';
 
 import { 
-    DOM, switchModeDisplay, renderQualCategoriesList, renderQualitativeTable, 
+    DOM, switchModeDisplay, updateQualDisplay, clearQualDisplay, renderQualitativeTable, 
     updateQuantDisplay, clearQuantDisplay, renderQuantitativeTable,
-    toggleTheme, initTheme
+    toggleTheme, initTheme, updateQuantPlaceholders
 } from './ui.js';
 
 // ESTADO GLOBAL
 let currentVarType = 'cualitativa'; 
-let qualManualCategories = []; 
+let qualData = [];
 let quantData = [];
 
 const isDarkModeSaved = localStorage.getItem('darkMode') === 'true';
@@ -26,73 +26,69 @@ DOM.themeToggleBtn.addEventListener('click', () => {
 DOM.radios.forEach(radio => {
     radio.addEventListener('change', (e) => {
         currentVarType = e.target.value;
-        switchModeDisplay(currentVarType, quantData.length > 0);
+        switchModeDisplay(currentVarType, quantData.length > 0, qualData.length > 0);
+        if (currentVarType === 'discreta' || currentVarType === 'continua') {
+            updateQuantPlaceholders(currentVarType);
+        }
     });
 });
 
 // EVENTOS: LÓGICA CUALITATIVA
-DOM.processQualArrayBtn.addEventListener('click', () => {
-    const rawValue = DOM.qualArrayInput.value;
-    if (rawValue.trim() === '') return;
-
-    const { counts, total } = parseQualitativeArray(rawValue);
-    
-    if (total === 0) return alert('No se detectaron variables válidas.');
-
-    renderQualitativeTable(counts, total);
-    DOM.qualArrayInput.value = ''; 
+DOM.addQualSingleBtn.addEventListener('click', () => {
+    const rawVal = DOM.qualSingleInput.value;
+    qualData = processQualitativeInput([rawVal], qualData);
+    DOM.qualSingleInput.value = '';
+    DOM.qualSingleInput.focus();
+    if (qualData.length > 0) updateQualDisplay(qualData);
 });
 
-DOM.addQualCatBtn.addEventListener('click', () => {
-    const val = DOM.qualManualInput.value.trim().toUpperCase();
-    if (val === '') return;
-
-    if (qualManualCategories.find(c => c.name === val)) {
-        return alert('Variable ya agregada.');
-    }
-
-    qualManualCategories.push({ name: val, fa: 0 });
-    DOM.qualManualInput.value = '';
-    renderQualCategoriesList(qualManualCategories);
+DOM.addQualArrayBtn.addEventListener('click', () => {
+    const rawVal = DOM.qualArrayInput.value.trim();
+    if (rawVal === '') return;
+    const parts = rawVal.split(/\s+/);
+    qualData = processQualitativeInput(parts, qualData);
+    DOM.qualArrayInput.value = '';
+    if (qualData.length > 0) updateQualDisplay(qualData);
 });
 
-DOM.generateQualManualBtn.addEventListener('click', () => {
-    const { counts, total } = calculateQualitativeManual(qualManualCategories);
-    if (total === 0) return alert('Ingresá al menos una frecuencia mayor a 0.');
-    renderQualitativeTable(counts, total);
+DOM.clearQualBtn.addEventListener('click', () => {
+    qualData = [];
+    clearQualDisplay();
+});
+
+DOM.generateQualTableBtn.addEventListener('click', () => {
+    if (qualData.length === 0) return alert('No hay datos cargados.');
+    const rowsData = calculateQualitative(qualData);
+    renderQualitativeTable(rowsData, qualData.length);
 });
 
 // EVENTOS: LÓGICA CUANTITATIVA
 DOM.addQuantSingleBtn.addEventListener('click', () => {
     const rawVal = DOM.quantSingleInput.value.replace(',', '.');
     quantData = processQuantitativeInput([rawVal], quantData, currentVarType);
-    
     DOM.quantSingleInput.value = '';
     DOM.quantSingleInput.focus();
-    
     if (quantData.length > 0) updateQuantDisplay(quantData, currentVarType);
 });
 
 DOM.addQuantArrayBtn.addEventListener('click', () => {
     const rawVal = DOM.quantArrayInput.value.trim();
     if (rawVal === '') return;
-
     const parts = rawVal.split(/\s+/).map(p => p.replace(',', '.'));
     quantData = processQuantitativeInput(parts, quantData, currentVarType);
-    
     DOM.quantArrayInput.value = '';
-    
     if (quantData.length > 0) updateQuantDisplay(quantData, currentVarType);
 });
 
-DOM.clearQuantBtn.addEventListener('click', () => {
+const handleClearQuant = () => {
     quantData = [];
     clearQuantDisplay();
-});
+};
+DOM.clearQuantBtnDisc.addEventListener('click', handleClearQuant);
+DOM.clearQuantBtnCont.addEventListener('click', handleClearQuant);
 
-DOM.generateQuantTableBtn.addEventListener('click', () => {
+const handleGenerateQuant = () => {
     if (quantData.length === 0) return alert('No hay datos cargados.');
-
     let rowsData = [];
 
     if (currentVarType === 'discreta') {
@@ -101,16 +97,15 @@ DOM.generateQuantTableBtn.addEventListener('click', () => {
         const k = parseInt(DOM.classCount.value);
         const minVal = parseFloat(DOM.minValue.value);
         const maxVal = parseFloat(DOM.maxValue.value);
-
         if (isNaN(k) || isNaN(minVal) || isNaN(maxVal) || k <= 0 || minVal >= maxVal) {
             return alert('Revisá los parámetros de configuración de las clases.');
         }
-
         rowsData = calculateContinuous(quantData, k, minVal, maxVal);
     }
-
     renderQuantitativeTable(rowsData, currentVarType);
-});
+};
+DOM.generateQuantTableBtnDisc.addEventListener('click', handleGenerateQuant);
+DOM.generateQuantTableBtnCont.addEventListener('click', handleGenerateQuant);
 
 // GESTIÓN DE PESTAÑAS (TABS)
 document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -129,16 +124,19 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
         const targetId = e.target.getAttribute('data-target');
         const targetContent = document.getElementById(targetId);
         targetContent.classList.add('active');
-        targetContent.style.display = 'block';
+        targetContent.style.display = 'flex';
     });
 });
 
 // SHORTCUTS DE TECLADO (Enter)
-DOM.quantSingleInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') DOM.addQuantSingleBtn.click();
+DOM.qualSingleInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') DOM.addQualSingleBtn.click();
 });
 DOM.qualArrayInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') DOM.processQualArrayBtn.click();
+    if (e.key === 'Enter') DOM.addQualArrayBtn.click();
+});
+DOM.quantSingleInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') DOM.addQuantSingleBtn.click();
 });
 DOM.quantArrayInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') DOM.addQuantArrayBtn.click();

@@ -1,29 +1,28 @@
-export function parseQualitativeArray(rawStr) {
-    const parts = rawStr.trim().split(/\s+/);
-    let counts = {};
-    let total = 0;
-
-    parts.forEach(part => {
-        const str = part.toUpperCase();
-        if (str !== '') {
-            counts[str] = (counts[str] || 0) + 1;
-            total++;
-        }
+export function processQualitativeInput(newWordsArray, currentDataArray) {
+    newWordsArray.forEach(word => {
+        let cleanWord = word.trim().toUpperCase();
+        if (cleanWord !== '') currentDataArray.push(cleanWord);
     });
-    return { counts, total };
+    currentDataArray.sort((a, b) => a.localeCompare(b));
+    return currentDataArray;
 }
 
-export function calculateQualitativeManual(categoriesArray) {
-    let counts = {};
-    let total = 0;
-    
-    categoriesArray.forEach(cat => {
-        if (cat.fa > 0) {
-            counts[cat.name] = cat.fa;
-            total += cat.fa;
-        }
+export function calculateQualitative(dataArray) {
+    const uniqueValues = [...new Set(dataArray)];
+    const n = dataArray.length;
+    let rows = [];
+
+    uniqueValues.forEach(val => {
+        const fa = dataArray.filter(x => x === val).length;
+        const fr = fa / n;
+        rows.push({
+            label: val,
+            fa: fa,
+            fr: fr,
+            frPercent: fr * 100
+        });
     });
-    return { counts, total };
+    return rows;
 }
 
 export function processQuantitativeInput(newNumbersArray, currentDataArray, varType) {

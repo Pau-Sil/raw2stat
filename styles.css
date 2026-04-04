@@ -264,18 +264,38 @@ button:hover {
     filter: brightness(0.9);
 }
 
-button.primary-btn {
+.action-buttons {
+    display: flex;
+    gap: 15px;
     width: 100%;
+    margin: 0 auto;
+}
+
+.action-buttons button {
+    flex: 1;
+}
+
+.centered-btn {
+    width: 100%;
+    margin: 0 auto;
+}
+
+button.primary-btn {
     background-color: var(--primary-color);
     color: white;
     font-weight: bold;
 }
 
 button.danger-btn {
-    width: 100%;
     background-color: #dc3545;
     color: white;
     font-size: 0.9rem;
+}
+
+@media (min-width: 600px) {
+    .action-buttons, .centered-btn {
+        width: 80%;
+    }
 }
 
 .cat-item {

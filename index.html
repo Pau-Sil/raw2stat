@@ -29,36 +29,40 @@
 
         <hr>
 
-        <div id="qualitativeMode" class="mode-container flex-col">
+<div id="qualitativeMode" class="mode-container flex-col">
             <div class="tabs">
-                <button class="tab-btn active" data-target="qualManualTab">Ingreso Manual</button>
+                <button class="tab-btn active" data-target="qualManualTab">Ingreso 1 a 1</button>
                 <button class="tab-btn" data-target="qualArrayTab">Ingreso por Arreglo</button>
             </div>
 
             <div id="qualManualTab" class="tab-content active method-card flex-col">
                 <div class="input-group">
-                    <input type="text" id="qualManualInput" placeholder="Escriba aquí (define nueva variable)" aria-label="Definir nueva variable cualitativa">
-                    <button id="addQualCatBtn">&#8629;</button>
-                </div>
-                
-                <div id="qualFrequenciesSection" class="flex-col" style="display: none;">
-                    <p class="help-text">Ingresá las repeticiones (f<sub>a</sub>) para cada variable:</p>
-                    <div id="qualCatList" class="cat-grid flex-col"></div>
-                    <button id="generateQualManualBtn" class="primary-btn">Generar Tabla Manual</button>
+                    <input type="text" id="qualSingleInput" placeholder="Escriba aquí (un solo valor)" aria-label="Ingresar variable cualitativa individual">
+                    <button id="addQualSingleBtn">&#8629;</button>
                 </div>
             </div>
 
             <div id="qualArrayTab" class="tab-content method-card flex-col" style="display: none;">
                 <div class="input-group">
                     <input type="text" id="qualArrayInput" placeholder="Escriba aquí (separados por espacio)" aria-label="Ingreso de variables cualitativas por arreglo">
-                    <button id="processQualArrayBtn">&#8629;</button>
+                    <button id="addQualArrayBtn">&#8629;</button>
+                </div>
+            </div>
+
+            <div class="data-section flex-col" id="qualDataSection" style="display: none;">
+                <p><strong>Arreglo Ordenado (n=<span id="qualCount">0</span>):</strong></p>
+                <div id="qualResultBox" class="data-box result-box">-</div>
+                
+                <div class="action-buttons">
+                    <button id="clearQualBtn" class="danger-btn">Limpiar Datos</button>
+                    <button id="generateQualTableBtn" class="primary-btn">Generar Tabla</button>
                 </div>
             </div>
         </div>
 
         <div id="quantitativeMode" class="mode-container flex-col" style="display: none;">
             <div class="tabs">
-                <button class="tab-btn active" data-target="quantManualTab">Ingreso Manual</button>
+                <button class="tab-btn active" data-target="quantManualTab">Ingreso 1 a 1</button>
                 <button class="tab-btn" data-target="quantArrayTab">Ingreso por Arreglo</button>
             </div>
 
@@ -79,28 +83,36 @@
             <div class="data-section flex-col" id="quantDataSection" style="display: none;">
                 <p><strong>Arreglo Ordenado (n=<span id="quantCount">0</span>):</strong></p>
                 <div id="quantResultBox" class="data-box result-box">-</div>
-                <button id="clearQuantBtn" class="danger-btn">Limpiar Datos</button>
                 
-                <div class="table-config-section flex-col" id="continuousConfig" style="display: none;">
-                    <hr>
-                    <h3>Configuración de Clases</h3>
-                    <div class="config-flex">
-                        <div class="flex-col">
-                            <label for="classCount">N Clases:</label>
-                            <input type="number" id="classCount" min="1">
-                        </div>
-                        <div class="flex-col">
-                            <label for="minValue">Mínimo:</label>
-                            <input type="number" id="minValue" step="any">
-                        </div>
-                        <div class="flex-col">
-                            <label for="maxValue">Máximo:</label>
-                            <input type="number" id="maxValue" step="any">
+                <div id="discreteActions" class="action-buttons" style="display: none;">
+                    <button id="clearQuantBtnDisc" class="danger-btn">Limpiar Datos</button>
+                    <button id="generateQuantTableBtnDisc" class="primary-btn">Generar Tabla</button>
+                </div>
+                
+                <div id="continuousActions" class="flex-col" style="display: none;">
+                    <button id="clearQuantBtnCont" class="danger-btn centered-btn">Limpiar Datos</button>
+                    
+                    <div class="table-config-section flex-col" id="continuousConfig">
+                        <hr>
+                        <h3>Configuración de Clases</h3>
+                        <div class="config-flex">
+                            <div>
+                                <label for="classCount">N Clases:</label>
+                                <input type="number" id="classCount" min="1">
+                            </div>
+                            <div>
+                                <label for="minValue">Mínimo:</label>
+                                <input type="number" id="minValue" step="any">
+                            </div>
+                            <div>
+                                <label for="maxValue">Máximo:</label>
+                                <input type="number" id="maxValue" step="any">
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <button id="generateQuantTableBtn" class="primary-btn">Generar Tabla Estadística</button>
+                    <button id="generateQuantTableBtnCont" class="primary-btn centered-btn">Generar Tabla Estadística</button>
+                </div>
             </div>
         </div>
 
