@@ -37,7 +37,7 @@
 
             <div id="qualManualTab" class="tab-content active method-card">
                 <div class="input-group">
-                    <input type="text" id="qualManualInput" placeholder="Escriba aquí (define nueva variable)">
+                    <input type="text" id="qualManualInput" placeholder="Escriba aquí (define nueva variable)" aria-label="Definir nueva variable cualitativa">
                     <button id="addQualCatBtn">Agregar</button>
                 </div>
                 
@@ -50,7 +50,7 @@
 
             <div id="qualArrayTab" class="tab-content method-card" style="display: none;">
                 <div class="input-group">
-                    <input type="text" id="qualArrayInput" placeholder="Escriba aquí (separados por espacio)">
+                    <input type="text" id="qualArrayInput" placeholder="Escriba aquí (separados por espacio)" aria-label="Ingreso de variables cualitativas por arreglo">
                     <button id="processQualArrayBtn">Cargar y Generar</button>
                 </div>
             </div>
@@ -64,14 +64,14 @@
 
             <div id="quantManualTab" class="tab-content active method-card">
                 <div class="input-group">
-                    <input type="number" id="quantSingleInput" step="any" placeholder="Escriba aquí">
+                    <input type="number" id="quantSingleInput" step="any" placeholder="Escriba aquí" aria-label="Ingresar valor numérico individual">
                     <button id="addQuantSingleBtn">Agregar al Arreglo</button>
                 </div>
             </div>
 
             <div id="quantArrayTab" class="tab-content method-card" style="display: none;">
                 <div class="input-group">
-                    <input type="text" id="quantArrayInput" placeholder="Escriba aquí (separados por espacio)">
+                    <input type="text" id="quantArrayInput" placeholder="Escriba aquí (separados por espacio)" aria-label="Ingreso de valores cuantitativos por arreglo">
                     <button id="addQuantArrayBtn">Sumar Arreglo</button>
                 </div>
             </div>
@@ -86,63 +86,15 @@
                     <h3>Configuración de Clases</h3>
                     <div class="config-grid">
                         <div>
-                            <label>N Clases:</label>
+                            <label for="classCount">N Clases:</label>
                             <input type="number" id="classCount" min="1">
                         </div>
                         <div>
-                            <label>Mínimo:</label>
+                            <label for="minValue">Mínimo:</label>
                             <input type="number" id="minValue" step="any">
                         </div>
                         <div>
-                            <label>Máximo:</label>
-                            <input type="number" id="maxValue" step="any">
-                        </div>
-                    </div>
-                </div>
-
-                <button id="generateQuantTableBtn" class="primary-btn">Generar Tabla Estadística</button>
-            </div>
-        </div>
-
-        <div id="quantitativeMode" style="display: none;">
-            <div class="tabs">
-                <button class="tab-btn active" data-target="quantManualTab">Ingreso Manual</button>
-                <button class="tab-btn" data-target="quantArrayTab">Ingreso por Arreglo</button>
-            </div>
-
-            <div id="quantManualTab" class="tab-content active method-card">
-                <div class="input-group">
-                    <input type="number" id="quantSingleInput" step="any" placeholder="Ingresá un valor numérico">
-                    <button id="addQuantSingleBtn">Agregar al Arreglo</button>
-                </div>
-            </div>
-
-            <div id="quantArrayTab" class="tab-content method-card" style="display: none;">
-                <div class="input-group">
-                    <input type="text" id="quantArrayInput" placeholder="Ej: 2 4 5 2 (separado por espacio)">
-                    <button id="addQuantArrayBtn">Sumar Arreglo</button>
-                </div>
-            </div>
-
-            <div class="data-section" id="quantDataSection" style="display: none; margin-top: 20px;">
-                <p><strong>Arreglo Ordenado (n=<span id="quantCount">0</span>):</strong></p>
-                <div id="quantResultBox" class="data-box result-box">-</div>
-                <button id="clearQuantBtn" class="danger-btn">Limpiar Datos</button>
-                
-                <div class="table-config-section" id="continuousConfig" style="display: none;">
-                    <hr>
-                    <h3>Configuración de Clases (Solo Continua)</h3>
-                    <div class="config-grid">
-                        <div>
-                            <label>N° de Clases (K):</label>
-                            <input type="number" id="classCount" min="1">
-                        </div>
-                        <div>
-                            <label>Valor Mínimo:</label>
-                            <input type="number" id="minValue" step="any">
-                        </div>
-                        <div>
-                            <label>Valor Máximo:</label>
+                            <label for="maxValue">Máximo:</label>
                             <input type="number" id="maxValue" step="any">
                         </div>
                     </div>
