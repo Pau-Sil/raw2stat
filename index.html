@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora Estadística</title>
+    <title>raw2stat</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <main class="container">
-        <h1>Análisis Estadístico</h1>
+        <div class="header-section">
+            <h1>Análisis Estadístico</h1>
+            <button id="themeToggleBtn" class="theme-btn">🌙 Oscuro</button>
+        </div>
         
         <div class="type-selection">
             <h3>Tipo de Variable:</h3>
@@ -24,9 +27,9 @@
         <div id="qualitativeMode">
             <div class="method-card">
                 <h4>Método A: Ingreso por Arreglo</h4>
-                <p class="help-text">Ej: rojo - verde - azul - rojo</p>
+                <p class="help-text">Ej: rojo verde azul rojo</p>
                 <div class="input-group">
-                    <input type="text" id="qualArrayInput" placeholder="Ingresá las variables separadas por guión (-)">
+                    <input type="text" id="qualArrayInput" placeholder="Ingresá las variables separadas por espacio">
                     <button id="processQualArrayBtn">Cargar y Generar</button>
                 </div>
             </div>
@@ -62,7 +65,7 @@
             <div class="method-card">
                 <h4>Método B: Ingreso por Arreglo</h4>
                 <div class="input-group">
-                    <input type="text" id="quantArrayInput" placeholder="Ej: 2 - 4 - 5 - 2 (separado por guión)">
+                    <input type="text" id="quantArrayInput" placeholder="Ej: 2 4 5 2 (separado por espacio)">
                     <button id="addQuantArrayBtn">Sumar Arreglo</button>
                 </div>
             </div>
@@ -98,15 +101,13 @@
         <div class="table-container" id="tableContainer" style="display: none;">
             <table id="freqTable">
                 <thead>
-                    <tr id="tableHeadRow">
-                        </tr>
+                    <tr id="tableHeadRow"></tr>
                 </thead>
-                <tbody id="tableBody">
-                    </tbody>
+                <tbody id="tableBody"></tbody>
             </table>
         </div>
     </main>
 
-    <script src="script.js"></script>
+    <script type="module" src="main.js"></script>
 </body>
 </html>
