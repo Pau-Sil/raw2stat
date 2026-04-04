@@ -1,110 +1,74 @@
+/**
+ * stats.js
+ * Funciones puras de procesamiento y cálculo estadístico.
+ * No depende de ningún módulo interno ni del DOM.
+ */
+
 export function processQualitativeInput(newWordsArray, currentDataArray) {
   newWordsArray.forEach((word) => {
-    let cleanWord = word.trim().toUpperCase();
-    if (cleanWord !== "") currentDataArray.push(cleanWord);
+    const clean = word.trim().toUpperCase();
+    if (clean !== "") currentDataArray.push(clean);
   });
   return currentDataArray;
 }
 
 export function calculateQualitative(dataArray) {
-  const uniqueValues = [...new Set(dataArray)].sort((a, b) =>
-    a.localeCompare(b),
-  );
   const n = dataArray.length;
-  let rows = [];
+  const uniqueValues = [...new Set(dataArray)].sort((a, b) => a.localeCompare(b));
 
-  uniqueValues.forEach((val) => {
+  return uniqueValues.map((val) => {
     const fa = dataArray.filter((x) => x === val).length;
     const fr = fa / n;
-    rows.push({
-      label: val,
-      fa: fa,
-      fr: fr,
-      frPercent: fr * 100,
-    });
+    return { label: val, fa, fr, frPercent: fr * 100 };
   });
-  return rows;
 }
 
-export function processQuantitativeInput(
-  newNumbersArray,
-  currentDataArray,
-  varType,
-) {
+export function processQuantitativeInput(newNumbersArray, currentDataArray, varType) {
   newNumbersArray.forEach((num) => {
-    let parsed = varType === "discreta" ? parseInt(num, 10) : parseFloat(num);
+    const parsed = varType === "discreta" ? parseInt(num, 10) : parseFloat(num);
     if (!isNaN(parsed)) currentDataArray.push(parsed);
   });
   return currentDataArray;
 }
 
 export function calculateDiscrete(dataArray) {
-  const uniqueValues = [...new Set(dataArray)].sort((a, b) => a - b);
   const n = dataArray.length;
-  let rows = [];
+  const uniqueValues = [...new Set(dataArray)].sort((a, b) => a - b);
   let faa = 0;
   let fra = 0;
 
-  uniqueValues.forEach((val) => {
+  return uniqueValues.map((val) => {
     const fa = dataArray.filter((x) => x === val).length;
     const fr = fa / n;
     faa += fa;
     fra += fr;
-
-    rows.push({
-      label: val,
-      fa: fa,
-      fr: fr,
-      faa: faa,
-      fra: fra,
-      frPercent: fr * 100,
-      fraPercent: fra * 100,
-    });
+    return { label: val, fa, fr, faa, fra, frPercent: fr * 100, fraPercent: fra * 100 };
   });
-
-  return rows;
 }
 
 export function calculateContinuous(dataArray, k, minVal, maxVal) {
   const n = dataArray.length;
   const amplitude = (maxVal - minVal) / k;
-  let rows = [];
+  const fmt = (num) => parseFloat(num.toFixed(1));
   let faa = 0;
   let fra = 0;
-
-  const formatNum = (num) => parseFloat(num.toFixed(1));
+  const rows = [];
 
   for (let i = 0; i < k; i++) {
     const limInf = minVal + i * amplitude;
     const limSup = minVal + (i + 1) * amplitude;
-
-    const isFirstClass = i === 0;
-    const bracketStart = isFirstClass ? "[" : "(";
-
-    const classLabel = `${bracketStart}${formatNum(limInf)} - ${formatNum(limSup)}]`;
+    const isFirst = i === 0;
+    const label = `${isFirst ? "[" : "("}${fmt(limInf)} - ${fmt(limSup)}]`;
 
     let fa = 0;
     dataArray.forEach((num) => {
-      if (isFirstClass) {
-        if (num >= limInf && num <= limSup) fa++;
-      } else {
-        if (num > limInf && num <= limSup) fa++;
-      }
+      if (isFirst ? num >= limInf && num <= limSup : num > limInf && num <= limSup) fa++;
     });
 
     const fr = fa / n;
     faa += fa;
     fra += fr;
-
-    rows.push({
-      label: classLabel,
-      fa: fa,
-      fr: fr,
-      faa: faa,
-      fra: fra,
-      frPercent: fr * 100,
-      fraPercent: fra * 100,
-    });
+    rows.push({ label, fa, fr, faa, fra, frPercent: fr * 100, fraPercent: fra * 100 });
   }
 
   return rows;

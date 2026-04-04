@@ -63,11 +63,19 @@ body {
   transition: background-color 0.3s, color 0.3s;
 }
 
+/* ── Utilidades ── */
+
+.hidden {
+  display: none !important;
+}
+
 .flex-col {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
+
+/* ── Layout ── */
 
 .container {
   background: var(--bg-container);
@@ -84,6 +92,8 @@ body {
   justify-content: space-between;
   align-items: center;
 }
+
+/* ── Tipografía ── */
 
 h1 {
   font-size: 1.5rem;
@@ -117,6 +127,8 @@ hr {
   color: var(--text-muted);
 }
 
+/* ── Botón de tema ── */
+
 .theme-btn {
   padding: 8px 12px;
   border-radius: 20px;
@@ -127,6 +139,8 @@ hr {
   width: 110px;
   text-align: center;
 }
+
+/* ── Selector de tipo de variable ── */
 
 .type-selection {
   align-items: center;
@@ -164,7 +178,6 @@ hr {
   font-weight: bold;
   border-right: 1px solid var(--primary-color);
   transition: background-color 0.2s, color 0.2s;
-
   font-size: clamp(0.65rem, 3vw, 1rem);
   white-space: nowrap;
 }
@@ -173,10 +186,12 @@ hr {
   border-right: none;
 }
 
-.segmented-control input[type="radio"]:checked+label {
+.segmented-control input[type="radio"]:checked + label {
   background-color: var(--primary-color);
   color: #ffffff;
 }
+
+/* ── Tabs ── */
 
 .tabs {
   display: flex;
@@ -214,6 +229,8 @@ button.tab-btn:hover {
   display: flex;
 }
 
+/* ── Tarjeta de método ── */
+
 .method-card {
   background: var(--card-bg);
   border: 1px solid var(--border-color);
@@ -221,6 +238,8 @@ button.tab-btn:hover {
   border-radius: 6px;
   gap: 16px;
 }
+
+/* ── Input group ── */
 
 .input-group {
   display: flex;
@@ -248,6 +267,8 @@ button.tab-btn:hover {
   background-color: var(--bg-body);
   color: var(--text-main);
 }
+
+/* ── Botones generales ── */
 
 button {
   padding: 10px 15px;
@@ -293,12 +314,13 @@ button.danger-btn {
 }
 
 @media (min-width: 600px) {
-
   .action-buttons,
   .centered-btn {
     width: 80%;
   }
 }
+
+/* ── Ítems de categoría (frecuencias manuales) ── */
 
 .cat-item {
   display: flex;
@@ -325,28 +347,36 @@ button.danger-btn {
   color: var(--text-main);
 }
 
+.delete-row-btn {
+  width: 35px;
+  padding: 5px;
+  flex: none;
+}
+
+/* ── Config de clases (continua) ── */
+
 .config-flex {
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
 }
 
-.config-flex>div {
+.config-flex > div {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.config-flex>div:first-child {
+.config-flex > div:first-child {
   flex: 1 1 100%;
 }
 
-.config-flex>div:not(:first-child) {
+.config-flex > div:not(:first-child) {
   flex: 1 1 calc(50% - 15px);
   min-width: 0;
 }
 
-.config-flex>div {
+.config-flex > div {
   flex: 1 1 120px;
   gap: 8px;
 }
@@ -361,34 +391,39 @@ button.danger-btn {
   color: var(--text-main);
 }
 
+/* ── Caja de datos ── */
+
 .data-box {
-    padding: 15px;
-    background: var(--box-bg);
-    border: 1px solid var(--primary-color);
-    border-radius: 4px;
-    font-weight: bold;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+  padding: 15px;
+  background: var(--box-bg);
+  border: 1px solid var(--primary-color);
+  border-radius: 4px;
+  font-weight: bold;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
-.data-tag, .sorted-tag {
-    display: inline-block;
-    background-color: var(--primary-color);
-    color: white;
-    padding: 3px 6px;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    text-align: center;
-    transition: background-color 0.2s, transform 0.1s;
+.data-tag,
+.sorted-tag {
+  display: inline-block;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 3px 6px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  text-align: center;
+  transition: background-color 0.2s, transform 0.1s;
 }
 
 .data-tag:hover {
-    background-color: #dc3545;
-    text-decoration: line-through;
-    transform: scale(0.95);
-    cursor: crosshair; 
+  background-color: #dc3545;
+  text-decoration: line-through;
+  transform: scale(0.95);
+  cursor: crosshair;
 }
+
+/* ── Tabla ── */
 
 .table-container {
   width: 100%;
@@ -417,26 +452,40 @@ button.danger-btn {
   background-color: var(--table-even);
 }
 
+.clear-table-btn {
+  align-self: center;
+  width: auto;
+  padding: 8px 20px;
+}
+
+/* ── Encabezado con botón de copia ── */
+
 .header-with-btn {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: -8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: -8px;
 }
 
 .copy-btn {
-    background: transparent;
-    border: none;
-    color: var(--text-muted);
-    font-size: 1.2rem;
-    padding: 4px 8px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: color 0.2s, background-color 0.2s;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: color 0.2s, background-color 0.2s;
 }
 
 .copy-btn:hover {
-    color: var(--primary-color);
-    background-color: var(--border-light);
-    filter: none;
+  color: var(--primary-color);
+  background-color: var(--border-light);
+  filter: none;
+}
+
+/* ── Acciones de frecuencias manuales (margen superior) ── */
+
+.freq-actions-gap {
+  margin-top: 15px;
 }

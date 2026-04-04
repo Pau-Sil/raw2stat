@@ -10,6 +10,7 @@
 
 <body>
   <main class="container flex-col">
+
     <div class="header-section">
       <h1>raw2stat</h1>
       <button id="themeToggleBtn" class="theme-btn">🌙 Oscuro</button>
@@ -31,6 +32,7 @@
 
     <hr>
 
+    <!-- MODO CUALITATIVO -->
     <div id="qualitativeMode" class="mode-container flex-col">
       <div class="tabs">
         <button class="tab-btn active" data-target="qualFreqTab">Frecuencias Manuales</button>
@@ -44,33 +46,33 @@
           <button id="addQualClassBtn">&#8629;</button>
         </div>
         <div id="qualFreqList" class="flex-col"></div>
-        <div id="qualFreqActions" class="action-buttons" style="display: none; margin-top: 15px;">
+        <div id="qualFreqActions" class="action-buttons hidden">
           <button id="clearQualFreqBtn" class="danger-btn">Limpiar Clases</button>
           <button id="generateQualFreqBtn" class="primary-btn">Generar Tabla</button>
         </div>
       </div>
 
-      <div id="qualRawTab" class="tab-content method-card flex-col" style="display: none;">
+      <div id="qualRawTab" class="tab-content method-card flex-col">
         <p class="help-text">Ingresá uno o varios valores separados por espacio.</p>
         <div class="input-group">
           <input type="text" id="qualRawInput" placeholder="Escriba aquí">
           <button id="processQualRawBtn">&#8629;</button>
         </div>
-        <div style="height: 0px;"></div>
       </div>
 
-      <div class="data-section flex-col" id="qualDataSection" style="display: none;">
+      <div class="data-section flex-col hidden" id="qualDataSection">
         <div class="header-with-btn">
           <p><strong>Orden de Ingreso (n=<span id="qualCount">0</span>):</strong></p>
           <button id="copyQualRawBtn" class="copy-btn" title="Copiar arreglo">📋</button>
         </div>
         <div id="qualRawBox" class="data-box">-</div>
-        
+
         <div class="header-with-btn">
           <p><strong>Arreglo Ordenado:</strong></p>
           <button id="copyQualSortedBtn" class="copy-btn" title="Copiar arreglo ordenado">📋</button>
         </div>
         <div id="qualResultBox" class="data-box">-</div>
+
         <div class="action-buttons">
           <button id="clearQualBtn" class="danger-btn">Limpiar Datos</button>
           <button id="generateQualTableBtn" class="primary-btn">Generar Tabla</button>
@@ -78,14 +80,15 @@
       </div>
     </div>
 
-    <div id="quantitativeMode" class="mode-container flex-col" style="display: none;">
+    <!-- MODO CUANTITATIVO -->
+    <div id="quantitativeMode" class="mode-container flex-col hidden">
       <div class="tabs">
         <button class="tab-btn active" data-target="quantFreqTab">Frecuencias Manuales</button>
         <button class="tab-btn" data-target="quantRawTab">Datos Crudos</button>
       </div>
 
       <div id="quantFreqTab" class="tab-content active method-card flex-col">
-        
+
         <div id="discFreqSetup" class="flex-col">
           <p class="help-text">Definí los valores de la variable y luego ingresá sus repeticiones.</p>
           <div class="input-group">
@@ -94,7 +97,7 @@
           </div>
         </div>
 
-        <div id="contFreqSetup" class="table-config-section flex-col" style="display: none;">
+        <div id="contFreqSetup" class="table-config-section flex-col hidden">
           <p class="help-text">Configurá los intervalos para habilitar el ingreso de frecuencias.</p>
           <div class="config-flex">
             <div>
@@ -114,22 +117,21 @@
         </div>
 
         <div id="quantFreqList" class="flex-col"></div>
-        <div id="quantFreqActions" class="action-buttons" style="display: none; margin-top: 15px;">
+        <div id="quantFreqActions" class="action-buttons hidden">
           <button id="clearQuantFreqBtn" class="danger-btn">Limpiar Clases</button>
           <button id="generateQuantFreqBtn" class="primary-btn">Generar Tabla</button>
         </div>
       </div>
 
-      <div id="quantRawTab" class="tab-content method-card flex-col" style="display: none;">
+      <div id="quantRawTab" class="tab-content method-card flex-col">
         <p class="help-text">Ingresá uno o varios números separados por espacio.</p>
         <div class="input-group">
           <input type="text" id="quantRawInput" placeholder="Escriba aquí">
           <button id="processQuantRawBtn">&#8629;</button>
         </div>
-        <div style="height: 0px;"></div>
       </div>
 
-      <div class="data-section flex-col" id="quantDataSection" style="display: none;">
+      <div class="data-section flex-col hidden" id="quantDataSection">
         <div class="header-with-btn">
           <p><strong>Orden de Ingreso (n=<span id="quantCount">0</span>):</strong></p>
           <button id="copyQuantRawBtn" class="copy-btn" title="Copiar arreglo">📋</button>
@@ -142,12 +144,12 @@
         </div>
         <div id="quantResultBox" class="data-box">-</div>
 
-        <div id="discreteActions" class="action-buttons" style="display: none;">
+        <div id="discreteActions" class="action-buttons hidden">
           <button id="clearQuantBtnDisc" class="danger-btn">Limpiar Datos</button>
           <button id="generateQuantTableBtnDisc" class="primary-btn">Generar Tabla</button>
         </div>
 
-        <div id="continuousActions" class="flex-col" style="display: none;">
+        <div id="continuousActions" class="flex-col hidden">
           <button id="clearQuantBtnCont" class="danger-btn centered-btn">Limpiar Datos</button>
           <div class="table-config-section flex-col" id="continuousConfig">
             <hr>
@@ -172,16 +174,17 @@
       </div>
     </div>
 
-    <div class="table-container flex-col" id="tableContainer" style="display: none; gap: 15px;">
+    <!-- TABLA RESULTADO -->
+    <div class="table-container flex-col hidden" id="tableContainer">
       <table id="freqTable">
         <thead>
           <tr id="tableHeadRow"></tr>
         </thead>
         <tbody id="tableBody"></tbody>
       </table>
-      
-      <button id="clearTableBtn" class="danger-btn" style="align-self: center; width: auto; padding: 8px 20px;">Borrar Tabla</button>
+      <button id="clearTableBtn" class="danger-btn clear-table-btn">Borrar Tabla</button>
     </div>
+
   </main>
 
   <script type="module" src="main.js"></script>
