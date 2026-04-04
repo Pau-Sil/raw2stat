@@ -73,7 +73,7 @@ DOM.processQuantRawBtn.addEventListener("click", () => {
 DOM.addQualClassBtn.addEventListener("click", () => {
   const className = DOM.qualClassInput.value.trim().toUpperCase();
   if (className === "") return;
-  renderFreqInputRow(className, DOM.qualFreqList, DOM.qualFreqActions);
+  renderFreqInputRow(className, DOM.qualFreqList, DOM.qualFreqActions, 'alpha');
   DOM.qualClassInput.value = "";
   DOM.qualClassInput.focus();
 });
@@ -81,7 +81,9 @@ DOM.addQualClassBtn.addEventListener("click", () => {
 DOM.addDiscClassBtn.addEventListener("click", () => {
   const val = DOM.discClassInput.value.trim();
   if (val === "") return;
-  renderFreqInputRow(val, DOM.quantFreqList, DOM.generateQuantFreqBtn);
+  
+  renderFreqInputRow(val, DOM.quantFreqList, DOM.quantFreqActions, 'numeric');
+  
   DOM.discClassInput.value = "";
   DOM.discClassInput.focus();
 });
@@ -94,22 +96,24 @@ DOM.setupContFreqBtn.addEventListener("click", () => {
 
   const amplitude = (max - min) / k;
   DOM.quantFreqList.innerHTML = "";
+  
   for (let i = 0; i < k; i++) {
     const lInf = min + i * amplitude;
     const lSup = min + (i + 1) * amplitude;
     const label = `${i === 0 ? "[" : "("}${lInf.toFixed(1)} - ${lSup.toFixed(1)}]`;
-    renderFreqInputRow(label, DOM.quantFreqList, DOM.quantFreqActions);
+    renderFreqInputRow(label, DOM.quantFreqList, DOM.quantFreqActions, 'none');
   }
+  DOM.quantFreqActions.style.display = "flex"; 
 });
 
-function renderFreqInputRow(label, container, actionsContainer) {
+function renderFreqInputRow(label, container, actionsContainer, sortType = 'none') {
   const div = document.createElement("div");
   div.className = "cat-item";
   div.innerHTML = `
-    <span>${label}</span>
-    <input type="number" class="manual-fa-input" data-label="${label}" placeholder="fa" min="0">
-    <button class="danger-btn delete-row-btn" style="width: 35px; padding: 5px; flex: none;">X</button>
-  `;
+        <span>${label}</span>
+        <input type="number" class="manual-fa-input" data-label="${label}" placeholder="fa" min="0">
+        <button class="danger-btn delete-row-btn" style="width: 35px; padding: 5px; flex: none;">X</button>
+    `;
 
   div.querySelector(".delete-row-btn").addEventListener("click", () => {
     div.remove();
@@ -118,8 +122,38 @@ function renderFreqInputRow(label, container, actionsContainer) {
     }
   });
 
-  container.appendChild(div);
-  actionsContainer.style.display = "flex";
+  // LÓGICA DE ORDENAMIENTO AL INSERTAR
+  if (sortType === 'none') {
+    container.appendChild(div);
+  } else {
+    const children = Array.from(container.children);
+    let inserted = false;
+    
+    for (let child of children) {
+      const childSpan = child.querySelector('span');
+      const childLabel = childSpan.textContent.trim(); 
+      const cleanLabel = String(label).trim();
+      
+      if (sortType === 'alpha' && cleanLabel.localeCompare(childLabel) < 0) {
+        container.insertBefore(div, child);
+        inserted = true;
+        break;
+      } 
+      else if (sortType === 'numeric' && parseFloat(cleanLabel) < parseFloat(childLabel)) {
+        container.insertBefore(div, child);
+        inserted = true;
+        break;
+      }
+    }
+    
+    if (!inserted) {
+      container.appendChild(div);
+    }
+  }
+
+  if (actionsContainer) {
+    actionsContainer.style.display = "flex";
+  }
 }
 
 // EVENTOS: BOTONES DE "GENERAR TABLA" Y "LIMPIAR"
@@ -274,6 +308,43 @@ DOM.clearTableBtn.addEventListener("click", () => {
     DOM.tableContainer.style.display = "none";
     DOM.tableHeadRow.innerHTML = "";
     DOM.tableBody.innerHTML = "";
+});
+
+// EVENTOS: COPIAR AL PORTAPAPELES
+
+// Función auxiliar para copiar y cambiar el ícono temporalmente
+function copyToClipboard(text, btnElement) {
+  if (!text) return;
+  navigator.clipboard.writeText(text).then(() => {
+    const originalIcon = btnElement.textContent;
+    btnElement.textContent = "✅";
+    setTimeout(() => {
+      btnElement.textContent = originalIcon;
+    }, 1500);
+  }).catch(err => {
+    console.error("No se pudo copiar: ", err);
+    alert("Hubo un error al copiar al portapapeles.");
+  });
+}
+
+// Botones Cualitativos
+DOM.copyQualRawBtn.addEventListener("click", () => {
+  copyToClipboard(qualData.join(" "), DOM.copyQualRawBtn);
+});
+
+DOM.copyQualSortedBtn.addEventListener("click", () => {
+  const sorted = [...qualData].sort((a, b) => a.localeCompare(b));
+  copyToClipboard(sorted.join(" "), DOM.copyQualSortedBtn);
+});
+
+// Botones Cuantitativos
+DOM.copyQuantRawBtn.addEventListener("click", () => {
+  copyToClipboard(quantData.join(" "), DOM.copyQuantRawBtn);
+});
+
+DOM.copyQuantSortedBtn.addEventListener("click", () => {
+  const sorted = [...quantData].sort((a, b) => a - b);
+  copyToClipboard(sorted.join(" "), DOM.copyQuantSortedBtn);
 });
 
 // SHORTCUTS DE TECLADO (Enter)

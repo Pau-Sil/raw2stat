@@ -23,6 +23,8 @@ export const DOM = {
   generateQualTableBtn: document.getElementById("generateQualTableBtn"),
   qualFreqActions: document.getElementById("qualFreqActions"),
   clearQualFreqBtn: document.getElementById("clearQualFreqBtn"),
+  copyQualRawBtn: document.getElementById("copyQualRawBtn"),
+  copyQualSortedBtn: document.getElementById("copyQualSortedBtn"),
 
   // CUANTITATIVA
   quantFreqList: document.getElementById("quantFreqList"),
@@ -43,6 +45,8 @@ export const DOM = {
   quantRawBox: document.getElementById("quantRawBox"),
   quantCount: document.getElementById("quantCount"),
   quantResultBox: document.getElementById("quantResultBox"),
+  copyQuantRawBtn: document.getElementById("copyQuantRawBtn"),
+  copyQuantSortedBtn: document.getElementById("copyQuantSortedBtn"),
 
   // Botones y Config Crudos
   discreteActions: document.getElementById("discreteActions"),
@@ -104,14 +108,19 @@ export function switchModeDisplay(type, hasQuantData, hasQualData) {
 
 export function updateQualDisplay(dataArray) {
   DOM.qualCount.textContent = dataArray.length;
+
+  const maxLen = Math.max(...dataArray.map(val => String(val).length));
+  
+  const dynamicWidth = `style="width: calc(${maxLen}ch + 12px);"`;
+
   DOM.qualRawBox.innerHTML = dataArray
-    .map((val, idx) => `<span class="data-tag" data-index="${idx}" title="Tocar para borrar">${val}</span>`)
-    .join(" ");
+    .map((val, idx) => `<span class="data-tag" data-index="${idx}" title="Tocar para borrar" ${dynamicWidth}>${val}</span>`)
+    .join("");
 
   const sortedArray = [...dataArray].sort((a, b) => a.localeCompare(b));
   DOM.qualResultBox.innerHTML = sortedArray
-    .map((val) => `<span class="sorted-tag">${val}</span>`)
-    .join(" ");
+    .map((val) => `<span class="sorted-tag" ${dynamicWidth}>${val}</span>`)
+    .join("");
 
   DOM.qualDataSection.style.display = "flex";
 }
@@ -123,14 +132,19 @@ export function clearQualDisplay() {
 
 export function updateQuantDisplay(dataArray, type) {
   DOM.quantCount.textContent = dataArray.length;
+
+  const maxLen = Math.max(...dataArray.map(val => String(val).length));
+  
+  const dynamicWidth = `style="width: calc(${maxLen}ch + 12px);"`;
+
   DOM.quantRawBox.innerHTML = dataArray
-    .map((val, idx) => `<span class="data-tag" data-index="${idx}" title="Tocar para borrar">${val}</span>`)
-    .join(" ");
+    .map((val, idx) => `<span class="data-tag" data-index="${idx}" title="Tocar para borrar" ${dynamicWidth}>${val}</span>`)
+    .join("");
 
   const sortedArray = [...dataArray].sort((a, b) => a - b);
   DOM.quantResultBox.innerHTML = sortedArray
-    .map((val) => `<span class="sorted-tag">${val}</span>`)
-    .join(" ");
+    .map((val) => `<span class="sorted-tag" ${dynamicWidth}>${val}</span>`)
+    .join("");
 
   DOM.quantDataSection.style.display = "flex";
 
@@ -186,3 +200,46 @@ export function renderQualitativeTable(rowsData, totalN) {
   DOM.tableBody.appendChild(totalTr);
   DOM.tableContainer.style.display = "flex";
 }
+
+DOM.addDiscClassBtn.addEventListener("click", () => {
+    const val = DOM.discClassInput.value.trim();
+    if (val === "") return;
+    
+    renderFreqInputRow(val, DOM.quantFreqList, DOM.quantFreqActions, 'numeric');
+    
+    DOM.discClassInput.value = "";
+    DOM.discClassInput.focus();
+});
+
+DOM.clearQuantFreqBtn.addEventListener("click", () => {
+  DOM.quantFreqList.innerHTML = "";
+  DOM.quantFreqActions.style.display = "none";
+});
+
+DOM.generateQuantFreqBtn.addEventListener("click", () => {
+  const inputs = DOM.quantFreqList.querySelectorAll(".manual-fa-input");
+  let rowsData = [];
+  let totalN = 0;
+
+  inputs.forEach((input) => {
+    const fa = parseInt(input.value) || 0;
+    totalN += fa;
+    rowsData.push({ label: input.getAttribute("data-label"), fa: fa });
+  });
+
+  if (totalN === 0) return alert("Ingrese al menos una frecuencia mayor a 0.");
+
+  let faa = 0;
+  let fra = 0;
+  rowsData.forEach((row) => {
+    row.fr = row.fa / totalN;
+    faa += row.fa;
+    fra += row.fr;
+    row.faa = faa;
+    row.fra = fra;
+    row.frPercent = row.fr * 100;
+    row.fraPercent = row.fra * 100;
+  });
+
+  renderQuantitativeTable(rowsData);
+});

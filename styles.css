@@ -376,11 +376,10 @@ button.danger-btn {
     display: inline-block;
     background-color: var(--primary-color);
     color: white;
-    padding: 6px 12px;
+    padding: 3px 6px;
     border-radius: 8px;
     font-size: 0.9rem;
     text-align: center;
-    min-width: 55px;
     transition: background-color 0.2s, transform 0.1s;
 }
 
@@ -416,4 +415,28 @@ button.danger-btn {
 
 .table-container table tr:nth-child(even) {
   background-color: var(--table-even);
+}
+
+.header-with-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: -8px;
+}
+
+.copy-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+.copy-btn:hover {
+    color: var(--primary-color);
+    background-color: var(--border-light);
+    filter: none;
 }
