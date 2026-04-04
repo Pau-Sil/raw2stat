@@ -7,13 +7,13 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <main class="container">
+    <main class="container flex-col">
         <div class="header-section">
             <h1>raw2stat</h1>
             <button id="themeToggleBtn" class="theme-btn">🌙 Oscuro</button>
         </div>
         
-        <div class="type-selection">
+        <div class="type-selection flex-col">
             <h3>Tipo de Variable:</h3>
             <div class="segmented-control">
                 <input type="radio" id="varQual" name="varType" value="cualitativa" checked>
@@ -29,26 +29,26 @@
 
         <hr>
 
-        <div id="qualitativeMode">
+        <div id="qualitativeMode" class="mode-container flex-col">
             <div class="tabs">
                 <button class="tab-btn active" data-target="qualManualTab">Ingreso Manual</button>
                 <button class="tab-btn" data-target="qualArrayTab">Ingreso por Arreglo</button>
             </div>
 
-            <div id="qualManualTab" class="tab-content active method-card">
+            <div id="qualManualTab" class="tab-content active method-card flex-col">
                 <div class="input-group">
                     <input type="text" id="qualManualInput" placeholder="Escriba aquí (define nueva variable)" aria-label="Definir nueva variable cualitativa">
                     <button id="addQualCatBtn">&#8629;</button>
                 </div>
                 
-                <div id="qualFrequenciesSection" style="display: none; margin-top: 15px;">
+                <div id="qualFrequenciesSection" class="flex-col" style="display: none;">
                     <p class="help-text">Ingresá las repeticiones (f<sub>a</sub>) para cada variable:</p>
-                    <div id="qualCatList" class="cat-grid"></div>
+                    <div id="qualCatList" class="cat-grid flex-col"></div>
                     <button id="generateQualManualBtn" class="primary-btn">Generar Tabla Manual</button>
                 </div>
             </div>
 
-            <div id="qualArrayTab" class="tab-content method-card" style="display: none;">
+            <div id="qualArrayTab" class="tab-content method-card flex-col" style="display: none;">
                 <div class="input-group">
                     <input type="text" id="qualArrayInput" placeholder="Escriba aquí (separados por espacio)" aria-label="Ingreso de variables cualitativas por arreglo">
                     <button id="processQualArrayBtn">&#8629;</button>
@@ -56,44 +56,44 @@
             </div>
         </div>
 
-        <div id="quantitativeMode" style="display: none;">
+        <div id="quantitativeMode" class="mode-container flex-col" style="display: none;">
             <div class="tabs">
                 <button class="tab-btn active" data-target="quantManualTab">Ingreso Manual</button>
                 <button class="tab-btn" data-target="quantArrayTab">Ingreso por Arreglo</button>
             </div>
 
-            <div id="quantManualTab" class="tab-content active method-card">
+            <div id="quantManualTab" class="tab-content active method-card flex-col">
                 <div class="input-group">
                     <input type="number" id="quantSingleInput" step="any" placeholder="Escriba aquí" aria-label="Ingresar valor numérico individual">
                     <button id="addQuantSingleBtn">&#8629;</button>
                 </div>
             </div>
 
-            <div id="quantArrayTab" class="tab-content method-card" style="display: none;">
+            <div id="quantArrayTab" class="tab-content method-card flex-col" style="display: none;">
                 <div class="input-group">
                     <input type="text" id="quantArrayInput" placeholder="Escriba aquí (separados por espacio)" aria-label="Ingreso de valores cuantitativos por arreglo">
                     <button id="addQuantArrayBtn">&#8629;</button>
                 </div>
             </div>
 
-            <div class="data-section" id="quantDataSection" style="display: none; margin-top: 20px;">
+            <div class="data-section flex-col" id="quantDataSection" style="display: none;">
                 <p><strong>Arreglo Ordenado (n=<span id="quantCount">0</span>):</strong></p>
                 <div id="quantResultBox" class="data-box result-box">-</div>
                 <button id="clearQuantBtn" class="danger-btn">Limpiar Datos</button>
                 
-                <div class="table-config-section" id="continuousConfig" style="display: none;">
+                <div class="table-config-section flex-col" id="continuousConfig" style="display: none;">
                     <hr>
                     <h3>Configuración de Clases</h3>
-                    <div class="config-grid">
-                        <div>
+                    <div class="config-flex">
+                        <div class="flex-col">
                             <label for="classCount">N Clases:</label>
                             <input type="number" id="classCount" min="1">
                         </div>
-                        <div>
+                        <div class="flex-col">
                             <label for="minValue">Mínimo:</label>
                             <input type="number" id="minValue" step="any">
                         </div>
-                        <div>
+                        <div class="flex-col">
                             <label for="maxValue">Máximo:</label>
                             <input type="number" id="maxValue" step="any">
                         </div>

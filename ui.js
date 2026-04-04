@@ -48,14 +48,14 @@ export function switchModeDisplay(type, hasQuantData) {
     DOM.tableContainer.style.display = 'none';
     
     if (type === 'cualitativa') {
-        DOM.qualitativeMode.style.display = 'block';
+        DOM.qualitativeMode.style.display = 'flex';
         DOM.quantitativeMode.style.display = 'none';
     } else {
         DOM.qualitativeMode.style.display = 'none';
-        DOM.quantitativeMode.style.display = 'block';
+        DOM.quantitativeMode.style.display = 'flex';
         
         if (type === 'continua' && hasQuantData) {
-            DOM.continuousConfig.style.display = 'block';
+            DOM.continuousConfig.style.display = 'flex';
         } else {
             DOM.continuousConfig.style.display = 'none';
         }
@@ -63,7 +63,7 @@ export function switchModeDisplay(type, hasQuantData) {
 }
 
 export function renderQualCategoriesList(categoriesArray) {
-    if (categoriesArray.length > 0) DOM.qualFrequenciesSection.style.display = 'block';
+    if (categoriesArray.length > 0) DOM.qualFrequenciesSection.style.display = 'flex';
     DOM.qualCatList.innerHTML = '';
 
     categoriesArray.forEach((cat, index) => {
@@ -115,16 +115,16 @@ export function renderQualitativeTable(countsMap, totalN) {
     `;
     DOM.tableBody.appendChild(totalTr);
 
-    DOM.tableContainer.style.display = 'block';
+    DOM.tableContainer.style.display = 'flex';
 }
 
 export function updateQuantDisplay(dataArray, type) {
     DOM.quantCount.textContent = dataArray.length;
     DOM.quantResultBox.textContent = dataArray.join(' - ');
-    DOM.quantDataSection.style.display = 'block';
+    DOM.quantDataSection.style.display = 'flex';
 
     if (type === 'continua') {
-        DOM.continuousConfig.style.display = 'block';
+        DOM.continuousConfig.style.display = 'flex';
         const n = dataArray.length;
         
         DOM.classCount.value = Math.max(1, Math.round(Math.sqrt(n)));
@@ -183,5 +183,5 @@ export function renderQuantitativeTable(rowsData, type) {
     `;
     DOM.tableBody.appendChild(totalTr);
 
-    DOM.tableContainer.style.display = 'block';
+    DOM.tableContainer.style.display = 'flex';
 }
