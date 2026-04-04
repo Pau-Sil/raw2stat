@@ -126,9 +126,11 @@ export function updateQuantDisplay(dataArray, type) {
     if (type === 'continua') {
         DOM.continuousConfig.style.display = 'block';
         const n = dataArray.length;
+        
         DOM.classCount.value = Math.max(1, Math.round(Math.sqrt(n)));
-        DOM.minValue.value = dataArray;
-        DOM.maxValue.value = dataArray[dataArray.length - 1];
+        
+        DOM.minValue.value = '';
+        DOM.maxValue.value = '';
     } else {
         DOM.continuousConfig.style.display = 'none';
     }
