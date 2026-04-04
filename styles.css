@@ -54,7 +54,7 @@
 }
 
 body {
-    font-family: 'JetBrains Mono', monospace; 
+    font-family: 'JetBrains Mono', monospace;
     background-color: var(--bg-body);
     color: var(--text-main);
     padding: 20px;
@@ -164,16 +164,16 @@ hr {
     font-weight: bold;
     border-right: 1px solid var(--primary-color);
     transition: background-color 0.2s, color 0.2s;
-    
-    font-size: clamp(0.65rem, 3vw, 1rem); 
-    white-space: nowrap; 
+
+    font-size: clamp(0.65rem, 3vw, 1rem);
+    white-space: nowrap;
 }
 
 .segmented-control label:last-of-type {
     border-right: none;
 }
 
-.segmented-control input[type="radio"]:checked + label {
+.segmented-control input[type="radio"]:checked+label {
     background-color: var(--primary-color);
     color: #ffffff;
 }
@@ -211,7 +211,7 @@ button.tab-btn:hover {
 }
 
 .tab-content.active {
-    display: flex; 
+    display: flex;
 }
 
 .method-card {
@@ -293,7 +293,9 @@ button.danger-btn {
 }
 
 @media (min-width: 600px) {
-    .action-buttons, .centered-btn {
+
+    .action-buttons,
+    .centered-btn {
         width: 80%;
     }
 }
@@ -329,22 +331,22 @@ button.danger-btn {
     gap: 15px;
 }
 
-.config-flex > div {
+.config-flex>div {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.config-flex > div:first-child {
+.config-flex>div:first-child {
     flex: 1 1 100%;
 }
 
-.config-flex > div:not(:first-child) {
+.config-flex>div:not(:first-child) {
     flex: 1 1 calc(50% - 15px);
     min-width: 0;
 }
 
-.config-flex > div {
+.config-flex>div {
     flex: 1 1 120px;
     gap: 8px;
 }

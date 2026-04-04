@@ -1,27 +1,29 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>raw2stat</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <main class="container flex-col">
         <div class="header-section">
             <h1>raw2stat</h1>
             <button id="themeToggleBtn" class="theme-btn">🌙 Oscuro</button>
         </div>
-        
+
         <div class="type-selection flex-col">
             <h3>Tipo de Variable:</h3>
             <div class="segmented-control">
                 <input type="radio" id="varQual" name="varType" value="cualitativa" checked>
                 <label for="varQual">Cualitativa</label>
-                
+
                 <input type="radio" id="varDisc" name="varType" value="discreta">
                 <label for="varDisc">Discreta</label>
-                
+
                 <input type="radio" id="varCont" name="varType" value="continua">
                 <label for="varCont">Continua</label>
             </div>
@@ -29,7 +31,7 @@
 
         <hr>
 
-<div id="qualitativeMode" class="mode-container flex-col">
+        <div id="qualitativeMode" class="mode-container flex-col">
             <div class="tabs">
                 <button class="tab-btn active" data-target="qualManualTab">Ingreso 1 a 1</button>
                 <button class="tab-btn" data-target="qualArrayTab">Ingreso por Arreglo</button>
@@ -37,14 +39,16 @@
 
             <div id="qualManualTab" class="tab-content active method-card flex-col">
                 <div class="input-group">
-                    <input type="text" id="qualSingleInput" placeholder="Escriba aquí (un solo valor)" aria-label="Ingresar variable cualitativa individual">
+                    <input type="text" id="qualSingleInput" placeholder="Escriba aquí (un solo valor)"
+                        aria-label="Ingresar variable cualitativa individual">
                     <button id="addQualSingleBtn">&#8629;</button>
                 </div>
             </div>
 
             <div id="qualArrayTab" class="tab-content method-card flex-col" style="display: none;">
                 <div class="input-group">
-                    <input type="text" id="qualArrayInput" placeholder="Escriba aquí (separados por espacio)" aria-label="Ingreso de variables cualitativas por arreglo">
+                    <input type="text" id="qualArrayInput" placeholder="Escriba aquí (separados por espacio)"
+                        aria-label="Ingreso de variables cualitativas por arreglo">
                     <button id="addQualArrayBtn">&#8629;</button>
                 </div>
             </div>
@@ -52,7 +56,7 @@
             <div class="data-section flex-col" id="qualDataSection" style="display: none;">
                 <p><strong>Arreglo Ordenado (n=<span id="qualCount">0</span>):</strong></p>
                 <div id="qualResultBox" class="data-box result-box">-</div>
-                
+
                 <div class="action-buttons">
                     <button id="clearQualBtn" class="danger-btn">Limpiar Datos</button>
                     <button id="generateQualTableBtn" class="primary-btn">Generar Tabla</button>
@@ -68,14 +72,16 @@
 
             <div id="quantManualTab" class="tab-content active method-card flex-col">
                 <div class="input-group">
-                    <input type="number" id="quantSingleInput" step="any" placeholder="Escriba aquí" aria-label="Ingresar valor numérico individual">
+                    <input type="number" id="quantSingleInput" step="any" placeholder="Escriba aquí"
+                        aria-label="Ingresar valor numérico individual">
                     <button id="addQuantSingleBtn">&#8629;</button>
                 </div>
             </div>
 
             <div id="quantArrayTab" class="tab-content method-card flex-col" style="display: none;">
                 <div class="input-group">
-                    <input type="text" id="quantArrayInput" placeholder="Escriba aquí (separados por espacio)" aria-label="Ingreso de valores cuantitativos por arreglo">
+                    <input type="text" id="quantArrayInput" placeholder="Escriba aquí (separados por espacio)"
+                        aria-label="Ingreso de valores cuantitativos por arreglo">
                     <button id="addQuantArrayBtn">&#8629;</button>
                 </div>
             </div>
@@ -83,15 +89,15 @@
             <div class="data-section flex-col" id="quantDataSection" style="display: none;">
                 <p><strong>Arreglo Ordenado (n=<span id="quantCount">0</span>):</strong></p>
                 <div id="quantResultBox" class="data-box result-box">-</div>
-                
+
                 <div id="discreteActions" class="action-buttons" style="display: none;">
                     <button id="clearQuantBtnDisc" class="danger-btn">Limpiar Datos</button>
                     <button id="generateQuantTableBtnDisc" class="primary-btn">Generar Tabla</button>
                 </div>
-                
+
                 <div id="continuousActions" class="flex-col" style="display: none;">
                     <button id="clearQuantBtnCont" class="danger-btn centered-btn">Limpiar Datos</button>
-                    
+
                     <div class="table-config-section flex-col" id="continuousConfig">
                         <hr>
                         <h3>Configuración de Clases</h3>
@@ -111,7 +117,8 @@
                         </div>
                     </div>
 
-                    <button id="generateQuantTableBtnCont" class="primary-btn centered-btn">Generar Tabla Estadística</button>
+                    <button id="generateQuantTableBtnCont" class="primary-btn centered-btn">Generar Tabla
+                        Estadística</button>
                 </div>
             </div>
         </div>
@@ -128,4 +135,5 @@
 
     <script type="module" src="main.js"></script>
 </body>
+
 </html>
