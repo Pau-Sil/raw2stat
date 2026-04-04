@@ -17,7 +17,6 @@ import {
   renderQuantitativeTable,
   toggleTheme,
   initTheme,
-  updateQuantPlaceholders,
 } from "./ui.js";
 
 // ESTADO GLOBAL
@@ -42,9 +41,6 @@ DOM.radios.forEach((radio) => {
       quantData.length > 0,
       qualData.length > 0,
     );
-    if (currentVarType === "discreta" || currentVarType === "continua") {
-      updateQuantPlaceholders(currentVarType);
-    }
   });
 });
 

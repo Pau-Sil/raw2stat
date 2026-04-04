@@ -161,14 +161,6 @@ export function clearQuantDisplay() {
   DOM.tableContainer.style.display = "none";
 }
 
-export function updateQuantPlaceholders(type) {
-  if (type === "discreta") {
-    DOM.quantRawInput.placeholder = "Ej: 10 12 15 (enteros)";
-  } else if (type === "continua") {
-    DOM.quantRawInput.placeholder = "Ej: 10.5 12.1 15.0 (decimales)";
-  }
-}
-
 export function renderQuantitativeTable(rowsData) {
   DOM.tableHeadRow.innerHTML = `<th>VARIABLE</th><th>FA</th><th>FR</th><th>FAA</th><th>FRA</th><th>FR%</th><th>FRA%</th>`;
   DOM.tableBody.innerHTML = "";
