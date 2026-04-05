@@ -1,55 +1,55 @@
 /**
  * dom.js
- * Referencia centralizada a todos los elementos del DOM.
- * Ningún otro módulo debería usar document.getElementById directamente.
+ * Fuente única de verdad para todas las referencias al DOM.
+ * Ningún otro módulo usa document.getElementById directamente.
  */
 
 const get = (id) => document.getElementById(id);
 
 export const DOM = {
   // Generales
-  themeToggleBtn:       get("themeToggleBtn"),
-  radios:               document.getElementsByName("varType"),
-  qualitativeMode:      get("qualitativeMode"),
-  quantitativeMode:     get("quantitativeMode"),
-  tableContainer:       get("tableContainer"),
-  tableBody:            get("tableBody"),
-  tableHeadRow:         get("tableHeadRow"),
-  clearTableBtn:        get("clearTableBtn"),
+  themeToggleBtn:             get("themeToggleBtn"),
+  radios:                     document.getElementsByName("varType"),
+  qualitativeMode:            get("qualitativeMode"),
+  quantitativeMode:           get("quantitativeMode"),
+  tableContainer:             get("tableContainer"),
+  tableBody:                  get("tableBody"),
+  tableHeadRow:               get("tableHeadRow"),
+  clearTableBtn:              get("clearTableBtn"),
 
   // ── Cualitativa: Frecuencias manuales ──
-  qualClassInput:       get("qualClassInput"),
-  addQualClassBtn:      get("addQualClassBtn"),
-  qualFreqList:         get("qualFreqList"),
-  qualFreqActions:      get("qualFreqActions"),
-  clearQualFreqBtn:     get("clearQualFreqBtn"),
-  generateQualFreqBtn:  get("generateQualFreqBtn"),
+  qualClassInput:             get("qualClassInput"),
+  addQualClassBtn:            get("addQualClassBtn"),
+  qualFreqList:               get("qualFreqList"),
+  qualFreqActions:            get("qualFreqActions"),
+  clearQualFreqBtn:           get("clearQualFreqBtn"),
+  generateQualFreqBtn:        get("generateQualFreqBtn"),
 
   // ── Cualitativa: Datos crudos ──
-  qualRawInput:         get("qualRawInput"),
-  processQualRawBtn:    get("processQualRawBtn"),
-  qualDataSection:      get("qualDataSection"),
-  qualRawBox:           get("qualRawBox"),
-  qualCount:            get("qualCount"),
-  qualResultBox:        get("qualResultBox"),
-  clearQualBtn:         get("clearQualBtn"),
-  generateQualTableBtn: get("generateQualTableBtn"),
-  copyQualRawBtn:       get("copyQualRawBtn"),
-  copyQualSortedBtn:    get("copyQualSortedBtn"),
+  qualRawInput:               get("qualRawInput"),
+  processQualRawBtn:          get("processQualRawBtn"),
+  qualDataSection:            get("qualDataSection"),
+  qualRawBox:                 get("qualRawBox"),
+  qualCount:                  get("qualCount"),
+  qualResultBox:              get("qualResultBox"),
+  clearQualBtn:               get("clearQualBtn"),
+  generateQualTableBtn:       get("generateQualTableBtn"),
+  copyQualRawBtn:             get("copyQualRawBtn"),
+  copyQualSortedBtn:          get("copyQualSortedBtn"),
 
   // ── Cuantitativa: Frecuencias manuales ──
-  discFreqSetup:        get("discFreqSetup"),
-  discClassInput:       get("discClassInput"),
-  addDiscClassBtn:      get("addDiscClassBtn"),
-  contFreqSetup:        get("contFreqSetup"),
-  contFreqK:            get("contFreqK"),
-  contFreqMin:          get("contFreqMin"),
-  contFreqMax:          get("contFreqMax"),
-  setupContFreqBtn:     get("setupContFreqBtn"),
-  quantFreqList:        get("quantFreqList"),
-  quantFreqActions:     get("quantFreqActions"),
-  clearQuantFreqBtn:    get("clearQuantFreqBtn"),
-  generateQuantFreqBtn: get("generateQuantFreqBtn"),
+  discFreqSetup:              get("discFreqSetup"),
+  discClassInput:             get("discClassInput"),
+  addDiscClassBtn:            get("addDiscClassBtn"),
+  contFreqSetup:              get("contFreqSetup"),
+  contFreqK:                  get("contFreqK"),
+  contFreqMin:                get("contFreqMin"),
+  contFreqMax:                get("contFreqMax"),
+  setupContFreqBtn:           get("setupContFreqBtn"),
+  quantFreqList:              get("quantFreqList"),
+  quantFreqActions:           get("quantFreqActions"),
+  clearQuantFreqBtn:          get("clearQuantFreqBtn"),
+  generateQuantFreqBtn:       get("generateQuantFreqBtn"),
 
   // ── Cuantitativa: Datos crudos ──
   quantRawInput:              get("quantRawInput"),

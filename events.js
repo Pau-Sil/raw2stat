@@ -1,7 +1,7 @@
 /**
  * events.js
  * Registro de todos los event listeners de la aplicación.
- * Depende de DOM, ui y stats; recibe el estado global por referencia.
+ * Recibe el estado global por referencia desde main.js.
  */
 
 import { DOM } from "./dom.js";
@@ -20,12 +20,14 @@ import {
 import {
   processQualitativeInput,
   calculateQualitative,
+  calculateQualitativeFromFreqs,
   processQuantitativeInput,
   calculateDiscrete,
   calculateContinuous,
+  calculateQuantitativeFromFreqs,
 } from "./stats.js";
 
-// ── Registro principal ───────────────────────────────────────────────────────
+// ── Registro principal ────────────────────────────────────────────────────────
 
 export function registerEvents(state) {
   registerTheme();
@@ -43,16 +45,15 @@ export function registerEvents(state) {
   registerKeyboardShortcuts();
 }
 
-// ── Tema ─────────────────────────────────────────────────────────────────────
+// ── Tema ──────────────────────────────────────────────────────────────────────
 
 function registerTheme() {
   DOM.themeToggleBtn.addEventListener("click", () => {
-    const isDark = toggleTheme();
-    localStorage.setItem("darkMode", isDark);
+    localStorage.setItem("darkMode", toggleTheme());
   });
 }
 
-// ── Cambio de tipo de variable ───────────────────────────────────────────────
+// ── Cambio de tipo de variable ────────────────────────────────────────────────
 
 function registerVarTypeSwitch(state) {
   DOM.radios.forEach((radio) => {
@@ -63,7 +64,7 @@ function registerVarTypeSwitch(state) {
   });
 }
 
-// ── Datos crudos: Cualitativa ────────────────────────────────────────────────
+// ── Datos crudos: Cualitativa ─────────────────────────────────────────────────
 
 function registerQualRaw(state) {
   DOM.processQualRawBtn.addEventListener("click", () => {
@@ -76,7 +77,7 @@ function registerQualRaw(state) {
   });
 }
 
-// ── Datos crudos: Cuantitativa ───────────────────────────────────────────────
+// ── Datos crudos: Cuantitativa ────────────────────────────────────────────────
 
 function registerQuantRaw(state) {
   DOM.processQuantRawBtn.addEventListener("click", () => {
@@ -90,7 +91,7 @@ function registerQuantRaw(state) {
   });
 }
 
-// ── Frecuencias manuales: Cualitativa ────────────────────────────────────────
+// ── Frecuencias manuales: Cualitativa ─────────────────────────────────────────
 
 function registerQualFreqManual() {
   DOM.addQualClassBtn.addEventListener("click", () => {
@@ -107,14 +108,12 @@ function registerQualFreqManual() {
   });
 
   DOM.generateQualFreqBtn.addEventListener("click", () => {
-    const { rowsData, totalN } = collectFreqRows(DOM.qualFreqList);
-    if (totalN === 0) return alert("Ingrese al menos una frecuencia mayor a 0.");
+    const rawRows = collectFreqRows(DOM.qualFreqList);
+    if (rawRows.length === 0 || rawRows.every((r) => r.fa === 0))
+      return alert("Ingrese al menos una frecuencia mayor a 0.");
 
-    rowsData.forEach((row) => {
-      row.fr = row.fa / totalN;
-      row.frPercent = row.fr * 100;
-    });
-    renderQualitativeTable(rowsData, totalN);
+    const { rows, totalN } = calculateQualitativeFromFreqs(rawRows);
+    renderQualitativeTable(rows, totalN);
   });
 }
 
@@ -137,7 +136,6 @@ function registerQuantFreqManual() {
 
     const amplitude = (max - min) / k;
     DOM.quantFreqList.innerHTML = "";
-
     for (let i = 0; i < k; i++) {
       const lInf = min + i * amplitude;
       const lSup = min + (i + 1) * amplitude;
@@ -153,25 +151,16 @@ function registerQuantFreqManual() {
   });
 
   DOM.generateQuantFreqBtn.addEventListener("click", () => {
-    const { rowsData, totalN } = collectFreqRows(DOM.quantFreqList);
-    if (totalN === 0) return alert("Ingrese al menos una frecuencia mayor a 0.");
+    const rawRows = collectFreqRows(DOM.quantFreqList);
+    if (rawRows.length === 0 || rawRows.every((r) => r.fa === 0))
+      return alert("Ingrese al menos una frecuencia mayor a 0.");
 
-    let faa = 0;
-    let fra = 0;
-    rowsData.forEach((row) => {
-      row.fr = row.fa / totalN;
-      faa += row.fa;
-      fra += row.fr;
-      row.faa = faa;
-      row.fra = fra;
-      row.frPercent = row.fr * 100;
-      row.fraPercent = row.fra * 100;
-    });
-    renderQuantitativeTable(rowsData);
+    const { rows } = calculateQuantitativeFromFreqs(rawRows);
+    renderQuantitativeTable(rows);
   });
 }
 
-// ── Generación de tabla desde datos crudos: Cualitativa ──────────────────────
+// ── Tabla desde datos crudos: Cualitativa ────────────────────────────────────
 
 function registerQualTableGeneration(state) {
   DOM.clearQualBtn.addEventListener("click", () => {
@@ -185,7 +174,7 @@ function registerQualTableGeneration(state) {
   });
 }
 
-// ── Generación de tabla desde datos crudos: Cuantitativa ─────────────────────
+// ── Tabla desde datos crudos: Cuantitativa ───────────────────────────────────
 
 function registerQuantTableGeneration(state) {
   const clearQuant = () => {
@@ -196,19 +185,18 @@ function registerQuantTableGeneration(state) {
   const generateQuant = () => {
     if (state.quantData.length === 0) return alert("No hay datos cargados.");
 
-    let rowsData;
+    let rows;
     if (state.currentVarType === "discreta") {
-      rowsData = calculateDiscrete(state.quantData);
+      rows = calculateDiscrete(state.quantData);
     } else {
       const k = parseInt(DOM.classCount.value);
       const minVal = parseFloat(DOM.minValue.value);
       const maxVal = parseFloat(DOM.maxValue.value);
-      if (isNaN(k) || isNaN(minVal) || isNaN(maxVal) || k <= 0 || minVal >= maxVal) {
+      if (isNaN(k) || isNaN(minVal) || isNaN(maxVal) || k <= 0 || minVal >= maxVal)
         return alert("Revisá los parámetros de configuración de las clases.");
-      }
-      rowsData = calculateContinuous(state.quantData, k, minVal, maxVal);
+      rows = calculateContinuous(state.quantData, k, minVal, maxVal);
     }
-    renderQuantitativeTable(rowsData);
+    renderQuantitativeTable(rows);
   };
 
   DOM.clearQuantBtnDisc.addEventListener("click", clearQuant);
@@ -217,7 +205,7 @@ function registerQuantTableGeneration(state) {
   DOM.generateQuantTableBtnCont.addEventListener("click", generateQuant);
 }
 
-// ── Borrar tabla generada ────────────────────────────────────────────────────
+// ── Borrar tabla ──────────────────────────────────────────────────────────────
 
 function registerClearTable() {
   DOM.clearTableBtn.addEventListener("click", () => {
@@ -227,7 +215,7 @@ function registerClearTable() {
   });
 }
 
-// ── Borrado individual por clic en tag ───────────────────────────────────────
+// ── Borrado individual de tags ────────────────────────────────────────────────
 
 function registerTagDeletion(state) {
   DOM.qualRawBox.addEventListener("click", (e) => {
@@ -245,7 +233,7 @@ function registerTagDeletion(state) {
   });
 }
 
-// ── Copiar al portapapeles ───────────────────────────────────────────────────
+// ── Copiar al portapapeles ────────────────────────────────────────────────────
 
 function registerCopyButtons(state) {
   const copy = (getText, btn) => {
@@ -266,57 +254,52 @@ function registerCopyButtons(state) {
   copy(() => [...state.quantData].sort((a, b) => a - b).join(" "), DOM.copyQuantSortedBtn);
 }
 
-// ── Cambio de pestañas ───────────────────────────────────────────────────────
+// ── Tabs: usa .hidden en lugar de style.display ───────────────────────────────
 
 function registerTabSwitching() {
-  document.querySelectorAll(".tab-btn").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      const parent = e.target.parentElement;
-      parent.querySelectorAll(".tab-btn").forEach((b) => b.classList.remove("active"));
-      e.target.classList.add("active");
+  document.querySelectorAll(".tabs").forEach((tabNav) => {
+    tabNav.addEventListener("click", (e) => {
+      const btn = e.target.closest(".tab-btn");
+      if (!btn) return;
 
-      const modeContainer = parent.parentElement;
-      modeContainer.querySelectorAll(".tab-content").forEach((c) => {
+      const mode = tabNav.parentElement;
+
+      // Desactivar botones y contenidos
+      tabNav.querySelectorAll(".tab-btn").forEach((b) => b.classList.remove("active"));
+      mode.querySelectorAll(".tab-content").forEach((c) => {
         c.classList.remove("active");
-        c.style.display = "none";
+        c.classList.add("hidden");
       });
 
-      const target = document.getElementById(e.target.dataset.target);
+      // Activar el seleccionado
+      btn.classList.add("active");
+      const target = document.getElementById(btn.dataset.target);
       target.classList.add("active");
-      target.style.display = "flex";
+      target.classList.remove("hidden");
     });
   });
 }
 
-// ── Shortcuts de teclado (Enter) ─────────────────────────────────────────────
+// ── Shortcuts de teclado ──────────────────────────────────────────────────────
 
 function registerKeyboardShortcuts() {
-  const pairs = [
+  [
     [DOM.qualRawInput,   DOM.processQualRawBtn],
     [DOM.qualClassInput, DOM.addQualClassBtn],
     [DOM.quantRawInput,  DOM.processQuantRawBtn],
     [DOM.discClassInput, DOM.addDiscClassBtn],
-  ];
-  pairs.forEach(([input, btn]) => {
+  ].forEach(([input, btn]) => {
     input.addEventListener("keypress", (e) => {
       if (e.key === "Enter") btn.click();
     });
   });
 }
 
-// ── Utilidad interna ─────────────────────────────────────────────────────────
+// ── Utilidad interna ──────────────────────────────────────────────────────────
 
-/**
- * Lee los inputs de frecuencia absoluta de un contenedor y devuelve
- * los datos crudos junto con el total.
- */
 function collectFreqRows(container) {
-  let totalN = 0;
-  const rowsData = [];
-  container.querySelectorAll(".manual-fa-input").forEach((input) => {
-    const fa = parseInt(input.value) || 0;
-    totalN += fa;
-    rowsData.push({ label: input.dataset.label, fa });
-  });
-  return { rowsData, totalN };
+  return Array.from(container.querySelectorAll(".manual-fa-input")).map((input) => ({
+    label: input.dataset.label,
+    fa: parseInt(input.value) || 0,
+  }));
 }

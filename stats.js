@@ -1,8 +1,10 @@
 /**
  * stats.js
- * Funciones puras de procesamiento y cálculo estadístico.
- * No depende de ningún módulo interno ni del DOM.
+ * API de cálculo estadístico puro.
+ * Sin dependencias del DOM ni de ningún otro módulo del proyecto.
  */
+
+// ── Cualitativa ──────────────────────────────────────────────────────────────
 
 export function processQualitativeInput(newWordsArray, currentDataArray) {
   newWordsArray.forEach((word) => {
@@ -14,14 +16,30 @@ export function processQualitativeInput(newWordsArray, currentDataArray) {
 
 export function calculateQualitative(dataArray) {
   const n = dataArray.length;
-  const uniqueValues = [...new Set(dataArray)].sort((a, b) => a.localeCompare(b));
-
-  return uniqueValues.map((val) => {
+  const unique = [...new Set(dataArray)].sort((a, b) => a.localeCompare(b));
+  return unique.map((val) => {
     const fa = dataArray.filter((x) => x === val).length;
     const fr = fa / n;
     return { label: val, fa, fr, frPercent: fr * 100 };
   });
 }
+
+/**
+ * Recibe un array de { label, fa } con frecuencias absolutas ya ingresadas
+ * y devuelve el array enriquecido con fr y frPercent.
+ */
+export function calculateQualitativeFromFreqs(rowsData) {
+  const totalN = rowsData.reduce((sum, r) => sum + r.fa, 0);
+  return {
+    rows: rowsData.map((row) => {
+      const fr = row.fa / totalN;
+      return { ...row, fr, frPercent: fr * 100 };
+    }),
+    totalN,
+  };
+}
+
+// ── Cuantitativa ─────────────────────────────────────────────────────────────
 
 export function processQuantitativeInput(newNumbersArray, currentDataArray, varType) {
   newNumbersArray.forEach((num) => {
@@ -33,11 +51,9 @@ export function processQuantitativeInput(newNumbersArray, currentDataArray, varT
 
 export function calculateDiscrete(dataArray) {
   const n = dataArray.length;
-  const uniqueValues = [...new Set(dataArray)].sort((a, b) => a - b);
-  let faa = 0;
-  let fra = 0;
-
-  return uniqueValues.map((val) => {
+  const unique = [...new Set(dataArray)].sort((a, b) => a - b);
+  let faa = 0, fra = 0;
+  return unique.map((val) => {
     const fa = dataArray.filter((x) => x === val).length;
     const fr = fa / n;
     faa += fa;
@@ -50,26 +66,37 @@ export function calculateContinuous(dataArray, k, minVal, maxVal) {
   const n = dataArray.length;
   const amplitude = (maxVal - minVal) / k;
   const fmt = (num) => parseFloat(num.toFixed(1));
-  let faa = 0;
-  let fra = 0;
-  const rows = [];
+  let faa = 0, fra = 0;
 
-  for (let i = 0; i < k; i++) {
+  return Array.from({ length: k }, (_, i) => {
     const limInf = minVal + i * amplitude;
     const limSup = minVal + (i + 1) * amplitude;
     const isFirst = i === 0;
     const label = `${isFirst ? "[" : "("}${fmt(limInf)} - ${fmt(limSup)}]`;
-
-    let fa = 0;
-    dataArray.forEach((num) => {
-      if (isFirst ? num >= limInf && num <= limSup : num > limInf && num <= limSup) fa++;
-    });
-
+    const fa = dataArray.filter((num) =>
+      isFirst ? num >= limInf && num <= limSup : num > limInf && num <= limSup
+    ).length;
     const fr = fa / n;
     faa += fa;
     fra += fr;
-    rows.push({ label, fa, fr, faa, fra, frPercent: fr * 100, fraPercent: fra * 100 });
-  }
+    return { label, fa, fr, faa, fra, frPercent: fr * 100, fraPercent: fra * 100 };
+  });
+}
 
-  return rows;
+/**
+ * Recibe un array de { label, fa } con frecuencias absolutas ya ingresadas
+ * y devuelve el array enriquecido con fr, faa, fra y sus variantes %.
+ */
+export function calculateQuantitativeFromFreqs(rowsData) {
+  const totalN = rowsData.reduce((sum, r) => sum + r.fa, 0);
+  let faa = 0, fra = 0;
+  return {
+    rows: rowsData.map((row) => {
+      const fr = row.fa / totalN;
+      faa += row.fa;
+      fra += fr;
+      return { ...row, fr, faa, fra, frPercent: fr * 100, fraPercent: fra * 100 };
+    }),
+    totalN,
+  };
 }

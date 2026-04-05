@@ -9,14 +9,14 @@
 </head>
 
 <body>
-  <main class="container flex-col">
+  <main class="app">
 
-    <div class="header-section">
+    <header class="app__header">
       <h1>raw2stat</h1>
-      <button id="themeToggleBtn" class="theme-btn">🌙 Oscuro</button>
-    </div>
+      <button id="themeToggleBtn" class="btn btn--theme">🌙 Oscuro</button>
+    </header>
 
-    <div class="type-selection flex-col">
+    <section class="var-type">
       <h3>Tipo de Variable:</h3>
       <div class="segmented-control">
         <input type="radio" id="varQual" name="varType" value="cualitativa" checked>
@@ -28,31 +28,32 @@
         <input type="radio" id="varCont" name="varType" value="continua">
         <label for="varCont">Continua</label>
       </div>
-    </div>
+    </section>
 
     <hr>
 
-    <!-- MODO CUALITATIVO -->
-    <div id="qualitativeMode" class="mode-container flex-col">
-      <div class="tabs">
+    <!-- ── MODO CUALITATIVO ── -->
+    <section id="qualitativeMode" class="mode">
+
+      <nav class="tabs">
         <button class="tab-btn active" data-target="qualFreqTab">Frecuencias Manuales</button>
         <button class="tab-btn" data-target="qualRawTab">Datos Crudos</button>
-      </div>
+      </nav>
 
-      <div id="qualFreqTab" class="tab-content active method-card flex-col">
+      <div id="qualFreqTab" class="tab-content method-card active">
         <p class="help-text">Definí las categorías y luego ingresá sus repeticiones.</p>
         <div class="input-group">
           <input type="text" id="qualClassInput" placeholder="Escriba aquí">
           <button id="addQualClassBtn">&#8629;</button>
         </div>
-        <div id="qualFreqList" class="flex-col"></div>
-        <div id="qualFreqActions" class="action-buttons hidden">
-          <button id="clearQualFreqBtn" class="danger-btn">Limpiar Clases</button>
-          <button id="generateQualFreqBtn" class="primary-btn">Generar Tabla</button>
+        <div id="qualFreqList" class="freq-list"></div>
+        <div id="qualFreqActions" class="action-row hidden">
+          <button id="clearQualFreqBtn" class="btn btn--danger">Limpiar Clases</button>
+          <button id="generateQualFreqBtn" class="btn btn--primary">Generar Tabla</button>
         </div>
       </div>
 
-      <div id="qualRawTab" class="tab-content method-card flex-col">
+      <div id="qualRawTab" class="tab-content method-card">
         <p class="help-text">Ingresá uno o varios valores separados por espacio.</p>
         <div class="input-group">
           <input type="text" id="qualRawInput" placeholder="Escriba aquí">
@@ -60,36 +61,38 @@
         </div>
       </div>
 
-      <div class="data-section flex-col hidden" id="qualDataSection">
-        <div class="header-with-btn">
+      <div id="qualDataSection" class="data-section hidden">
+        <div class="data-section__label">
           <p><strong>Orden de Ingreso (n=<span id="qualCount">0</span>):</strong></p>
-          <button id="copyQualRawBtn" class="copy-btn" title="Copiar arreglo">📋</button>
+          <button id="copyQualRawBtn" class="btn btn--copy" title="Copiar arreglo">📋</button>
         </div>
         <div id="qualRawBox" class="data-box">-</div>
 
-        <div class="header-with-btn">
+        <div class="data-section__label">
           <p><strong>Arreglo Ordenado:</strong></p>
-          <button id="copyQualSortedBtn" class="copy-btn" title="Copiar arreglo ordenado">📋</button>
+          <button id="copyQualSortedBtn" class="btn btn--copy" title="Copiar arreglo ordenado">📋</button>
         </div>
         <div id="qualResultBox" class="data-box">-</div>
 
-        <div class="action-buttons">
-          <button id="clearQualBtn" class="danger-btn">Limpiar Datos</button>
-          <button id="generateQualTableBtn" class="primary-btn">Generar Tabla</button>
+        <div class="action-row">
+          <button id="clearQualBtn" class="btn btn--danger">Limpiar Datos</button>
+          <button id="generateQualTableBtn" class="btn btn--primary">Generar Tabla</button>
         </div>
       </div>
-    </div>
 
-    <!-- MODO CUANTITATIVO -->
-    <div id="quantitativeMode" class="mode-container flex-col hidden">
-      <div class="tabs">
+    </section>
+
+    <!-- ── MODO CUANTITATIVO ── -->
+    <section id="quantitativeMode" class="mode hidden">
+
+      <nav class="tabs">
         <button class="tab-btn active" data-target="quantFreqTab">Frecuencias Manuales</button>
         <button class="tab-btn" data-target="quantRawTab">Datos Crudos</button>
-      </div>
+      </nav>
 
-      <div id="quantFreqTab" class="tab-content active method-card flex-col">
+      <div id="quantFreqTab" class="tab-content method-card active">
 
-        <div id="discFreqSetup" class="flex-col">
+        <div id="discFreqSetup" class="freq-setup">
           <p class="help-text">Definí los valores de la variable y luego ingresá sus repeticiones.</p>
           <div class="input-group">
             <input type="number" id="discClassInput" placeholder="Escriba aquí">
@@ -97,33 +100,34 @@
           </div>
         </div>
 
-        <div id="contFreqSetup" class="table-config-section flex-col hidden">
+        <div id="contFreqSetup" class="freq-setup hidden">
           <p class="help-text">Configurá los intervalos para habilitar el ingreso de frecuencias.</p>
-          <div class="config-flex">
-            <div>
+          <div class="class-config">
+            <div class="class-config__field">
               <label for="contFreqK">N Clases:</label>
               <input type="number" id="contFreqK" min="1">
             </div>
-            <div>
+            <div class="class-config__field">
               <label for="contFreqMin">Mínimo:</label>
               <input type="number" id="contFreqMin" step="any">
             </div>
-            <div>
+            <div class="class-config__field">
               <label for="contFreqMax">Máximo:</label>
               <input type="number" id="contFreqMax" step="any">
             </div>
           </div>
-          <button id="setupContFreqBtn" class="primary-btn">Generar Intervalos</button>
+          <button id="setupContFreqBtn" class="btn btn--primary">Generar Intervalos</button>
         </div>
 
-        <div id="quantFreqList" class="flex-col"></div>
-        <div id="quantFreqActions" class="action-buttons hidden">
-          <button id="clearQuantFreqBtn" class="danger-btn">Limpiar Clases</button>
-          <button id="generateQuantFreqBtn" class="primary-btn">Generar Tabla</button>
+        <div id="quantFreqList" class="freq-list"></div>
+        <div id="quantFreqActions" class="action-row hidden">
+          <button id="clearQuantFreqBtn" class="btn btn--danger">Limpiar Clases</button>
+          <button id="generateQuantFreqBtn" class="btn btn--primary">Generar Tabla</button>
         </div>
+
       </div>
 
-      <div id="quantRawTab" class="tab-content method-card flex-col">
+      <div id="quantRawTab" class="tab-content method-card">
         <p class="help-text">Ingresá uno o varios números separados por espacio.</p>
         <div class="input-group">
           <input type="text" id="quantRawInput" placeholder="Escriba aquí">
@@ -131,59 +135,60 @@
         </div>
       </div>
 
-      <div class="data-section flex-col hidden" id="quantDataSection">
-        <div class="header-with-btn">
+      <div id="quantDataSection" class="data-section hidden">
+        <div class="data-section__label">
           <p><strong>Orden de Ingreso (n=<span id="quantCount">0</span>):</strong></p>
-          <button id="copyQuantRawBtn" class="copy-btn" title="Copiar arreglo">📋</button>
+          <button id="copyQuantRawBtn" class="btn btn--copy" title="Copiar arreglo">📋</button>
         </div>
         <div id="quantRawBox" class="data-box">-</div>
 
-        <div class="header-with-btn">
+        <div class="data-section__label">
           <p><strong>Arreglo Ordenado:</strong></p>
-          <button id="copyQuantSortedBtn" class="copy-btn" title="Copiar arreglo ordenado">📋</button>
+          <button id="copyQuantSortedBtn" class="btn btn--copy" title="Copiar arreglo ordenado">📋</button>
         </div>
         <div id="quantResultBox" class="data-box">-</div>
 
-        <div id="discreteActions" class="action-buttons hidden">
-          <button id="clearQuantBtnDisc" class="danger-btn">Limpiar Datos</button>
-          <button id="generateQuantTableBtnDisc" class="primary-btn">Generar Tabla</button>
+        <div id="discreteActions" class="action-row hidden">
+          <button id="clearQuantBtnDisc" class="btn btn--danger">Limpiar Datos</button>
+          <button id="generateQuantTableBtnDisc" class="btn btn--primary">Generar Tabla</button>
         </div>
 
-        <div id="continuousActions" class="flex-col hidden">
-          <button id="clearQuantBtnCont" class="danger-btn centered-btn">Limpiar Datos</button>
-          <div class="table-config-section flex-col" id="continuousConfig">
-            <hr>
-            <h3>Configuración de Clases</h3>
-            <div class="config-flex">
-              <div>
-                <label for="classCount">N Clases:</label>
-                <input type="number" id="classCount" min="1">
-              </div>
-              <div>
-                <label for="minValue">Mínimo:</label>
-                <input type="number" id="minValue" step="any">
-              </div>
-              <div>
-                <label for="maxValue">Máximo:</label>
-                <input type="number" id="maxValue" step="any">
-              </div>
+        <div id="continuousActions" class="cont-actions hidden">
+          <div class="class-config">
+            <div class="class-config__field">
+              <label for="classCount">N Clases:</label>
+              <input type="number" id="classCount" min="1">
+            </div>
+            <div class="class-config__field">
+              <label for="minValue">Mínimo:</label>
+              <input type="number" id="minValue" step="any">
+            </div>
+            <div class="class-config__field">
+              <label for="maxValue">Máximo:</label>
+              <input type="number" id="maxValue" step="any">
             </div>
           </div>
-          <button id="generateQuantTableBtnCont" class="primary-btn centered-btn">Generar Tabla Estadística</button>
+          <div class="action-row">
+            <button id="clearQuantBtnCont" class="btn btn--danger">Limpiar Datos</button>
+            <button id="generateQuantTableBtnCont" class="btn btn--primary">Generar Tabla</button>
+          </div>
         </div>
-      </div>
-    </div>
 
-    <!-- TABLA RESULTADO -->
-    <div class="table-container flex-col hidden" id="tableContainer">
-      <table id="freqTable">
-        <thead>
-          <tr id="tableHeadRow"></tr>
-        </thead>
-        <tbody id="tableBody"></tbody>
-      </table>
-      <button id="clearTableBtn" class="danger-btn clear-table-btn">Borrar Tabla</button>
-    </div>
+      </div>
+    </section>
+
+    <!-- ── TABLA RESULTADO ── -->
+    <section id="tableContainer" class="result-table hidden">
+      <div class="result-table__scroll">
+        <table id="freqTable">
+          <thead>
+            <tr id="tableHeadRow"></tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+      <button id="clearTableBtn" class="btn btn--danger btn--centered">Borrar Tabla</button>
+    </section>
 
   </main>
 
