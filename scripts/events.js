@@ -1,3 +1,5 @@
+import { formatIntervalNumber } from "./utils.js";
+
 import { DOM } from "./dom.js";
 import {
   toggleTheme,
@@ -133,7 +135,7 @@ function registerQuantFreqManual() {
     for (let i = 0; i < k; i++) {
       const lInf = min + i * amplitude;
       const lSup = min + (i + 1) * amplitude;
-      const label = `${i === 0 ? "[" : "("}${lInf.toFixed(1)} - ${lSup.toFixed(1)}]`;
+      const label = `${i === 0 ? "[" : "("}${formatIntervalNumber(lInf)} - ${formatIntervalNumber(lSup)}]`;
       renderFreqInputRow(label, DOM.quantFreqList, DOM.quantFreqActions, "none");
     }
     setVisible(DOM.quantFreqActions, true);

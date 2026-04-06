@@ -1,3 +1,5 @@
+import { formatIntervalNumber } from "./utils.js";
+
 // -- Cualitativa --------------------------------------------------------------
 
 export function processQualitativeInput(newWordsArray, currentDataArray) {
@@ -55,7 +57,7 @@ export function calculateDiscrete(dataArray) {
 export function calculateContinuous(dataArray, k, minVal, maxVal) {
   const n = dataArray.length;
   const amplitude = (maxVal - minVal) / k;
-  const fmt = (num) => num.toFixed(1);
+  const fmt = (num) => formatIntervalNumber(num);
   let faa = 0, fra = 0;
 
   return Array.from({ length: k }, (_, i) => {
