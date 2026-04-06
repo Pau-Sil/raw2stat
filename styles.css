@@ -323,12 +323,20 @@ hr {
   align-items: center;
 }
 
-.app__header h1 {
+.header-link {
   font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--text-main);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.header-link:hover {
+  color: var(--accent);
 }
 
 @media (max-width: 599px) {
-  .app__header h1 {
+  .header-link {
     font-size: 1.15rem;
   }
 }
