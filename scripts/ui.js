@@ -11,14 +11,14 @@ import { DOM } from "./dom.js";
 export function toggleTheme() {
   document.body.classList.toggle("dark-mode");
   const isDark = document.body.classList.contains("dark-mode");
-  DOM.themeToggleBtn.textContent = isDark ? "☀️ Claro" : "🌙 Oscuro";
+  DOM.themeToggleBtn.textContent = isDark ? "☀️" : "🌙";
   return isDark;
 }
 
 export function initTheme(isDark) {
   if (isDark) {
     document.body.classList.add("dark-mode");
-    DOM.themeToggleBtn.textContent = "☀️ Claro";
+    DOM.themeToggleBtn.textContent = "☀️";
   }
 }
 

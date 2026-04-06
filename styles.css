@@ -3,37 +3,35 @@
    ══════════════════════════════════════════════ */
 
 :root {
-  /* Catppuccin Latte */
-  --bg-body:          #eff1f5;
-  --bg-app:           #e6e9ef;
-  --text-main:        #4c4f69;
-  --text-muted:       #8c8fa1;
-  --border:           #ccd0da;
-  --border-light:     #bcc0cc;
-  --accent:           #dd7878;
-  --btn-bg:           #ccd0da;
-  --btn-text:         #4c4f69;
-  --card-bg:          #eff1f5;
-  --box-bg:           #e6e9ef;
-  --table-head-text:  #eff1f5;
-  --table-even:       #dce0e8;
+  --bg-body:         #eff1f5;
+  --bg-app:          #e6e9ef;
+  --text-main:       #4c4f69;
+  --text-muted:      #8c8fa1;
+  --border:          #ccd0da;
+  --border-light:    #bcc0cc;
+  --accent:          #dd7878;
+  --btn-bg:          #ccd0da;
+  --btn-text:        #4c4f69;
+  --card-bg:         #eff1f5;
+  --box-bg:          #e6e9ef;
+  --table-head-text: #eff1f5;
+  --table-even:      #dce0e8;
 }
 
 .dark-mode {
-  /* Catppuccin Mocha */
-  --bg-body:          #11111b;
-  --bg-app:           #1e1e2e;
-  --text-main:        #cdd6f4;
-  --text-muted:       #a6adc8;
-  --border:           #45475a;
-  --border-light:     #313244;
-  --accent:           #b4befe;
-  --btn-bg:           #313244;
-  --btn-text:         #cdd6f4;
-  --card-bg:          #181825;
-  --box-bg:           #11111b;
-  --table-head-text:  #1e1e2e;
-  --table-even:       #181825;
+  --bg-body:         #11111b;
+  --bg-app:          #1e1e2e;
+  --text-main:       #cdd6f4;
+  --text-muted:      #a6adc8;
+  --border:          #45475a;
+  --border-light:    #313244;
+  --accent:          #b4befe;
+  --btn-bg:          #313244;
+  --btn-text:        #cdd6f4;
+  --card-bg:         #181825;
+  --box-bg:          #11111b;
+  --table-head-text: #1e1e2e;
+  --table-even:      #181825;
 }
 
 /* ══════════════════════════════════════════════
@@ -106,7 +104,7 @@ hr {
 }
 
 /* ══════════════════════════════════════════════
-   BOTONES BASE
+   BOTONES
    ══════════════════════════════════════════════ */
 
 .btn {
@@ -115,123 +113,165 @@ hr {
   border-radius: 4px;
   cursor: pointer;
   font-size: 1rem;
+  font-family: inherit;
   transition: filter 0.2s;
   background-color: var(--btn-bg);
   color: var(--btn-text);
+}
 
-  &:hover {
-    filter: brightness(0.9);
-  }
+.btn:hover {
+  filter: brightness(0.9);
+}
 
-  &--primary {
-    background-color: var(--accent);
-    color: #fff;
-    font-weight: bold;
-  }
+/* Acción principal — Generar tabla */
+.btn--primary {
+  background-color: var(--accent);
+  color: #fff;
+  font-weight: bold;
+}
 
-  &--danger {
-    background-color: #dc3545;
-    color: #fff;
-    font-size: 0.9rem;
-  }
+/* Acción destructiva — Limpiar / Borrar */
+.btn--danger {
+  background-color: #dc3545;
+  color: #fff;
+  font-size: 0.9rem;
+}
 
-  &--theme {
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    font-size: 0.9rem;
-    width: 110px;
-    text-align: center;
-  }
+/* Eliminar fila de frecuencia manual */
+.btn--delete {
+  background-color: #dc3545;
+  color: #fff;
+  font-size: 0.9rem;
+  width: 35px;
+  padding: 5px;
+  flex-shrink: 0;
+}
 
-  &--copy {
-    background: transparent;
-    color: var(--text-muted);
-    font-size: 1.2rem;
-    padding: 4px 8px;
+/* Alternar tema — solo emoji, tamaño fijo */
+.btn--theme {
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
 
-    &:hover {
-      color: var(--accent);
-      background-color: var(--border-light);
-      filter: none;
-    }
-  }
+/* Copiar al portapapeles */
+.btn--copy {
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  padding: 4px 8px;
+}
 
-  &--centered {
-    align-self: center;
-    width: auto;
-    padding: 8px 20px;
-  }
+.btn--copy:hover {
+  color: var(--accent);
+  background-color: var(--border-light);
+  filter: none;
+}
+
+/* Borrar tabla — centrado */
+.btn--centered {
+  align-self: center;
+  width: auto;
+  padding: 8px 20px;
 }
 
 /* ══════════════════════════════════════════════
    COMPONENTES COMPARTIDOS
    ══════════════════════════════════════════════ */
 
-/* Fila de dos botones de acción */
+/* Fila de dos botones (limpiar / generar) */
 .action-row {
   display: flex;
   gap: 15px;
+}
 
-  & .btn {
-    flex: 1;
-  }
+.action-row .btn {
+  flex: 1;
+}
 
-  @media (min-width: 600px) {
+@media (min-width: 600px) {
+  .action-row {
     width: 80%;
     margin-inline: auto;
   }
 }
 
-/* Input con botón de confirmar */
+/* Input de texto/número con botón ↵ */
 .input-group {
   display: flex;
   gap: 10px;
-
-  & input {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    font-size: 1rem;
-    background-color: var(--bg-body);
-    color: var(--text-main);
-  }
-
-  & .btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    width: 50px;
-    padding: 0;
-  }
 }
 
-/* Grid de configuración de clases (k, min, max) */
+.input-group input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: var(--bg-body);
+  color: var(--text-main);
+}
+
+/* Botón ↵ — estilos independientes del .btn base */
+.input-group .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  flex-shrink: 0;
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: filter 0.2s;
+}
+
+.input-group .btn:hover {
+  filter: brightness(0.9);
+}
+
+/* Grid de configuración (k, mín, máx) */
 .class-config {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 15px;
+}
 
-  & .class-config__field {
-    flex: 1 1 120px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-
-    & input {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      font-size: 1rem;
-      background-color: var(--bg-body);
-      color: var(--text-main);
-    }
+@media (min-width: 600px) {
+  .class-config {
+    flex-direction: row;
   }
 }
 
-/* Fila de label + botón de copia */
+.class-config__field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.class-config__field input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: var(--bg-body);
+  color: var(--text-main);
+}
+
+/* Fila label + botón copiar */
 .data-section__label {
   display: flex;
   justify-content: space-between;
@@ -248,29 +288,29 @@ hr {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+}
 
-  & .data-tag,
-  & .sorted-tag {
-    display: inline-block;
-    background-color: var(--accent);
-    color: #fff;
-    padding: 3px 6px;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    text-align: center;
-    transition: background-color 0.2s, transform 0.1s;
-  }
+.data-tag,
+.sorted-tag {
+  display: inline-block;
+  background-color: var(--accent);
+  color: #fff;
+  padding: 3px 6px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  text-align: center;
+  transition: background-color 0.2s, transform 0.1s;
+}
 
-  & .data-tag:hover {
-    background-color: #dc3545;
-    text-decoration: line-through;
-    transform: scale(0.95);
-    cursor: crosshair;
-  }
+.data-tag:hover {
+  background-color: #dc3545;
+  text-decoration: line-through;
+  transform: scale(0.95);
+  cursor: crosshair;
 }
 
 /* ══════════════════════════════════════════════
-   APP (contenedor raíz)
+   APP
    ══════════════════════════════════════════════ */
 
 .app {
@@ -283,219 +323,248 @@ hr {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   width: 100%;
   max-width: 750px;
+}
 
-  /* ── Header ── */
-  & .app__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    & h1 {
-      font-size: 1.5rem;
-    }
+@media (max-width: 599px) {
+  .app {
+    padding: 1.25rem;
   }
+}
 
-  /* ── Selector de tipo de variable ── */
-  & .var-type {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
+/* ── Header ── */
 
-    & .segmented-control {
-      display: flex;
-      width: 100%;
-      border: 2px solid var(--accent);
-      border-radius: 50px;
-      overflow: hidden;
+.app__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-      @media (min-width: 600px) {
-        width: 80%;
-      }
+.app__header h1 {
+  font-size: 1.5rem;
+}
 
-      & input[type="radio"] {
-        display: none;
-      }
-
-      & label {
-        flex: 1 1 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 10px 2px;
-        cursor: pointer;
-        background-color: var(--bg-app);
-        color: var(--accent);
-        font-weight: bold;
-        border-right: 1px solid var(--accent);
-        transition: background-color 0.2s, color 0.2s;
-        font-size: clamp(0.65rem, 3vw, 1rem);
-        white-space: nowrap;
-
-        &:last-of-type {
-          border-right: none;
-        }
-      }
-
-      & input[type="radio"]:checked + label {
-        background-color: var(--accent);
-        color: #fff;
-      }
-    }
+@media (max-width: 599px) {
+  .app__header h1 {
+    font-size: 1.15rem;
   }
+}
 
-  /* ── Modos (cualitativa / cuantitativa) ── */
-  & .mode {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+/* ── Selector de tipo de variable ── */
 
-    /* Tabs */
-    & .tabs {
-      display: flex;
-      gap: 10px;
+.var-type {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
 
-      & .tab-btn {
-        flex: 1;
-        background-color: transparent;
-        color: var(--text-muted);
-        border: none;
-        border-bottom: 3px solid transparent;
-        border-radius: 0;
-        padding: 10px 20px;
-        font-weight: bold;
+.segmented-control {
+  display: flex;
+  width: 100%;
+  border: 2px solid var(--accent);
+  border-radius: 50px;
+  overflow: hidden;
+}
 
-        &.active {
-          color: var(--accent);
-          border-bottom-color: var(--accent);
-        }
-
-        &:hover {
-          background-color: var(--border-light);
-          filter: none;
-        }
-      }
-    }
-
-    /* Tab content / method card */
-    & .tab-content {
-      display: none;
-
-      &.active {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-        background: var(--card-bg);
-        border: 1px solid var(--border);
-        padding: 15px;
-        border-radius: 6px;
-      }
-
-      /* Setup de frecuencias manuales */
-      & .freq-setup {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-      }
-
-      /* Lista de ítems de categoría */
-      & .freq-list {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-
-        & .freq-item {
-          display: flex;
-          align-items: center;
-          gap: 15px;
-          background: var(--bg-body);
-          padding: 10px;
-          border: 1px solid var(--border-light);
-          border-radius: 4px;
-
-          & span {
-            flex: 1;
-            font-weight: bold;
-          }
-
-          & input {
-            width: 80px;
-            flex: none;
-            padding: 5px;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            background-color: var(--bg-body);
-            color: var(--text-main);
-          }
-
-          & .btn--delete {
-            width: 35px;
-            padding: 5px;
-            flex: none;
-            background-color: #dc3545;
-            color: #fff;
-            font-size: 0.9rem;
-          }
-        }
-      }
-    }
-
-    /* Sección de datos crudos */
-    & .data-section {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-
-      & .action-row {
-        margin-top: 8px;
-      }
-    }
-
-    /* Acciones de variable continua (config + botones) */
-    & .cont-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      padding-top: 8px;
-      border-top: 1px solid var(--border);
-    }
+@media (min-width: 600px) {
+  .segmented-control {
+    width: 80%;
   }
+}
 
-  /* ── Tabla resultado ── */
-  & .result-table {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+.segmented-control input[type="radio"] {
+  display: none;
+}
 
-    & .result-table__scroll {
-      width: 100%;
-      overflow-x: auto;
+.segmented-control label {
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 2px;
+  cursor: pointer;
+  background-color: var(--bg-app);
+  color: var(--accent);
+  font-weight: bold;
+  border-right: 1px solid var(--accent);
+  transition: background-color 0.2s, color 0.2s;
+  font-size: clamp(0.65rem, 3vw, 1rem);
+  white-space: nowrap;
+}
 
-      & table {
-        width: 100%;
-        border-collapse: collapse;
-        min-width: 600px;
+.segmented-control label:last-of-type {
+  border-right: none;
+}
 
-        & th,
-        & td {
-          padding: 12px;
-          text-align: center;
-          border: 1px solid var(--border);
-        }
+.segmented-control input[type="radio"]:checked + label {
+  background-color: var(--accent);
+  color: #fff;
+}
 
-        & th {
-          background-color: var(--accent);
-          color: var(--table-head-text);
-        }
+/* ── Modos ── */
 
-        & tr:nth-child(even) {
-          background-color: var(--table-even);
-        }
+.mode {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
 
-        & .table-total {
-          font-weight: bold;
-        }
-      }
-    }
+/* Tabs */
+
+.tabs {
+  display: flex;
+  gap: 10px;
+}
+
+.tab-btn {
+  flex: 1;
+  background-color: transparent;
+  color: var(--text-muted);
+  border: none;
+  border-bottom: 3px solid transparent;
+  border-radius: 0;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: filter 0.2s;
+}
+
+@media (max-width: 599px) {
+  .tab-btn {
+    font-size: 0.85rem;
+    padding: 10px 8px;
   }
+}
+
+.tab-btn.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+.tab-btn:hover {
+  background-color: var(--border-light);
+  filter: none;
+}
+
+/* Tarjeta de método */
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  padding: 15px;
+  border-radius: 6px;
+}
+
+/* Setup de frecuencias manuales */
+
+.freq-setup {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Lista de ítems de frecuencia manual */
+
+.freq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.freq-list:empty {
+  display: none;
+}
+
+.freq-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: var(--bg-body);
+  padding: 10px;
+  border: 1px solid var(--border-light);
+  border-radius: 4px;
+}
+
+.freq-item span {
+  flex: 1;
+  font-weight: bold;
+}
+
+.freq-item input {
+  width: 80px;
+  flex: none;
+  padding: 5px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background-color: var(--bg-body);
+  color: var(--text-main);
+}
+
+/* Sección de datos crudos */
+
+.data-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.data-section .action-row {
+  margin-top: 8px;
+}
+
+/* Configuración + acciones de variable continua */
+
+.cont-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+/* ── Tabla resultado ── */
+
+.result-table {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.result-table__scroll {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.result-table__scroll table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+.result-table__scroll th,
+.result-table__scroll td {
+  padding: 12px;
+  text-align: center;
+  border: 1px solid var(--border);
+}
+
+.result-table__scroll th {
+  background-color: var(--accent);
+  color: var(--table-head-text);
+}
+
+.result-table__scroll tr:nth-child(even) {
+  background-color: var(--table-even);
+}
+
+.result-table__scroll .table-total {
+  font-weight: bold;
 }
