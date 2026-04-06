@@ -1,12 +1,6 @@
-/**
- * ui.js
- * Funciones de renderizado y manipulación del DOM.
- * Solo lee/escribe el DOM; no contiene lógica de negocio ni event listeners.
- */
-
 import { DOM } from "./dom.js";
 
-// ── Tema ─────────────────────────────────────────────────────────────────────
+// -- Tema ---------------------------------------------------------------------
 
 export function toggleTheme() {
   document.body.classList.toggle("dark-mode");
@@ -22,13 +16,13 @@ export function initTheme(isDark) {
   }
 }
 
-// ── Visibilidad ───────────────────────────────────────────────────────────────
+// -- Visibilidad ---------------------------------------------------------------
 
 export function setVisible(el, visible) {
   el.classList.toggle("hidden", !visible);
 }
 
-// ── Cambio de modo ────────────────────────────────────────────────────────────
+// -- Cambio de modo ------------------------------------------------------------
 
 export function switchModeDisplay(type, hasQuantData, hasQualData) {
   setVisible(DOM.tableContainer, false);
@@ -50,7 +44,7 @@ export function switchModeDisplay(type, hasQuantData, hasQualData) {
   }
 }
 
-// ── Tags de datos ─────────────────────────────────────────────────────────────
+// -- Tags de datos -------------------------------------------------------------
 
 function buildTags(dataArray, clickable) {
   const maxLen = Math.max(...dataArray.map((v) => String(v).length));
@@ -64,7 +58,7 @@ function buildTags(dataArray, clickable) {
     .join("");
 }
 
-// ── Cualitativa ───────────────────────────────────────────────────────────────
+// -- Cualitativa ---------------------------------------------------------------
 
 export function updateQualDisplay(dataArray) {
   DOM.qualCount.textContent = dataArray.length;
@@ -99,7 +93,7 @@ export function renderQualitativeTable(rows, totalN) {
   setVisible(DOM.tableContainer, true);
 }
 
-// ── Cuantitativa ──────────────────────────────────────────────────────────────
+// -- Cuantitativa --------------------------------------------------------------
 
 export function updateQuantDisplay(dataArray, type) {
   DOM.quantCount.textContent = dataArray.length;
@@ -146,7 +140,7 @@ export function renderQuantitativeTable(rows) {
   setVisible(DOM.tableContainer, true);
 }
 
-// ── Frecuencias manuales: fila de ingreso ─────────────────────────────────────
+// -- Frecuencias manuales: fila de ingreso -------------------------------------
 
 export function renderFreqInputRow(label, list, actions, sortType = "none") {
   const div = document.createElement("div");

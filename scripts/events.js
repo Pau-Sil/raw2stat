@@ -1,9 +1,3 @@
-/**
- * events.js
- * Registro de todos los event listeners de la aplicación.
- * Recibe el estado global por referencia desde main.js.
- */
-
 import { DOM } from "./dom.js";
 import {
   toggleTheme,
@@ -27,7 +21,7 @@ import {
   calculateQuantitativeFromFreqs,
 } from "./stats.js";
 
-// ── Registro principal ────────────────────────────────────────────────────────
+// -- Registro principal --------------------------------------------------------
 
 export function registerEvents(state) {
   registerTheme();
@@ -45,7 +39,7 @@ export function registerEvents(state) {
   registerKeyboardShortcuts();
 }
 
-// ── Tema ──────────────────────────────────────────────────────────────────────
+// -- Tema ----------------------------------------------------------------------
 
 function registerTheme() {
   DOM.themeToggleBtn.addEventListener("click", () => {
@@ -53,7 +47,7 @@ function registerTheme() {
   });
 }
 
-// ── Cambio de tipo de variable ────────────────────────────────────────────────
+// -- Cambio de tipo de variable ------------------------------------------------
 
 function registerVarTypeSwitch(state) {
   DOM.radios.forEach((radio) => {
@@ -64,7 +58,7 @@ function registerVarTypeSwitch(state) {
   });
 }
 
-// ── Datos crudos: Cualitativa ─────────────────────────────────────────────────
+// -- Datos crudos: Cualitativa -------------------------------------------------
 
 function registerQualRaw(state) {
   DOM.processQualRawBtn.addEventListener("click", () => {
@@ -77,7 +71,7 @@ function registerQualRaw(state) {
   });
 }
 
-// ── Datos crudos: Cuantitativa ────────────────────────────────────────────────
+// -- Datos crudos: Cuantitativa ------------------------------------------------
 
 function registerQuantRaw(state) {
   DOM.processQuantRawBtn.addEventListener("click", () => {
@@ -91,7 +85,7 @@ function registerQuantRaw(state) {
   });
 }
 
-// ── Frecuencias manuales: Cualitativa ─────────────────────────────────────────
+// -- Frecuencias manuales: Cualitativa -----------------------------------------
 
 function registerQualFreqManual() {
   DOM.addQualClassBtn.addEventListener("click", () => {
@@ -117,7 +111,7 @@ function registerQualFreqManual() {
   });
 }
 
-// ── Frecuencias manuales: Cuantitativa ───────────────────────────────────────
+// -- Frecuencias manuales: Cuantitativa ---------------------------------------
 
 function registerQuantFreqManual() {
   DOM.addDiscClassBtn.addEventListener("click", () => {
@@ -160,7 +154,7 @@ function registerQuantFreqManual() {
   });
 }
 
-// ── Tabla desde datos crudos: Cualitativa ────────────────────────────────────
+// -- Tabla desde datos crudos: Cualitativa ------------------------------------
 
 function registerQualTableGeneration(state) {
   DOM.clearQualBtn.addEventListener("click", () => {
@@ -174,7 +168,7 @@ function registerQualTableGeneration(state) {
   });
 }
 
-// ── Tabla desde datos crudos: Cuantitativa ───────────────────────────────────
+// -- Tabla desde datos crudos: Cuantitativa -----------------------------------
 
 function registerQuantTableGeneration(state) {
   const clearQuant = () => {
@@ -205,7 +199,7 @@ function registerQuantTableGeneration(state) {
   DOM.generateQuantTableBtnCont.addEventListener("click", generateQuant);
 }
 
-// ── Borrar tabla ──────────────────────────────────────────────────────────────
+// -- Borrar tabla --------------------------------------------------------------
 
 function registerClearTable() {
   DOM.clearTableBtn.addEventListener("click", () => {
@@ -215,7 +209,7 @@ function registerClearTable() {
   });
 }
 
-// ── Borrado individual de tags ────────────────────────────────────────────────
+// -- Borrado individual de tags ------------------------------------------------
 
 function registerTagDeletion(state) {
   DOM.qualRawBox.addEventListener("click", (e) => {
@@ -233,7 +227,7 @@ function registerTagDeletion(state) {
   });
 }
 
-// ── Copiar al portapapeles ────────────────────────────────────────────────────
+// -- Copiar al portapapeles ----------------------------------------------------
 
 function registerCopyButtons(state) {
   const copy = (getText, btn) => {
@@ -254,7 +248,7 @@ function registerCopyButtons(state) {
   copy(() => [...state.quantData].sort((a, b) => a - b).join(" "), DOM.copyQuantSortedBtn);
 }
 
-// ── Tabs: usa .hidden en lugar de style.display ───────────────────────────────
+// -- Tabs: usa .hidden en lugar de style.display -------------------------------
 
 function registerTabSwitching() {
   document.querySelectorAll(".tabs").forEach((tabNav) => {
@@ -280,7 +274,7 @@ function registerTabSwitching() {
   });
 }
 
-// ── Shortcuts de teclado ──────────────────────────────────────────────────────
+// -- Shortcuts de teclado ------------------------------------------------------
 
 function registerKeyboardShortcuts() {
   [
@@ -295,7 +289,7 @@ function registerKeyboardShortcuts() {
   });
 }
 
-// ── Utilidad interna ──────────────────────────────────────────────────────────
+// -- Utilidad interna ----------------------------------------------------------
 
 function collectFreqRows(container) {
   return Array.from(container.querySelectorAll(".manual-fa-input")).map((input) => ({

@@ -1,10 +1,4 @@
-/**
- * stats.js
- * API de cálculo estadístico puro.
- * Sin dependencias del DOM ni de ningún otro módulo del proyecto.
- */
-
-// ── Cualitativa ──────────────────────────────────────────────────────────────
+// -- Cualitativa --------------------------------------------------------------
 
 export function processQualitativeInput(newWordsArray, currentDataArray) {
   newWordsArray.forEach((word) => {
@@ -24,10 +18,6 @@ export function calculateQualitative(dataArray) {
   });
 }
 
-/**
- * Recibe un array de { label, fa } con frecuencias absolutas ya ingresadas
- * y devuelve el array enriquecido con fr y frPercent.
- */
 export function calculateQualitativeFromFreqs(rowsData) {
   const totalN = rowsData.reduce((sum, r) => sum + r.fa, 0);
   return {
@@ -39,7 +29,7 @@ export function calculateQualitativeFromFreqs(rowsData) {
   };
 }
 
-// ── Cuantitativa ─────────────────────────────────────────────────────────────
+// -- Cuantitativa -------------------------------------------------------------
 
 export function processQuantitativeInput(newNumbersArray, currentDataArray, varType) {
   newNumbersArray.forEach((num) => {
@@ -83,10 +73,6 @@ export function calculateContinuous(dataArray, k, minVal, maxVal) {
   });
 }
 
-/**
- * Recibe un array de { label, fa } con frecuencias absolutas ya ingresadas
- * y devuelve el array enriquecido con fr, faa, fra y sus variantes %.
- */
 export function calculateQuantitativeFromFreqs(rowsData) {
   const totalN = rowsData.reduce((sum, r) => sum + r.fa, 0);
   let faa = 0, fra = 0;

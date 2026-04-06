@@ -1,6 +1,4 @@
-/* ══════════════════════════════════════════════
-   TOKENS
-   ══════════════════════════════════════════════ */
+/* TOKENS */
 
 :root {
   --bg-body:         #eff1f5;
@@ -34,9 +32,7 @@
   --table-even:      #181825;
 }
 
-/* ══════════════════════════════════════════════
-   FUENTES
-   ══════════════════════════════════════════════ */
+/* FUENTES */
 
 @font-face {
   font-family: 'JetBrains Mono';
@@ -50,9 +46,7 @@
   font-weight: 700;
 }
 
-/* ══════════════════════════════════════════════
-   RESET
-   ══════════════════════════════════════════════ */
+/* RESET */
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -61,17 +55,13 @@
   font-family: inherit;
 }
 
-/* ══════════════════════════════════════════════
-   UTILIDAD GLOBAL
-   ══════════════════════════════════════════════ */
+/* UTILIDAD GLOBAL */
 
 .hidden {
   display: none !important;
 }
 
-/* ══════════════════════════════════════════════
-   BASE
-   ══════════════════════════════════════════════ */
+/* BASE */
 
 body {
   font-family: 'JetBrains Mono', monospace;
@@ -103,9 +93,7 @@ hr {
   color: var(--text-muted);
 }
 
-/* ══════════════════════════════════════════════
-   BOTONES
-   ══════════════════════════════════════════════ */
+/* BOTONES */
 
 .btn {
   padding: 10px 15px;
@@ -123,14 +111,14 @@ hr {
   filter: brightness(0.9);
 }
 
-/* Acción principal — Generar tabla */
+/* Acción principal - Generar tabla */
 .btn--primary {
   background-color: var(--accent);
   color: #fff;
   font-weight: bold;
 }
 
-/* Acción destructiva — Limpiar / Borrar */
+/* Acción destructiva - Limpiar / Borrar */
 .btn--danger {
   background-color: #dc3545;
   color: #fff;
@@ -147,7 +135,7 @@ hr {
   flex-shrink: 0;
 }
 
-/* Alternar tema — solo emoji, tamaño fijo */
+/* Alternar tema - solo emoji, tamaño fijo */
 .btn--theme {
   border-radius: 50%;
   border: 1px solid var(--border);
@@ -175,16 +163,14 @@ hr {
   filter: none;
 }
 
-/* Borrar tabla — centrado */
+/* Borrar tabla - centrado */
 .btn--centered {
   align-self: center;
   width: auto;
   padding: 8px 20px;
 }
 
-/* ══════════════════════════════════════════════
-   COMPONENTES COMPARTIDOS
-   ══════════════════════════════════════════════ */
+/* COMPONENTES COMPARTIDOS */
 
 /* Fila de dos botones (limpiar / generar) */
 .action-row {
@@ -219,7 +205,7 @@ hr {
   color: var(--text-main);
 }
 
-/* Botón ↵ — estilos independientes del .btn base */
+/* Botón ↵ - estilos independientes del .btn base */
 .input-group .btn {
   display: flex;
   align-items: center;
@@ -309,9 +295,7 @@ hr {
   cursor: crosshair;
 }
 
-/* ══════════════════════════════════════════════
-   APP
-   ══════════════════════════════════════════════ */
+/* APP */
 
 .app {
   display: flex;
@@ -331,7 +315,7 @@ hr {
   }
 }
 
-/* ── Header ── */
+/* Header */
 
 .app__header {
   display: flex;
@@ -349,7 +333,7 @@ hr {
   }
 }
 
-/* ── Selector de tipo de variable ── */
+/* Selector de tipo de variable */
 
 .var-type {
   display: flex;
@@ -401,7 +385,7 @@ hr {
   color: #fff;
 }
 
-/* ── Modos ── */
+/* Modos */
 
 .mode {
   display: flex;
@@ -530,7 +514,7 @@ hr {
   border-top: 1px solid var(--border);
 }
 
-/* ── Tabla resultado ── */
+/* Tabla resultado */
 
 .result-table {
   display: flex;

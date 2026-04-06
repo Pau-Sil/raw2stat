@@ -1,9 +1,3 @@
-/**
- * dom.js
- * Fuente única de verdad para todas las referencias al DOM.
- * Ningún otro módulo usa document.getElementById directamente.
- */
-
 const get = (id) => document.getElementById(id);
 
 export const DOM = {
@@ -17,7 +11,7 @@ export const DOM = {
   tableHeadRow:               get("tableHeadRow"),
   clearTableBtn:              get("clearTableBtn"),
 
-  // ── Cualitativa: Frecuencias manuales ──
+  // -- Cualitativa: Frecuencias manuales --
   qualClassInput:             get("qualClassInput"),
   addQualClassBtn:            get("addQualClassBtn"),
   qualFreqList:               get("qualFreqList"),
@@ -25,7 +19,7 @@ export const DOM = {
   clearQualFreqBtn:           get("clearQualFreqBtn"),
   generateQualFreqBtn:        get("generateQualFreqBtn"),
 
-  // ── Cualitativa: Datos crudos ──
+  // -- Cualitativa: Datos crudos --
   qualRawInput:               get("qualRawInput"),
   processQualRawBtn:          get("processQualRawBtn"),
   qualDataSection:            get("qualDataSection"),
@@ -37,7 +31,7 @@ export const DOM = {
   copyQualRawBtn:             get("copyQualRawBtn"),
   copyQualSortedBtn:          get("copyQualSortedBtn"),
 
-  // ── Cuantitativa: Frecuencias manuales ──
+  // -- Cuantitativa: Frecuencias manuales --
   discFreqSetup:              get("discFreqSetup"),
   discClassInput:             get("discClassInput"),
   addDiscClassBtn:            get("addDiscClassBtn"),
@@ -51,7 +45,7 @@ export const DOM = {
   clearQuantFreqBtn:          get("clearQuantFreqBtn"),
   generateQuantFreqBtn:       get("generateQuantFreqBtn"),
 
-  // ── Cuantitativa: Datos crudos ──
+  // -- Cuantitativa: Datos crudos --
   quantRawInput:              get("quantRawInput"),
   processQuantRawBtn:         get("processQuantRawBtn"),
   quantDataSection:           get("quantDataSection"),
