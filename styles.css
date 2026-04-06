@@ -323,21 +323,14 @@ hr {
   align-items: center;
 }
 
-.header-link {
-  font-size: 1.5rem;
+.btn__github {
+  font-size: 1.2rem;
   font-weight: bold;
-  color: var(--text-main);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.header-link:hover {
-  color: var(--accent);
 }
 
 @media (max-width: 599px) {
-  .header-link {
-    font-size: 1.15rem;
+  .btn__github {
+    font-size: 1rem;
   }
 }
 
