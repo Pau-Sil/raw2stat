@@ -55,7 +55,7 @@ export function calculateDiscrete(dataArray) {
 export function calculateContinuous(dataArray, k, minVal, maxVal) {
   const n = dataArray.length;
   const amplitude = (maxVal - minVal) / k;
-  const fmt = (num) => parseFloat(num.toFixed(1));
+  const fmt = (num) => num.toFixed(1);
   let faa = 0, fra = 0;
 
   return Array.from({ length: k }, (_, i) => {
