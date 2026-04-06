@@ -2,10 +2,16 @@ import { DOM } from "./dom.js";
 
 // -- Tema ---------------------------------------------------------------------
 
+function setFavicon(isDark) {
+  const link = document.querySelector("link[rel='icon']");
+  if (link) link.href = `images/${isDark ? "favIconDark" : "favIconLight"}.svg`;
+}
+
 export function toggleTheme() {
   document.body.classList.toggle("dark-mode");
   const isDark = document.body.classList.contains("dark-mode");
   DOM.themeToggleBtn.textContent = isDark ? "🌙" : "☀️";
+  setFavicon(isDark);
   return isDark;
 }
 
@@ -14,6 +20,7 @@ export function initTheme(isDark) {
     document.body.classList.add("dark-mode");
     DOM.themeToggleBtn.textContent = "🌙";
   }
+  setFavicon(isDark);
 }
 
 // -- Visibilidad ---------------------------------------------------------------
