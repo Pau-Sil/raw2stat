@@ -7,19 +7,21 @@ function setFavicon(isDark) {
   if (link) link.href = `images/${isDark ? "favIconDark" : "favIconLight"}.svg`;
 }
 
+function setThemeIcon(isDark) {
+  DOM.themeToggleBtn.innerHTML = isDark ? "&#xf0594;" : "&#xf522;";
+}
+
 export function toggleTheme() {
   document.body.classList.toggle("dark-mode");
   const isDark = document.body.classList.contains("dark-mode");
-  DOM.themeToggleBtn.textContent = isDark ? "🌙" : "☀️";
+  setThemeIcon(isDark);
   setFavicon(isDark);
   return isDark;
 }
 
 export function initTheme(isDark) {
-  if (isDark) {
-    document.body.classList.add("dark-mode");
-    DOM.themeToggleBtn.textContent = "🌙";
-  }
+  if (isDark) document.body.classList.add("dark-mode");
+  setThemeIcon(isDark);
   setFavicon(isDark);
 }
 

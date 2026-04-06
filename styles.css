@@ -46,6 +46,18 @@
   font-weight: 700;
 }
 
+@font-face {
+  font-family: 'JetBrains Mono NF';
+  src: url('./fonts/JBM-NF-Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono NF';
+  src: url('./fonts/JBM-NF-Bold.ttf') format('truetype');
+  font-weight: 700;
+}
+
 /* RESET */
 
 *, *::before, *::after {
@@ -142,7 +154,8 @@ hr {
   width: 40px;
   height: 40px;
   padding: 0;
-  font-size: 1.1rem;
+  font-size: 2.4rem;
+  font-family: 'JetBrains Mono NF', monospace;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -221,6 +234,7 @@ hr {
   border: none;
   cursor: pointer;
   transition: filter 0.2s;
+  font-family: "JetBrains Mono NF", monospace;
 }
 
 .input-group .btn:hover {
