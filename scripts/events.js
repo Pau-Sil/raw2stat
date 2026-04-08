@@ -130,12 +130,27 @@ function registerQuantFreqManual() {
     const max = parseFloat(DOM.contFreqMax.value);
     if (isNaN(k) || isNaN(min) || isNaN(max)) return alert("Faltan parámetros");
 
+    const format = DOM.intervalFormatInput.value;
+    const closeEnds = DOM.closeEndsInput.checked;
+
     const amplitude = (max - min) / k;
     DOM.quantFreqList.innerHTML = "";
+    
     for (let i = 0; i < k; i++) {
       const lInf = min + i * amplitude;
       const lSup = min + (i + 1) * amplitude;
-      const label = `${i === 0 ? "[" : "("}${formatIntervalNumber(lInf)} - ${formatIntervalNumber(lSup)}]`;
+      const isFirst = i === 0;
+      const isLast = i === k - 1;
+
+      let bLeft = format === "open-right" ? "[" : "(";
+      let bRight = format === "open-right" ? ")" : "]";
+
+      if (closeEnds) {
+        if (format === "open-right" && isLast) bRight = "]";
+        if (format === "open-left" && isFirst) bLeft = "[";
+      }
+
+      const label = `${bLeft}${formatIntervalNumber(lInf)} - ${formatIntervalNumber(lSup)}${bRight}`;
       renderFreqInputRow(label, DOM.quantFreqList, DOM.quantFreqActions, "none");
     }
     setVisible(DOM.quantFreqActions, true);
@@ -190,7 +205,10 @@ function registerQuantTableGeneration(state) {
       const maxVal = parseFloat(DOM.maxValue.value);
       if (isNaN(k) || isNaN(minVal) || isNaN(maxVal) || k <= 0 || minVal >= maxVal)
         return alert("Revisá los parámetros de configuración de las clases.");
-      rows = calculateContinuous(state.quantData, k, minVal, maxVal);
+      
+      const format = DOM.intervalFormatInput.value;
+      const closeEnds = DOM.closeEndsInput.checked;
+      rows = calculateContinuous(state.quantData, k, minVal, maxVal, format, closeEnds);
     }
     renderQuantitativeTable(rows);
   };

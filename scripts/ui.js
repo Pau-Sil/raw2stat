@@ -50,6 +50,7 @@ export function switchModeDisplay(type, hasQuantData, hasQualData) {
     setVisible(DOM.discreteActions, !isCont && hasQuantData);
     setVisible(DOM.contFreqSetup, isCont);
     setVisible(DOM.discFreqSetup, !isCont);
+    setVisible(DOM.continuousSettings, isCont);
   }
 }
 

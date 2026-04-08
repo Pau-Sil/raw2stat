@@ -54,7 +54,7 @@ export function calculateDiscrete(dataArray) {
   });
 }
 
-export function calculateContinuous(dataArray, k, minVal, maxVal) {
+export function calculateContinuous(dataArray, k, minVal, maxVal, format = "open-left", closeEnds = true) {
   const n = dataArray.length;
   const amplitude = (maxVal - minVal) / k;
   const fmt = (num) => formatIntervalNumber(num);
@@ -64,10 +64,35 @@ export function calculateContinuous(dataArray, k, minVal, maxVal) {
     const limInf = minVal + i * amplitude;
     const limSup = minVal + (i + 1) * amplitude;
     const isFirst = i === 0;
-    const label = `${isFirst ? "[" : "("}${fmt(limInf)} - ${fmt(limSup)}]`;
-    const fa = dataArray.filter((num) =>
-      isFirst ? num >= limInf && num <= limSup : num > limInf && num <= limSup
-    ).length;
+    const isLast = i === k - 1;
+
+    let bracketLeft, bracketRight;
+    let countFn;
+
+    if (format === "open-right") {
+      // Formato: [ n - m )
+      bracketLeft = "[";
+      bracketRight = ")";
+      if (closeEnds && isLast) bracketRight = "]";
+
+      countFn = (num) => {
+        if (closeEnds && isLast) return num >= limInf && num <= limSup;
+        return num >= limInf && num < limSup;
+      };
+    } else {
+      // Formato: ( n - m ]
+      bracketLeft = "(";
+      bracketRight = "]";
+      if (closeEnds && isFirst) bracketLeft = "[";
+
+      countFn = (num) => {
+        if (closeEnds && isFirst) return num >= limInf && num <= limSup;
+        return num > limInf && num <= limSup;
+      };
+    }
+
+    const label = `${bracketLeft}${fmt(limInf)} - ${fmt(limSup)}${bracketRight}`;
+    const fa = dataArray.filter(countFn).length;
     const fr = fa / n;
     faa += fa;
     fra += fr;

@@ -86,6 +86,22 @@
     <!-- MODO CUANTITATIVO -->
     <section id="quantitativeMode" class="mode hidden">
 
+      <div id="continuousSettings" class="method-card continuous-settings hidden">
+        <div class="settings-row">
+          <div class="settings-field">
+            <label for="intervalFormatInput">Formato:</label>
+            <select id="intervalFormatInput">
+              <option value="open-left" selected>( n - m ]</option>
+              <option value="open-right">[ n - m )</option>
+            </select>
+          </div>
+          <label class="checkbox-label" for="closeEndsInput">
+            <input type="checkbox" id="closeEndsInput" checked>
+            Cerrar extremos
+          </label>
+        </div>
+      </div>
+
       <nav class="tabs">
         <button class="tab-btn active" data-target="quantFreqTab">Frecuencias Manuales</button>
         <button class="tab-btn" data-target="quantRawTab">Datos Crudos</button>

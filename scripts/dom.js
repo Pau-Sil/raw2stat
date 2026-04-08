@@ -63,4 +63,9 @@ export const DOM = {
   classCount:                 get("classCount"),
   minValue:                   get("minValue"),
   maxValue:                   get("maxValue"),
+
+  // -- Opciones de Continua --
+  continuousSettings:         get("continuousSettings"),
+  intervalFormatInput:        get("intervalFormatInput"),
+  closeEndsInput:             get("closeEndsInput"),
 };
