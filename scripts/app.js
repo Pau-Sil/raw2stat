@@ -1,68 +1,65 @@
-import { formatIntervalNumber } from "./utils.js";
-
 import { DOM } from "./dom.js";
 import {
+  formatIntervalNumber,
+  processQualitativeInput,
+  processQuantitativeInput,
+  generateQualitativeTable,
+  generateQualTableFromManualFreq,
+  generateDiscreteTable,
+  generateContinuousTable,
+  generateQuantTableFromManualFreq
+} from "./logic.js";
+import {
+  initTheme,
   toggleTheme,
   switchModeDisplay,
   updateQualDisplay,
   clearQualDisplay,
-  renderQualitativeTable,
   updateQuantDisplay,
   clearQuantDisplay,
-  renderQuantitativeTable,
   renderFreqInputRow,
-  setVisible,
+  setVisible
 } from "./ui.js";
-import {
-  processQualitativeInput,
-  calculateQualitative,
-  calculateQualitativeFromFreqs,
-  processQuantitativeInput,
-  calculateDiscrete,
-  calculateContinuous,
-  calculateQuantitativeFromFreqs,
-} from "./stats.js";
 
-// -- Registro principal --------------------------------------------------------
+// -- Estado Global de la App ---------------------------------------------------
 
-export function registerEvents(state) {
-  registerTheme();
-  registerVarTypeSwitch(state);
-  registerQualRaw(state);
-  registerQuantRaw(state);
-  registerQualFreqManual();
-  registerQuantFreqManual();
-  registerQualTableGeneration(state);
-  registerQuantTableGeneration(state);
-  registerClearTable();
-  registerTagDeletion(state);
-  registerCopyButtons(state);
-  registerTabSwitching();
-  registerKeyboardShortcuts();
+const state = {
+  currentVarType: "cualitativa",
+  qualData: [],
+  quantData: [],
+};
+
+// -- Inicialización ------------------------------------------------------------
+
+initTheme(localStorage.getItem("darkMode") === "true");
+registerAllEvents();
+
+// -- Recolector de inputs (utilidad interna de eventos) ------------------------
+
+function collectFreqRows(container) {
+  return Array.from(container.querySelectorAll(".manual-fa-input")).map((input) => ({
+    label: input.dataset.label,
+    fa: parseInt(input.value) || 0,
+  }));
 }
 
-// -- Tema ----------------------------------------------------------------------
+// -- Registro Principal de Eventos ---------------------------------------------
 
-function registerTheme() {
+function registerAllEvents() {
+  // Tema
   DOM.themeToggleBtn.addEventListener("click", () => {
     localStorage.setItem("darkMode", toggleTheme());
   });
-}
 
-// -- Cambio de tipo de variable ------------------------------------------------
-
-function registerVarTypeSwitch(state) {
+  // Cambio Variable
   DOM.radios.forEach((radio) => {
     radio.addEventListener("change", (e) => {
       state.currentVarType = e.target.value;
       switchModeDisplay(state.currentVarType, state.quantData.length > 0, state.qualData.length > 0);
     });
   });
-}
 
-// -- Datos crudos: Cualitativa -------------------------------------------------
-
-function registerQualRaw(state) {
+  // Datos Crudos: Cualitativa
   DOM.processQualRawBtn.addEventListener("click", () => {
     const raw = DOM.qualRawInput.value.trim();
     if (!raw) return;
@@ -71,11 +68,18 @@ function registerQualRaw(state) {
     DOM.qualRawInput.focus();
     updateQualDisplay(state.qualData);
   });
-}
 
-// -- Datos crudos: Cuantitativa ------------------------------------------------
+  DOM.clearQualBtn.addEventListener("click", () => {
+    state.qualData = [];
+    clearQualDisplay();
+  });
 
-function registerQuantRaw(state) {
+  DOM.generateQualTableBtn.addEventListener("click", () => {
+    if (state.qualData.length === 0) return alert("No hay datos cargados.");
+    generateQualitativeTable(state.qualData);
+  });
+
+  // Datos Crudos: Cuantitativa
   DOM.processQuantRawBtn.addEventListener("click", () => {
     const raw = DOM.quantRawInput.value.trim();
     if (!raw) return;
@@ -85,11 +89,36 @@ function registerQuantRaw(state) {
     DOM.quantRawInput.focus();
     updateQuantDisplay(state.quantData, state.currentVarType);
   });
-}
 
-// -- Frecuencias manuales: Cualitativa -----------------------------------------
+  const clearQuant = () => {
+    state.quantData = [];
+    clearQuantDisplay();
+  };
 
-function registerQualFreqManual() {
+  const generateQuant = () => {
+    if (state.quantData.length === 0) return alert("No hay datos cargados.");
+
+    if (state.currentVarType === "discreta") {
+      generateDiscreteTable(state.quantData);
+    } else {
+      const k = parseInt(DOM.classCount.value);
+      const minVal = parseFloat(DOM.minValue.value);
+      const maxVal = parseFloat(DOM.maxValue.value);
+      if (isNaN(k) || isNaN(minVal) || isNaN(maxVal) || k <= 0 || minVal >= maxVal)
+        return alert("Revisá los parámetros de configuración de las clases.");
+      
+      const format = DOM.intervalFormatInput.value;
+      const closeEnds = DOM.closeEndsInput.checked;
+      generateContinuousTable(state.quantData, k, minVal, maxVal, format, closeEnds);
+    }
+  };
+
+  DOM.clearQuantBtnDisc.addEventListener("click", clearQuant);
+  DOM.clearQuantBtnCont.addEventListener("click", clearQuant);
+  DOM.generateQuantTableBtnDisc.addEventListener("click", generateQuant);
+  DOM.generateQuantTableBtnCont.addEventListener("click", generateQuant);
+
+  // Frecuencias Manuales: Cualitativa
   DOM.addQualClassBtn.addEventListener("click", () => {
     const name = DOM.qualClassInput.value.trim().toUpperCase();
     if (!name) return;
@@ -107,15 +136,10 @@ function registerQualFreqManual() {
     const rawRows = collectFreqRows(DOM.qualFreqList);
     if (rawRows.length === 0 || rawRows.every((r) => r.fa === 0))
       return alert("Ingrese al menos una frecuencia mayor a 0.");
-
-    const { rows, totalN } = calculateQualitativeFromFreqs(rawRows);
-    renderQualitativeTable(rows, totalN);
+    generateQualTableFromManualFreq(rawRows);
   });
-}
 
-// -- Frecuencias manuales: Cuantitativa ---------------------------------------
-
-function registerQuantFreqManual() {
+  // Frecuencias Manuales: Cuantitativa
   DOM.addDiscClassBtn.addEventListener("click", () => {
     const val = DOM.discClassInput.value.trim();
     if (!val) return;
@@ -132,8 +156,8 @@ function registerQuantFreqManual() {
 
     const format = DOM.intervalFormatInput.value;
     const closeEnds = DOM.closeEndsInput.checked;
-
     const amplitude = (max - min) / k;
+    
     DOM.quantFreqList.innerHTML = "";
     
     for (let i = 0; i < k; i++) {
@@ -165,73 +189,17 @@ function registerQuantFreqManual() {
     const rawRows = collectFreqRows(DOM.quantFreqList);
     if (rawRows.length === 0 || rawRows.every((r) => r.fa === 0))
       return alert("Ingrese al menos una frecuencia mayor a 0.");
-
-    const { rows } = calculateQuantitativeFromFreqs(rawRows);
-    renderQuantitativeTable(rows);
-  });
-}
-
-// -- Tabla desde datos crudos: Cualitativa ------------------------------------
-
-function registerQualTableGeneration(state) {
-  DOM.clearQualBtn.addEventListener("click", () => {
-    state.qualData = [];
-    clearQualDisplay();
+    generateQuantTableFromManualFreq(rawRows);
   });
 
-  DOM.generateQualTableBtn.addEventListener("click", () => {
-    if (state.qualData.length === 0) return alert("No hay datos cargados.");
-    renderQualitativeTable(calculateQualitative(state.qualData), state.qualData.length);
-  });
-}
-
-// -- Tabla desde datos crudos: Cuantitativa -----------------------------------
-
-function registerQuantTableGeneration(state) {
-  const clearQuant = () => {
-    state.quantData = [];
-    clearQuantDisplay();
-  };
-
-  const generateQuant = () => {
-    if (state.quantData.length === 0) return alert("No hay datos cargados.");
-
-    let rows;
-    if (state.currentVarType === "discreta") {
-      rows = calculateDiscrete(state.quantData);
-    } else {
-      const k = parseInt(DOM.classCount.value);
-      const minVal = parseFloat(DOM.minValue.value);
-      const maxVal = parseFloat(DOM.maxValue.value);
-      if (isNaN(k) || isNaN(minVal) || isNaN(maxVal) || k <= 0 || minVal >= maxVal)
-        return alert("Revisá los parámetros de configuración de las clases.");
-      
-      const format = DOM.intervalFormatInput.value;
-      const closeEnds = DOM.closeEndsInput.checked;
-      rows = calculateContinuous(state.quantData, k, minVal, maxVal, format, closeEnds);
-    }
-    renderQuantitativeTable(rows);
-  };
-
-  DOM.clearQuantBtnDisc.addEventListener("click", clearQuant);
-  DOM.clearQuantBtnCont.addEventListener("click", clearQuant);
-  DOM.generateQuantTableBtnDisc.addEventListener("click", generateQuant);
-  DOM.generateQuantTableBtnCont.addEventListener("click", generateQuant);
-}
-
-// -- Borrar tabla --------------------------------------------------------------
-
-function registerClearTable() {
+  // Borrar Tabla Resultante
   DOM.clearTableBtn.addEventListener("click", () => {
     setVisible(DOM.tableContainer, false);
     DOM.tableHeadRow.innerHTML = "";
     DOM.tableBody.innerHTML = "";
   });
-}
 
-// -- Borrado individual de tags ------------------------------------------------
-
-function registerTagDeletion(state) {
+  // Borrado Individual de Tags
   DOM.qualRawBox.addEventListener("click", (e) => {
     if (!e.target.classList.contains("data-tag")) return;
     state.qualData.splice(Number(e.target.dataset.index), 1);
@@ -245,12 +213,9 @@ function registerTagDeletion(state) {
       ? clearQuantDisplay()
       : updateQuantDisplay(state.quantData, state.currentVarType);
   });
-}
 
-// -- Copiar al portapapeles ----------------------------------------------------
-
-function registerCopyButtons(state) {
-  const copy = (getText, btn) => {
+  // Copiar al Portapapeles
+  const setupCopyBtn = (getText, btn) => {
     btn.addEventListener("click", () => {
       const text = getText();
       if (!text) return;
@@ -262,41 +227,32 @@ function registerCopyButtons(state) {
     });
   };
 
-  copy(() => state.qualData.join(" "), DOM.copyQualRawBtn);
-  copy(() => [...state.qualData].sort((a, b) => a.localeCompare(b)).join(" "), DOM.copyQualSortedBtn);
-  copy(() => state.quantData.join(" "), DOM.copyQuantRawBtn);
-  copy(() => [...state.quantData].sort((a, b) => a - b).join(" "), DOM.copyQuantSortedBtn);
-}
+  setupCopyBtn(() => state.qualData.join(" "), DOM.copyQualRawBtn);
+  setupCopyBtn(() => [...state.qualData].sort((a, b) => a.localeCompare(b)).join(" "), DOM.copyQualSortedBtn);
+  setupCopyBtn(() => state.quantData.join(" "), DOM.copyQuantRawBtn);
+  setupCopyBtn(() => [...state.quantData].sort((a, b) => a - b).join(" "), DOM.copyQuantSortedBtn);
 
-// -- Tabs: usa .hidden en lugar de style.display -------------------------------
-
-function registerTabSwitching() {
+  // Tabs
   document.querySelectorAll(".tabs").forEach((tabNav) => {
     tabNav.addEventListener("click", (e) => {
       const btn = e.target.closest(".tab-btn");
       if (!btn) return;
 
       const mode = tabNav.parentElement;
-
-      // Desactivar botones y contenidos
       tabNav.querySelectorAll(".tab-btn").forEach((b) => b.classList.remove("active"));
       mode.querySelectorAll(".tab-content").forEach((c) => {
         c.classList.remove("active");
         c.classList.add("hidden");
       });
 
-      // Activar el seleccionado
       btn.classList.add("active");
       const target = document.getElementById(btn.dataset.target);
       target.classList.add("active");
       target.classList.remove("hidden");
     });
   });
-}
 
-// -- Shortcuts de teclado ------------------------------------------------------
-
-function registerKeyboardShortcuts() {
+  // Shortcuts de Teclado (Enter)
   [
     [DOM.qualRawInput,   DOM.processQualRawBtn],
     [DOM.qualClassInput, DOM.addQualClassBtn],
@@ -307,13 +263,4 @@ function registerKeyboardShortcuts() {
       if (e.key === "Enter") btn.click();
     });
   });
-}
-
-// -- Utilidad interna ----------------------------------------------------------
-
-function collectFreqRows(container) {
-  return Array.from(container.querySelectorAll(".manual-fa-input")).map((input) => ({
-    label: input.dataset.label,
-    fa: parseInt(input.value) || 0,
-  }));
 }

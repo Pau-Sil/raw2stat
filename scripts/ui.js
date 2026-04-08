@@ -25,13 +25,11 @@ export function initTheme(isDark) {
   setFavicon(isDark);
 }
 
-// -- Visibilidad ---------------------------------------------------------------
+// -- Visibilidad General -------------------------------------------------------
 
 export function setVisible(el, visible) {
   el.classList.toggle("hidden", !visible);
 }
-
-// -- Cambio de modo ------------------------------------------------------------
 
 export function switchModeDisplay(type, hasQuantData, hasQualData) {
   setVisible(DOM.tableContainer, false);
@@ -54,7 +52,7 @@ export function switchModeDisplay(type, hasQuantData, hasQualData) {
   }
 }
 
-// -- Tags de datos -------------------------------------------------------------
+// -- Tags de Datos Crudos ------------------------------------------------------
 
 function buildTags(dataArray, clickable) {
   const maxLen = Math.max(...dataArray.map((v) => String(v).length));
@@ -68,15 +66,10 @@ function buildTags(dataArray, clickable) {
     .join("");
 }
 
-// -- Cualitativa ---------------------------------------------------------------
-
 export function updateQualDisplay(dataArray) {
   DOM.qualCount.textContent = dataArray.length;
   DOM.qualRawBox.innerHTML = buildTags(dataArray, true);
-  DOM.qualResultBox.innerHTML = buildTags(
-    [...dataArray].sort((a, b) => a.localeCompare(b)),
-    false
-  );
+  DOM.qualResultBox.innerHTML = buildTags([...dataArray].sort((a, b) => a.localeCompare(b)), false);
   setVisible(DOM.qualDataSection, true);
 }
 
@@ -85,33 +78,10 @@ export function clearQualDisplay() {
   setVisible(DOM.tableContainer, false);
 }
 
-export function renderQualitativeTable(rows, totalN) {
-  DOM.tableHeadRow.innerHTML = `<th>VARIABLE</th><th>FA</th><th>FR</th><th>FR%</th>`;
-  DOM.tableBody.innerHTML = "";
-
-  rows.forEach(({ label, fa, fr, frPercent }) => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `<td>${label}</td><td>${fa}</td><td>${fr.toFixed(2)}</td><td>${frPercent.toFixed(2)}%</td>`;
-    DOM.tableBody.appendChild(tr);
-  });
-
-  const total = document.createElement("tr");
-  total.className = "table-total";
-  total.innerHTML = `<td>Total</td><td>${totalN}</td><td>1.00</td><td></td>`;
-  DOM.tableBody.appendChild(total);
-
-  setVisible(DOM.tableContainer, true);
-}
-
-// -- Cuantitativa --------------------------------------------------------------
-
 export function updateQuantDisplay(dataArray, type) {
   DOM.quantCount.textContent = dataArray.length;
   DOM.quantRawBox.innerHTML = buildTags(dataArray, true);
-  DOM.quantResultBox.innerHTML = buildTags(
-    [...dataArray].sort((a, b) => a - b),
-    false
-  );
+  DOM.quantResultBox.innerHTML = buildTags([...dataArray].sort((a, b) => a - b), false);
   setVisible(DOM.quantDataSection, true);
 
   const isCont = type === "continua";
@@ -130,27 +100,7 @@ export function clearQuantDisplay() {
   setVisible(DOM.tableContainer, false);
 }
 
-export function renderQuantitativeTable(rows) {
-  DOM.tableHeadRow.innerHTML = `<th>VARIABLE</th><th>FA</th><th>FR</th><th>FAA</th><th>FRA</th><th>FR%</th><th>FRA%</th>`;
-  DOM.tableBody.innerHTML = "";
-  let totalN = 0;
-
-  rows.forEach(({ label, fa, fr, faa, fra, frPercent, fraPercent }) => {
-    totalN += fa;
-    const tr = document.createElement("tr");
-    tr.innerHTML = `<td>${label}</td><td>${fa}</td><td>${fr.toFixed(2)}</td><td>${faa}</td><td>${fra.toFixed(2)}</td><td>${frPercent.toFixed(2)}%</td><td>${fraPercent.toFixed(2)}%</td>`;
-    DOM.tableBody.appendChild(tr);
-  });
-
-  const total = document.createElement("tr");
-  total.className = "table-total";
-  total.innerHTML = `<td>Total</td><td>${totalN}</td><td>1.00</td><td></td><td></td><td></td><td></td>`;
-  DOM.tableBody.appendChild(total);
-
-  setVisible(DOM.tableContainer, true);
-}
-
-// -- Frecuencias manuales: fila de ingreso -------------------------------------
+// -- Frecuencias manuales: Creador de Fila -------------------------------------
 
 export function renderFreqInputRow(label, list, actions, sortType = "none") {
   const div = document.createElement("div");
@@ -171,8 +121,7 @@ export function renderFreqInputRow(label, list, actions, sortType = "none") {
   } else {
     const inserted = Array.from(list.children).some((child) => {
       const childLabel = child.querySelector("span").textContent.trim();
-      const before =
-        sortType === "alpha"
+      const before = sortType === "alpha"
           ? String(label).localeCompare(childLabel) < 0
           : parseFloat(label) < parseFloat(childLabel);
       if (before) {
