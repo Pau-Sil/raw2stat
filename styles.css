@@ -1,5 +1,3 @@
-/* TOKENS */
-
 :root {
   --bg-body:         #eff1f5;
   --bg-app:          #e6e9ef;
@@ -58,7 +56,7 @@
   font-weight: 700;
 }
 
-/* RESET */
+/* RESET & BASE */
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -67,13 +65,9 @@
   font-family: inherit;
 }
 
-/* UTILIDAD GLOBAL */
-
 .hidden {
   display: none !important;
 }
-
-/* BASE */
 
 body {
   font-family: 'JetBrains Mono', monospace;
@@ -105,7 +99,7 @@ hr {
   color: var(--text-muted);
 }
 
-/* BOTONES */
+/* BOTONES (Jerarquía base) */
 
 .btn {
   padding: 10px 15px;
@@ -117,27 +111,25 @@ hr {
   transition: filter 0.2s;
   background-color: var(--btn-bg);
   color: var(--btn-text);
+
+  &:hover {
+    filter: brightness(0.9);
+  }
 }
 
-.btn:hover {
-  filter: brightness(0.9);
-}
-
-/* Acción principal - Generar tabla */
+/* Modificadores de Botones */
 .btn--primary {
   background-color: var(--accent);
   color: #fff;
   font-weight: bold;
 }
 
-/* Acción destructiva - Limpiar / Borrar */
 .btn--danger {
   background-color: #dc3545;
   color: #fff;
   font-size: 0.9rem;
 }
 
-/* Eliminar fila de frecuencia manual */
 .btn--delete {
   background-color: #dc3545;
   color: #fff;
@@ -147,7 +139,6 @@ hr {
   flex-shrink: 0;
 }
 
-/* Alternar tema - solo emoji, tamaño fijo */
 .btn--theme {
   border-radius: 50%;
   border: 1px solid var(--border);
@@ -162,21 +153,19 @@ hr {
   flex-shrink: 0;
 }
 
-/* Copiar al portapapeles */
 .btn--copy {
   background: transparent;
   color: var(--text-muted);
   font-size: 1.2rem;
   padding: 4px 8px;
+
+  &:hover {
+    color: var(--accent);
+    background-color: var(--border-light);
+    filter: none;
+  }
 }
 
-.btn--copy:hover {
-  color: var(--accent);
-  background-color: var(--border-light);
-  filter: none;
-}
-
-/* Borrar tabla - centrado */
 .btn--centered {
   align-self: center;
   width: auto;
@@ -185,71 +174,63 @@ hr {
 
 /* COMPONENTES COMPARTIDOS */
 
-/* Fila de dos botones (limpiar / generar) */
 .action-row {
   display: flex;
   gap: 15px;
-}
 
-.action-row .btn {
-  flex: 1;
-}
+  .btn {
+    flex: 1;
+  }
 
-@media (min-width: 600px) {
-  .action-row {
+  @media (min-width: 600px) {
     width: 80%;
     margin-inline: auto;
   }
 }
 
-/* Input de texto/número con botón ↵ */
 .input-group {
   display: flex;
   gap: 10px;
+
+  input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: var(--bg-body);
+    color: var(--text-main);
+  }
+
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    flex-shrink: 0;
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    transition: filter 0.2s;
+    font-family: "JetBrains Mono NF", monospace;
+
+    &:hover {
+      filter: brightness(0.9);
+    }
+  }
 }
 
-.input-group input {
-  flex: 1;
-  padding: 10px;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  font-size: 1rem;
-  background-color: var(--bg-body);
-  color: var(--text-main);
-}
-
-/* Botón ↵ - estilos independientes del .btn base */
-.input-group .btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  width: 44px;
-  height: 44px;
-  padding: 0;
-  flex-shrink: 0;
-  background-color: var(--btn-bg);
-  color: var(--btn-text);
-  border-radius: 4px;
-  border: none;
-  cursor: pointer;
-  transition: filter 0.2s;
-  font-family: "JetBrains Mono NF", monospace;
-}
-
-.input-group .btn:hover {
-  filter: brightness(0.9);
-}
-
-/* Grid de configuración (k, mín, máx) */
 .class-config {
   display: flex;
   flex-direction: column;
   gap: 15px;
-}
 
-@media (min-width: 600px) {
-  .class-config {
+  @media (min-width: 600px) {
     flex-direction: row;
   }
 }
@@ -259,27 +240,34 @@ hr {
   display: flex;
   flex-direction: column;
   gap: 8px;
+
+  input, select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: var(--bg-body);
+    color: var(--text-main);
+  }
 }
 
-.class-config__field input,
-.class-config__field select {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  font-size: 1rem;
-  background-color: var(--bg-body);
-  color: var(--text-main);
+.data-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  .action-row {
+    margin-top: 8px;
+  }
 }
 
-/* Fila label + botón copiar */
 .data-section__label {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-/* Caja de tags de datos */
 .data-box {
   padding: 15px;
   background: var(--box-bg);
@@ -310,7 +298,7 @@ hr {
   cursor: crosshair;
 }
 
-/* APP */
+/* ESTRUCTURA PRINCIPAL (APP) */
 
 .app {
   display: flex;
@@ -322,15 +310,11 @@ hr {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   width: 100%;
   max-width: 750px;
-}
 
-@media (max-width: 599px) {
-  .app {
+  @media (max-width: 599px) {
     padding: 1.25rem;
   }
 }
-
-/* Header */
 
 .app__header {
   display: flex;
@@ -341,15 +325,13 @@ hr {
 .btn__github {
   font-size: 1.2rem;
   font-weight: bold;
-}
 
-@media (max-width: 599px) {
-  .btn__github {
+  @media (max-width: 599px) {
     font-size: 1rem;
   }
 }
 
-/* Selector de tipo de variable */
+/* SELECTOR DE VARIABLE */
 
 .var-type {
   display: flex;
@@ -364,52 +346,48 @@ hr {
   border: 2px solid var(--accent);
   border-radius: 50px;
   overflow: hidden;
-}
 
-@media (min-width: 600px) {
-  .segmented-control {
+  @media (min-width: 600px) {
     width: 80%;
+  }
+
+  input[type="radio"] {
+    display: none;
+
+    &:checked + label {
+      background-color: var(--accent);
+      color: #fff;
+    }
+  }
+
+  label {
+    flex: 1 1 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 2px;
+    cursor: pointer;
+    background-color: var(--bg-app);
+    color: var(--accent);
+    font-weight: bold;
+    border-right: 1px solid var(--accent);
+    transition: background-color 0.2s, color 0.2s;
+    font-size: clamp(0.65rem, 3vw, 1rem);
+    white-space: nowrap;
+
+    &:last-of-type {
+      border-right: none;
+    }
   }
 }
 
-.segmented-control input[type="radio"] {
-  display: none;
-}
-
-.segmented-control label {
-  flex: 1 1 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 2px;
-  cursor: pointer;
-  background-color: var(--bg-app);
-  color: var(--accent);
-  font-weight: bold;
-  border-right: 1px solid var(--accent);
-  transition: background-color 0.2s, color 0.2s;
-  font-size: clamp(0.65rem, 3vw, 1rem);
-  white-space: nowrap;
-}
-
-.segmented-control label:last-of-type {
-  border-right: none;
-}
-
-.segmented-control input[type="radio"]:checked + label {
-  background-color: var(--accent);
-  color: #fff;
-}
-
-/* Modos */
+/* MODOS & TABS */
 
 .mode {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
-
-/* Tabs */
 
 .tabs {
   display: flex;
@@ -428,42 +406,38 @@ hr {
   font-weight: bold;
   cursor: pointer;
   transition: filter 0.2s;
-}
 
-@media (max-width: 599px) {
-  .tab-btn {
+  @media (max-width: 599px) {
     font-size: 0.85rem;
     padding: 10px 8px;
   }
-}
 
-.tab-btn.active {
-  color: var(--accent);
-  border-bottom-color: var(--accent);
-}
+  &.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
 
-.tab-btn:hover {
-  background-color: var(--border-light);
-  filter: none;
+  &:hover {
+    background-color: var(--border-light);
+    filter: none;
+  }
 }
-
-/* Tarjeta de método */
 
 .tab-content {
   display: none;
+
+  &.active {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    padding: 15px;
+    border-radius: 6px;
+  }
 }
 
-.tab-content.active {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  padding: 15px;
-  border-radius: 6px;
-}
-
-/* Setup de frecuencias manuales */
+/* FRECUENCIAS MANUALES */
 
 .freq-setup {
   display: flex;
@@ -471,16 +445,14 @@ hr {
   gap: 16px;
 }
 
-/* Lista de ítems de frecuencia manual */
-
 .freq-list {
   display: flex;
   flex-direction: column;
   gap: 8px;
-}
 
-.freq-list:empty {
-  display: none;
+  &:empty {
+    display: none;
+  }
 }
 
 .freq-item {
@@ -491,36 +463,22 @@ hr {
   padding: 10px;
   border: 1px solid var(--border-light);
   border-radius: 4px;
+
+  span {
+    flex: 1;
+    font-weight: bold;
+  }
+
+  input {
+    width: 80px;
+    flex: none;
+    padding: 5px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background-color: var(--bg-body);
+    color: var(--text-main);
+  }
 }
-
-.freq-item span {
-  flex: 1;
-  font-weight: bold;
-}
-
-.freq-item input {
-  width: 80px;
-  flex: none;
-  padding: 5px;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  background-color: var(--bg-body);
-  color: var(--text-main);
-}
-
-/* Sección de datos crudos */
-
-.data-section {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.data-section .action-row {
-  margin-top: 8px;
-}
-
-/* Configuración + acciones de variable continua */
 
 .cont-actions {
   display: flex;
@@ -530,7 +488,7 @@ hr {
   border-top: 1px solid var(--border);
 }
 
-/* Tabla resultado */
+/* TABLA DE RESULTADOS */
 
 .result-table {
   display: flex;
@@ -541,33 +499,34 @@ hr {
 .result-table__scroll {
   width: 100%;
   overflow-x: auto;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+  }
+
+  th, td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid var(--border);
+  }
+
+  th {
+    background-color: var(--accent);
+    color: var(--table-head-text);
+  }
+
+  tr:nth-child(even) {
+    background-color: var(--table-even);
+  }
+
+  .table-total {
+    font-weight: bold;
+  }
 }
 
-.result-table__scroll table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 600px;
-}
-
-.result-table__scroll th,
-.result-table__scroll td {
-  padding: 12px;
-  text-align: center;
-  border: 1px solid var(--border);
-}
-
-.result-table__scroll th {
-  background-color: var(--accent);
-  color: var(--table-head-text);
-}
-
-.result-table__scroll tr:nth-child(even) {
-  background-color: var(--table-even);
-}
-
-.result-table__scroll .table-total {
-  font-weight: bold;
-}
+/* SETTINGS DE CONTINUA */
 
 .continuous-settings {
   margin-bottom: 16px;
@@ -586,17 +545,17 @@ hr {
   align-items: center;
   gap: 10px;
   flex: 1 1 200px;
-}
 
-.settings-field select {
-  flex: 1;
-  padding: 10px;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  font-size: 1rem;
-  background-color: var(--bg-body);
-  color: var(--text-main);
-  cursor: pointer;
+  select {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    cursor: pointer;
+  }
 }
 
 .checkbox-label {
@@ -606,11 +565,11 @@ hr {
   cursor: pointer;
   font-weight: bold;
   white-space: nowrap;
-}
 
-.checkbox-label input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
-  accent-color: var(--accent);
+  input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--accent);
+  }
 }
