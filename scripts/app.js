@@ -7,7 +7,8 @@ import {
   generateQualTableFromManualFreq,
   generateDiscreteTable,
   generateContinuousTable,
-  generateQuantTableFromManualFreq
+  generateQuantTableFromManualFreq,
+  calculateRawStats
 } from "./logic.js";
 import {
   initTheme,
@@ -18,7 +19,9 @@ import {
   updateQuantDisplay,
   clearQuantDisplay,
   renderFreqInputRow,
-  setVisible
+  setVisible,
+  renderStatsSummary,
+  hideStatsSummary
 } from "./ui.js";
 
 // -- Estado Global de la App ---------------------------------------------------
@@ -111,6 +114,8 @@ function registerAllEvents() {
       const closeEnds = DOM.closeEndsInput.checked;
       generateContinuousTable(state.quantData, k, minVal, maxVal, format, closeEnds);
     }
+    const stats = calculateRawStats(state.quantData);
+    renderStatsSummary(stats);
   };
 
   DOM.clearQuantBtnDisc.addEventListener("click", clearQuant);
@@ -197,6 +202,7 @@ function registerAllEvents() {
     setVisible(DOM.tableContainer, false);
     DOM.tableHeadRow.innerHTML = "";
     DOM.tableBody.innerHTML = "";
+    hideStatsSummary();
   });
 
   // Borrado Individual de Tags

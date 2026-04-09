@@ -68,4 +68,8 @@ export const DOM = {
   continuousSettings:         get("continuousSettings"),
   intervalFormatInput:        get("intervalFormatInput"),
   closeEndsInput:             get("closeEndsInput"),
+
+  // -- Resumen Estadístico --
+  statsSummaryContainer:      get("statsSummaryContainer"),
+  statsSummaryGrid:           get("statsSummaryGrid"),
 };

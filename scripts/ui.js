@@ -135,3 +135,37 @@ export function renderFreqInputRow(label, list, actions, sortType = "none") {
 
   setVisible(actions, true);
 }
+
+export function renderStatsSummary(statsArray) {
+  DOM.statsSummaryGrid.innerHTML = "";
+  
+  if (!statsArray || statsArray.length === 0) {
+    setVisible(DOM.statsSummaryContainer, false);
+    return;
+  }
+
+  statsArray.forEach(stat => {
+    const card = document.createElement("div");
+    card.className = "stat-card";
+    
+    let html = `<div class="stat-header">${stat.title}</div>`;
+    
+    if (stat.formula) {
+      html += `<div class="stat-formula">${stat.formula}</div>`;
+    }
+    if (stat.calc) {
+      html += `<div class="stat-calc">${stat.calc}</div>`;
+    }
+    
+    html += `<div class="stat-result">${stat.result}</div>`;
+    
+    card.innerHTML = html;
+    DOM.statsSummaryGrid.appendChild(card);
+  });
+
+  setVisible(DOM.statsSummaryContainer, true);
+}
+
+export function hideStatsSummary() {
+  setVisible(DOM.statsSummaryContainer, false);
+}
