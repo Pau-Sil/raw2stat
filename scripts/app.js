@@ -8,7 +8,8 @@ import {
   generateDiscreteTable,
   generateContinuousTable,
   generateQuantTableFromManualFreq,
-  calculateRawStats
+  calculateRawQuantStats,
+  calculateGroupedQuantStats
 } from "./logic.js";
 import {
   initTheme,
@@ -101,8 +102,9 @@ function registerAllEvents() {
   const generateQuant = () => {
     if (state.quantData.length === 0) return alert("No hay datos cargados.");
 
+    let tableInfo;
     if (state.currentVarType === "discreta") {
-      generateDiscreteTable(state.quantData);
+      tableInfo = generateDiscreteTable(state.quantData);
     } else {
       const k = parseInt(DOM.classCount.value);
       const minVal = parseFloat(DOM.minValue.value);
@@ -112,9 +114,11 @@ function registerAllEvents() {
       
       const format = DOM.intervalFormatInput.value;
       const closeEnds = DOM.closeEndsInput.checked;
-      generateContinuousTable(state.quantData, k, minVal, maxVal, format, closeEnds);
+      
+      tableInfo = generateContinuousTable(state.quantData, k, minVal, maxVal, format, closeEnds);
     }
-    const stats = calculateRawStats(state.quantData);
+    
+    const stats = calculateRawQuantStats(state.quantData, state.currentVarType, tableInfo);
     renderStatsSummary(stats);
   };
 
@@ -195,6 +199,8 @@ function registerAllEvents() {
     if (rawRows.length === 0 || rawRows.every((r) => r.fa === 0))
       return alert("Ingrese al menos una frecuencia mayor a 0.");
     generateQuantTableFromManualFreq(rawRows);
+    const stats = calculateGroupedQuantStats(rawRows, state.currentVarType);
+    renderStatsSummary(stats);
   });
 
   // Borrar Tabla Resultante
